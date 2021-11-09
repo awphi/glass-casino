@@ -1,20 +1,31 @@
 <template>
-  <div></div>
+  <div><h1>title</h1></div>
 </template>
 
 <script>
-import rouletteJson from "../../build/contracts/Roulette.json";
+//import rouletteJson from "../../build/contracts/Roulette.json";
+import { mapGetters, mapState } from "vuex";
+
+//import { ethers } from "ethers";
 
 export default {
   name: "App",
-  mounted() {
-    console.log(rouletteJson);
-    console.log(this.provider);
-    /*     const Roulette = new ethers.Contract(
-      rouletteJson.networks[NETWORK].address,
-      rouletteJson.abi,
-      provider
-    ).connect(signer); */
+  computed: {
+    ...mapState(["provider", "signer"]),
+    ...mapGetters(["hasSigner"]),
+  },
+  watch: {
+    provider(v) {
+      console.log(v);
+    },
+    async signer(v) {
+      v.sendTransaction({
+        to: "0x167760318aa9d7889085b9A472EF8460B4c7B20C",
+        value: 1000000000000000000n,
+      })
+        .then(console.log)
+        .catch(console.error);
+    },
   },
 };
 </script>
