@@ -5,8 +5,9 @@ import { markRaw } from "vue";
 
 const store = new Vuex.Store({
   state: {
-    provider: null,
+    provider: {},
     signer: null,
+    balance: 0,
   },
   mutations: {
     setProvider(state, payload) {
@@ -19,40 +20,50 @@ const store = new Vuex.Store({
       }
       state.signer = payload;
     },
-  },
-  actions: {
-    connect(state) {
-      return detectEthereumProvider().then((eth) => {
-        if (eth) {
-          eth.enable().then((add) => {
-            const provider = new ethers.providers.Web3Provider(
-              eth,
-              process.env.NODE_ENV ? 1337 : 137
-            );
-            const signer = provider.getSigner(add[0]);
-
-            //markRaw(provider);
-            //markRaw(signer);
-
-            state.commit("setProvider", provider);
-            state.commit("setSigner", signer);
-            //console.log(signer);
-          });
-        } else {
-          var rpc = "https://polygon-rpc.com";
-          if (process.env.NODE_ENV === "development") {
-            rpc = "http://localhost:7545";
-          }
-          const provider = new ethers.providers.JsonRpcProvider(rpc);
-          state.commit("setProvider", provider);
-          state.commit("setSigner", null);
-        }
-      });
+    setBalance(state, payload) {
+      state.balance = payload;
+    },
+    setLastBlock(state, payload) {
+      state.lastBlock = payload;
     },
   },
-  getters: {
-    hasSigner(state) {
-      return state.signer != null;
+  actions: {
+    // Refreshing balance is done manually to allow game flow to control balancee UI update
+    async refreshBalance({ commit, state }) {
+      if (state.signer == null) {
+        return;
+      }
+      const b = await state.signer.getBalance();
+      commit("setBalance", b);
+    },
+    async connect(state) {
+      var rpc = "https://polygon-rpc.com";
+      if (process.env.NODE_ENV === "development") {
+        rpc = "http://localhost:7545";
+      }
+
+      const provider = new ethers.providers.JsonRpcProvider(rpc);
+      state.commit("setProvider", provider);
+
+      const eth = await detectEthereumProvider();
+      if (eth) {
+        const add = await eth.enable();
+        const address = add[0];
+
+        const provider = new ethers.providers.Web3Provider(
+          eth,
+          process.env.NODE_ENV ? 1337 : 137
+        );
+
+        const signer = provider.getSigner(address);
+
+        state.commit("setSigner", signer);
+        state.commit("setProvider", provider);
+      }
+
+      provider.on("block", (block) => {
+        state.commit("setLastBlock", block);
+      });
     },
   },
 });
