@@ -14,9 +14,9 @@ const Roulette = new ethers.Contract(
 ).connect(signer);
 
 setInterval(async () => {
-  const N = await Roulette.get_bets_n();
-  if (N > 0) {
-    console.log(`Playing with ${N} bets!`);
+  const bets = await Roulette.get_bets();
+  if (bets.length > 0) {
+    console.log(`Playing with ${bets.length} bets!`);
     Roulette.play();
   } else {
     console.log("No bets!");

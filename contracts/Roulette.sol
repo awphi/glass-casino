@@ -47,8 +47,12 @@ contract Roulette {
         return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp))) % mod;
     } 
     
-    function get_bets_n() public view returns (uint) {
+    function get_num_bets() public view returns (uint) {
         return bets.length;
+    }
+
+    function get_bets() public view returns (Bet[] memory) {
+        return bets;
     }
 
     function deposit(BetType bet_type, uint bet) public payable {
