@@ -5,14 +5,29 @@ import { markRaw } from "vue";
 
 const store = new Vuex.Store({
   state: {
-    provider: {},
+    provider: null,
     signer: null,
+    signerProvider: null,
     balance: 0,
+  },
+  getters: {
+    hasSigner(state) {
+      return (
+        state.signerProvider != null &&
+        state.signer != null &&
+        window.ethereum.selectedAddress != null
+      );
+    },
   },
   mutations: {
     setProvider(state, payload) {
       markRaw(payload);
+      payload.pollingInterval = 1000;
       state.provider = payload;
+    },
+    setSignerProvider(state, payload) {
+      markRaw(payload);
+      state.signerProvider = payload;
     },
     setSigner(state, payload) {
       if (payload != null) {
@@ -22,9 +37,6 @@ const store = new Vuex.Store({
     },
     setBalance(state, payload) {
       state.balance = payload;
-    },
-    setLastBlock(state, payload) {
-      state.lastBlock = payload;
     },
   },
   actions: {
@@ -36,15 +48,16 @@ const store = new Vuex.Store({
       const b = await state.signer.getBalance();
       commit("setBalance", b);
     },
-    async connect(state) {
+    async connect({ commit }) {
       var rpc = "https://polygon-rpc.com";
       if (process.env.NODE_ENV === "development") {
         rpc = "http://localhost:7545";
       }
 
       const provider = new ethers.providers.JsonRpcProvider(rpc);
-      state.commit("setProvider", provider);
-
+      commit("setProvider", provider);
+    },
+    async connectWithMetamask({ commit, dispatch }) {
       const eth = await detectEthereumProvider();
       if (eth) {
         const add = await eth.enable();
@@ -57,13 +70,11 @@ const store = new Vuex.Store({
 
         const signer = provider.getSigner(address);
 
-        state.commit("setSigner", signer);
-        state.commit("setProvider", provider);
+        // signer provider is kept separately, RPC provider is preferred since web3 provider responds VERY slowly to events!
+        commit("setSignerProvider", provider);
+        commit("setSigner", signer);
+        dispatch("refreshBalance");
       }
-
-      provider.on("block", (block) => {
-        state.commit("setLastBlock", block);
-      });
     },
   },
 });

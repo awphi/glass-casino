@@ -1,36 +1,31 @@
 <template>
   <div>
     <h1>Balance: {{ balance }}</h1>
+    <Roulette />
+    <button @click="metamaskConnect">Connect to MetaMask</button>
+    <button @click="window.console.log(hasSigner)">Has signer?</button>
   </div>
 </template>
 
 <script>
-//import rouletteJson from "../../build/contracts/Roulette.json";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import Roulette from "./components/Roulette.vue";
 import store from "./store/index";
-
-//import { ethers } from "ethers";
 
 export default {
   name: "App",
+  components: { Roulette },
   computed: {
-    ...mapState(["provider", "signer", "balance"]),
+    ...mapState(["balance", "signer"]),
+    ...mapGetters(["hasSigner"]),
+  },
+  methods: {
+    metamaskConnect() {
+      store.dispatch("connectWithMetamask");
+    },
   },
   created() {
     store.dispatch("connect");
-  },
-  watch: {
-    provider(v) {
-      console.log("Provider: " + v);
-    },
-    async signer(v) {
-      v.sendTransaction({
-        to: "0x167760318aa9d7889085b9A472EF8460B4c7B20C",
-        value: 1000000000000000000n,
-      })
-        .then(console.log)
-        .catch(console.error);
-    },
   },
 };
 </script>

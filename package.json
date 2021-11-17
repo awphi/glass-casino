@@ -8,7 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "server": "node ./server/index.js",
+    "ganache": "ganache-cli -p 7545 -i 1337",
     "migrate": "truffle migrate"
   },
   "repository": {
@@ -26,5 +26,8 @@
     "@truffle/hdwallet-provider": "^1.6.0",
     "dotenv": "^10.0.0",
     "ethers": "^5.5.1"
+  },
+  "devDependencies": {
+    "ganache-cli": "^6.12.2"
   }
 }

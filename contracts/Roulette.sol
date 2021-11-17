@@ -27,8 +27,6 @@ contract Roulette {
         uint bet_amount;
     }
     
-    
-    
     // Used so dApp can listen to emitted event to update UIs as soon as the outcome is rolled
     event OutcomeDecided(uint roll);
     event BetPlaced(Bet bet);
