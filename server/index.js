@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
 const rouletteJson = require("../build/contracts/Roulette.json");
 
-const provider = new ethers.providers.JsonRpcProvider(`http:/\/localhost:7545`);
+const provider = new ethers.providers.JsonRpcProvider(`http://localhost:7545`);
 provider.pollingInterval = 1000;
 const signer = provider.getSigner();
 

@@ -3,7 +3,9 @@
     <h1>Balance: {{ balance }}</h1>
     <Roulette />
     <button @click="metamaskConnect">Connect to MetaMask</button>
-    <button @click="window.console.log(hasSigner)">Has signer?</button>
+    <button v-if="hasSigner" @click="window.console.log(hasSigner)">
+      Has signer?
+    </button>
   </div>
 </template>
 
