@@ -1,0 +1,172 @@
+{
+	"compiler": {
+		"version": "0.8.7+commit.e28d00a7"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"components": [
+							{
+								"internalType": "address payable",
+								"name": "player",
+								"type": "address"
+							},
+							{
+								"internalType": "enum Roulette.BetType",
+								"name": "bet_type",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet_amount",
+								"type": "uint256"
+							}
+						],
+						"indexed": false,
+						"internalType": "struct Roulette.Bet",
+						"name": "bet",
+						"type": "tuple"
+					}
+				],
+				"name": "BetPlaced",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "roll",
+						"type": "uint256"
+					}
+				],
+				"name": "OutcomeDecided",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum Roulette.BetType",
+						"name": "bet_type",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "bet",
+						"type": "uint256"
+					}
+				],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "get_bets",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address payable",
+								"name": "player",
+								"type": "address"
+							},
+							{
+								"internalType": "enum Roulette.BetType",
+								"name": "bet_type",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet_amount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Roulette.Bet[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "get_num_bets",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "play",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Roulette.sol": "Roulette"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Roulette.sol": {
+			"keccak256": "0xf1202440cc2a05f3b4b5121145df2a24037d0eac470486a8fdccb32b18760552",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://72f9a065c4f638096b74f424e2ae5069bfd1215214264486c9be3ff65787b205",
+				"dweb:/ipfs/QmTSL52pBJGregoZfKEy25536uRk537RN7BHF7qAZd1iQi"
+			]
+		}
+	},
+	"version": 1
+}
