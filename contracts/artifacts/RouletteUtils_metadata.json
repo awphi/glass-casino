@@ -6,12 +6,6 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
-				"anonymous": false,
 				"inputs": [
 					{
 						"components": [
@@ -21,9 +15,9 @@
 								"type": "address"
 							},
 							{
-								"internalType": "enum Roulette.BetType",
+								"internalType": "enum BetType",
 								"name": "bet_type",
-								"type": "uint8"
+								"type": "BetType"
 							},
 							{
 								"internalType": "uint256",
@@ -36,107 +30,7 @@
 								"type": "uint256"
 							}
 						],
-						"indexed": false,
-						"internalType": "struct Roulette.Bet",
-						"name": "bet",
-						"type": "tuple"
-					}
-				],
-				"name": "BetPlaced",
-				"type": "event"
-			},
-			{
-				"anonymous": false,
-				"inputs": [
-					{
-						"indexed": false,
-						"internalType": "uint256",
-						"name": "roll",
-						"type": "uint256"
-					}
-				],
-				"name": "OutcomeDecided",
-				"type": "event"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "enum Roulette.BetType",
-						"name": "bet_type",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "bet",
-						"type": "uint256"
-					}
-				],
-				"name": "deposit",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
-				"inputs": [],
-				"name": "get_bets",
-				"outputs": [
-					{
-						"components": [
-							{
-								"internalType": "address payable",
-								"name": "player",
-								"type": "address"
-							},
-							{
-								"internalType": "enum Roulette.BetType",
-								"name": "bet_type",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet_amount",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct Roulette.Bet[]",
-						"name": "",
-						"type": "tuple[]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"components": [
-							{
-								"internalType": "address payable",
-								"name": "player",
-								"type": "address"
-							},
-							{
-								"internalType": "enum Roulette.BetType",
-								"name": "bet_type",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet_amount",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct Roulette.Bet",
+						"internalType": "struct Bet",
 						"name": "bet",
 						"type": "tuple"
 					},
@@ -177,10 +71,89 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "bet_type",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "bet",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "bet_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "make_bet",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address payable",
+								"name": "player",
+								"type": "address"
+							},
+							{
+								"internalType": "enum BetType",
+								"name": "bet_type",
+								"type": "BetType"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet_amount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Bet",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [],
-				"name": "play",
-				"outputs": [],
-				"stateMutability": "nonpayable",
+				"name": "make_bet_null",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address payable",
+								"name": "player",
+								"type": "address"
+							},
+							{
+								"internalType": "enum BetType",
+								"name": "bet_type",
+								"type": "BetType"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet_amount",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Bet",
+						"name": "",
+						"type": "tuple"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -216,7 +189,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"Roulette.sol": "Roulette"
+			"RouletteUtils.sol": "RouletteUtils"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -230,12 +203,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"Roulette.sol": {
-			"keccak256": "0xf5b986792c0b8afbe32b43e47c22adb1b7718c08338b51d87937a857c3bfc25b",
+		"RouletteUtils.sol": {
+			"keccak256": "0x3187c3ebb958c83c04af76a3886889313a182c90893a83df504ac36b7f27c18a",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ffef1f1eeff1798845ab31a65c7f7eb3b01811035f558a637a917d47bfda718b",
-				"dweb:/ipfs/QmfHw8z8draaLnYJL11nWVZ8iQfrtfPExQWfVb3ZXzZ4MS"
+				"bzz-raw://12dbb81cccae9e6d0a4048226011f8666472509f46886be437a6c5fde4c94a49",
+				"dweb:/ipfs/QmWLV3FUm83r2cmyCSMFMCtvHUYUPM13DPJbArv4596vGg"
 			]
 		}
 	},
