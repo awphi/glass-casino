@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@chenfengyuan/vue-countdown": "^2.0.0-rc",
     "@metamask/detect-provider": "^1.2.0",
     "core-js": "^3.6.5",
     "ethers": "^5.5.1",

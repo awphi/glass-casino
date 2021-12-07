@@ -61,6 +61,19 @@
 			{
 				"inputs": [
 					{
+						"internalType": "uint256",
+						"name": "roll",
+						"type": "uint256"
+					}
+				],
+				"name": "add_history",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "enum Roulette.BetType",
 						"name": "bet_type",
 						"type": "uint8"
@@ -106,6 +119,32 @@
 						"internalType": "struct Roulette.Bet[]",
 						"name": "",
 						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "get_bets_length",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "get_history",
+				"outputs": [
+					{
+						"internalType": "uint256[100]",
+						"name": "",
+						"type": "uint256[100]"
 					}
 				],
 				"stateMutability": "view",
@@ -231,11 +270,11 @@
 	},
 	"sources": {
 		"Roulette.sol": {
-			"keccak256": "0xf5b986792c0b8afbe32b43e47c22adb1b7718c08338b51d87937a857c3bfc25b",
+			"keccak256": "0xddc2946e3d7f58dc563f97e110787d1be4ff04fd6a02f47f5770719f3c995f58",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://ffef1f1eeff1798845ab31a65c7f7eb3b01811035f558a637a917d47bfda718b",
-				"dweb:/ipfs/QmfHw8z8draaLnYJL11nWVZ8iQfrtfPExQWfVb3ZXzZ4MS"
+				"bzz-raw://9bfcc9080cdbb047c4943a1aec680edf22c959a05043422467b61416f39d7703",
+				"dweb:/ipfs/QmNoHRVxAsTKHP5dueRuFvX3ATzKREStNHgc4u7aBaeLNp"
 			]
 		}
 	},

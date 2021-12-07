@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 import Roulette from "./components/Roulette.vue";
 import store from "./store/index";
 
@@ -25,6 +25,19 @@ export default {
     metamaskConnect() {
       store.dispatch("connectWithMetamask");
     },
+    ...mapMutations(["setGameData"]),
+  },
+  async mounted() {
+    // WebSocket for timing data
+    const ws = new WebSocket("ws://localhost:8080");
+
+    ws.onmessage = (data) => {
+      const json = JSON.parse(data.data);
+      console.log(json);
+      if (json.game && json.address) {
+        this.setGameData(json);
+      }
+    };
   },
   created() {
     store.dispatch("connect");

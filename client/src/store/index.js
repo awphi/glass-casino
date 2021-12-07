@@ -9,6 +9,9 @@ const store = new Vuex.Store({
     signer: null,
     signerProvider: null,
     balance: 0,
+    gameData: {
+      roulette: {},
+    },
   },
   getters: {
     hasSigner(state) {
@@ -37,6 +40,17 @@ const store = new Vuex.Store({
     },
     setBalance(state, payload) {
       state.balance = payload;
+    },
+    setGameData(state, payload) {
+      const { address, game, data } = payload;
+      var g = state.gameData[game];
+      if (address in g) {
+        state.gameData[game][address] = data;
+      } else {
+        const o = {};
+        o[address] = data;
+        state.gameData[game] = { ...g, ...o };
+      }
     },
   },
   actions: {
