@@ -1,11 +1,19 @@
 <template>
-  <div>
-    <h1>Balance: {{ balance }}</h1>
-    <Roulette />
-    <button @click="metamaskConnect">Connect to MetaMask</button>
-    <button v-if="hasSigner" @click="window.console.log(hasSigner)">
-      Has signer?
-    </button>
+  <div class="m-0">
+    <div class="w-100 flex flex-row items-center p-3 bg-gray-700 shadow-lg">
+      <h1 class="text-4xl flex-1 text-left font-bold">GlassCasino</h1>
+      <h1 class="text-xl" v-if="hasSigner">Balance: {{ balance }}</h1>
+      <button
+        @click="metamaskConnect"
+        class="p-1 pr-2 pl-2 bg-green-400 bg-opacity-40 rounded-md shadow-sm"
+        v-else
+      >
+        Sign-in
+      </button>
+    </div>
+    <div class="p-6">
+      <Roulette />
+    </div>
   </div>
 </template>
 
@@ -35,12 +43,19 @@ export default {
 </script>
 
 <style>
+body,
+html,
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  @apply bg-gray-600;
 }
 </style>

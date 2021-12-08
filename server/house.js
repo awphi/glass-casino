@@ -1,8 +1,10 @@
 require("dotenv").config();
 require("log-timestamp");
+const ARGS = process.argv.slice(2);
 
 const { ethers } = require("ethers");
 const { WebSocketServer, WebSocket } = require("ws");
+
 const wss = new WebSocketServer({
   port: process.env.PORT ? Number(process.env.PORT) : 8080,
 });
@@ -26,16 +28,22 @@ function broadcast(data) {
 }
 
 // Ethers.js provider
-const provider = new ethers.providers.JsonRpcProvider(`http://localhost:7545`);
+const rpc = ARGS.includes("--dev")
+  ? process.env.MUMBAI_URL.trim()
+  : process.env.MAINNET_URL.trim();
+
+const provider = new ethers.providers.JsonRpcProvider(rpc);
 provider.pollingInterval = process.env.POLLING_INTERVAL
   ? Number(process.env.POLLING_INTERVAL)
   : 1000;
 
-const signer = provider.getSigner();
+const signer = ethers.Wallet.fromMnemonic(process.env.MNEMONIC.trim()).connect(
+  provider
+);
 
 // Roulette
 const rouletteJson = require("../build/contracts/Roulette.json");
-const RouletteScheduler = require("./roulette.js");
+const RouletteScheduler = require("./roulette-scheduler.js");
 provider
   .getNetwork()
   .then((network) => {

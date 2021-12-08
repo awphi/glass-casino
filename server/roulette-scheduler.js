@@ -31,7 +31,6 @@ class RouletteScheduler {
 
   data() {
     return JSON.stringify({
-      game: "roulette",
       address: this.contract.address,
       data: {
         nextRoll: this.nextRoll,

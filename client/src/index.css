@@ -1,0 +1,18 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap");
+
+h1,
+h2,
+h3,
+p,
+button {
+  @apply text-gray-100;
+}
+
+html {
+  font-family: "Ubuntu", sans-serif;
+}

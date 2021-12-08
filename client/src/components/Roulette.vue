@@ -28,19 +28,19 @@ export default {
   },
   data() {
     return {
+      // TODO use history (on contract) to set this variable initially to position the wheel
       roll: 0,
       contract: null,
       nextRoll: 0,
     };
   },
   computed: {
-    ...mapState(["provider", "signer", "provider", "gameData", "chainId"]),
+    ...mapState(["provider", "signer", "provider", "gameData", "chain"]),
   },
   methods: {
     updateTimer(gameData) {
-      if (this.contract && this.contract.address in gameData.roulette) {
-        var r = gameData.roulette[this.contract.address].nextRoll - Date.now();
-        this.provider.poll();
+      if (this.contract && this.contract.address in gameData) {
+        var r = gameData[this.contract.address].nextRoll - Date.now();
 
         // Avoid collisions as if the values are the same, won't trigger be reactive!
         if (this.nextRoll == r) {
@@ -48,14 +48,18 @@ export default {
         }
 
         this.nextRoll = r;
+        console.log(this.nextRoll);
       }
     },
   },
   mounted() {
-    this.address = rouletteJson.networks[this.chainId].address;
-
+    console.log(rouletteJson.networks);
     this.contract = markRaw(
-      new ethers.Contract(this.address, rouletteJson.abi, this.provider)
+      new ethers.Contract(
+        rouletteJson.networks[this.chainId].address,
+        rouletteJson.abi,
+        this.provider
+      )
     );
 
     this.updateTimer(this.gameData);

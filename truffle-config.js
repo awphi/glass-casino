@@ -22,6 +22,7 @@ require("dotenv").config();
 
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const mnemonic = process.env.MNEMONIC.trim();
+const mumbaiUrl = process.env.MUMBAI_URL.trim();
 
 module.exports = {
   /**
@@ -46,6 +47,16 @@ module.exports = {
       port: 7545,
       network_id: "*",
     },
+    mumbai: {
+      provider: function () {
+        return new HDWalletProvider(mnemonic, mumbaiUrl);
+      },
+      network_id: 80001,
+      confirmations: 2,
+      timeoutBlocks: 200,
+      skipDryRun: false,
+      networkCheckTimeout: 1000000,
+    },
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
@@ -57,11 +68,6 @@ module.exports = {
     // },
     // Useful for deploying to a public network.
     // NB: It's important to wrap the provider as a function.
-    ropsten: {
-      provider: () =>
-        new HDWalletProvider(mnemonic, `https://polygon-rpc.com/`),
-      network_id: "137",
-    },
     // Useful for private networks
     // private: {
     // provider: () => new HDWalletProvider(mnemonic, `https://network.io`),

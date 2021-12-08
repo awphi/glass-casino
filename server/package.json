@@ -2,13 +2,13 @@
   "name": "gc-server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "house.js",
   "keywords": [],
   "author": "awphi",
   "license": "ISC",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node house.js",
+    "dev": "nodemon house.js --dev"
   },
   "dependencies": {
     "dotenv": "^10.0.0",
