@@ -48,9 +48,9 @@ provider
     roulette = new RouletteScheduler(
       contract,
       broadcast,
-      process.env.ROULETTE_INTERVAL
-        ? Number(process.env.ROULETTE_INTERVAL)
-        : 10000
+      process.env.ROULETTE_INTERVAL,
+      process.env.ROULETTE_ROLL_DELAY
     );
+    roulette.roll();
   })
   .catch(console.error);

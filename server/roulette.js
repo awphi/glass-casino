@@ -1,12 +1,12 @@
 class RouletteScheduler {
-  constructor(contract, broadcast, interval) {
+  constructor(contract, broadcast, interval, delay) {
     this.nextRoll = 0;
     this.contract = contract;
-    this.interval = interval;
     this.broadcast = broadcast;
-
     this.nextRoll = Date.now();
-    this.roll();
+
+    this.interval = isNaN(interval) ? 10000 : Number(interval);
+    this.delay = isNaN(delay) ? 1000 : Number(delay);
   }
 
   async roll() {
@@ -20,8 +20,13 @@ class RouletteScheduler {
       await tx.wait();
     }
 
-    console.log(`Roll took ${(Date.now() - before) / 1000} seconds`);
-    this.scheduleNextRoll(this.contract);
+    console.log(
+      `Completed roll! Took ${(Date.now() - before) / 1000} seconds to confirm`
+    );
+
+    setTimeout(() => {
+      this.scheduleNextRoll(this.contract);
+    }, this.delay);
   }
 
   data() {
@@ -36,6 +41,7 @@ class RouletteScheduler {
 
   scheduleNextRoll() {
     this.nextRoll = Date.now() + this.interval;
+    console.log(`Next roll scheduled for: ${this.nextRoll}`);
     this.broadcast(this.data());
     setTimeout(() => {
       this.roll(this.contract);

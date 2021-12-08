@@ -34,7 +34,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["provider", "signer", "provider", "gameData"]),
+    ...mapState(["provider", "signer", "provider", "gameData", "chainId"]),
   },
   methods: {
     updateTimer(gameData) {
@@ -51,9 +51,8 @@ export default {
       }
     },
   },
-  async mounted() {
-    const { chainId } = await this.provider.getNetwork();
-    this.address = rouletteJson.networks[chainId].address;
+  mounted() {
+    this.address = rouletteJson.networks[this.chainId].address;
 
     this.contract = markRaw(
       new ethers.Contract(this.address, rouletteJson.abi, this.provider)

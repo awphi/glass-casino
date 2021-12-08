@@ -27,19 +27,8 @@ export default {
     },
     ...mapMutations(["setGameData"]),
   },
-  async mounted() {
-    // WebSocket for timing data
-    const ws = new WebSocket("ws://localhost:8080");
-
-    ws.onmessage = (data) => {
-      const json = JSON.parse(data.data);
-      console.log(json);
-      if (json.game && json.address) {
-        this.setGameData(json);
-      }
-    };
-  },
   created() {
+    // Connects to RPC + WebSocket
     store.dispatch("connect");
   },
 };

@@ -7,6 +7,7 @@ const store = new Vuex.Store({
   state: {
     provider: null,
     signer: null,
+    chainId: process.env.NODE_ENV ? 1337 : 137,
     signerProvider: null,
     balance: 0,
     gameData: {
@@ -62,25 +63,30 @@ const store = new Vuex.Store({
       const b = await state.signer.getBalance();
       commit("setBalance", b);
     },
-    async connect({ commit }) {
-      var rpc = "https://polygon-rpc.com";
-      if (process.env.NODE_ENV === "development") {
-        rpc = "http://localhost:7545";
-      }
-
-      const provider = new ethers.providers.JsonRpcProvider(rpc);
+    async connect({ state, commit }) {
+      const provider = new ethers.providers.JsonRpcProvider(
+        "http://localhost:7545",
+        state.chainId
+      );
       commit("setProvider", provider);
+
+      const ws = new WebSocket("ws://localhost:8080");
+
+      ws.onmessage = (data) => {
+        const json = JSON.parse(data.data);
+        console.log(json);
+        if (json.game && json.address) {
+          commit("setGameData", json);
+        }
+      };
     },
-    async connectWithMetamask({ commit, dispatch }) {
+    async connectWithMetamask({ state, commit, dispatch }) {
       const eth = await detectEthereumProvider();
       if (eth) {
         const add = await eth.enable();
         const address = add[0];
 
-        const provider = new ethers.providers.Web3Provider(
-          eth,
-          process.env.NODE_ENV ? 1337 : 137
-        );
+        const provider = new ethers.providers.Web3Provider(eth, state.chainId);
 
         const signer = provider.getSigner(address);
 
