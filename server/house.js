@@ -6,7 +6,7 @@ const { ethers } = require("ethers");
 const { WebSocketServer, WebSocket } = require("ws");
 
 const wss = new WebSocketServer({
-  port: process.env.PORT ? Number(process.env.PORT) : 8080,
+  port: process.env.PORT ? Number(process.env.PORT) : 8090,
 });
 
 var roulette;

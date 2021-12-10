@@ -1,52 +1,35 @@
 import Vuex from "vuex";
 import { ethers } from "ethers";
-import detectEthereumProvider from "@metamask/detect-provider";
 import { markRaw } from "vue";
-
-const chain =
-  process.env.NODE_ENV === "development"
-    ? {
-        chainName: "Polygon Testnet",
-        chainId: "0x" + Number(80001).toString(16),
-        rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-        nativeCurrency: { name: "MATIC", symbol: "MATIC" },
-        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-      }
-    : {
-        chainName: "Polygon",
-        chainId: "0x" + Number(137).toString(16),
-        rpcUrls: ["https://polygon-rpc.com/"],
-        nativeCurrency: { name: "MATIC", symbol: "MATIC" },
-        blockExplorerUrls: ["https://polygonscan.com/"],
-      };
+import { VueCookieNext } from "vue-cookie-next";
 
 const store = new Vuex.Store({
   state: {
     provider: null,
     signer: null,
-    chain: chain,
-    signerProvider: null,
+    ethereumProvider: null,
+    ethereumProviderExists: true,
+    chain: null,
     balance: 0,
     gameData: {},
   },
   getters: {
     hasSigner(state) {
-      return (
-        state.signerProvider != null &&
-        state.signer != null &&
-        window.ethereum.selectedAddress != null
-      );
+      return state.signer != null;
     },
   },
   mutations: {
+    setEthereumProvider(state, payload) {
+      state.ethereumProviderExists = payload != null;
+      if (payload != null) {
+        markRaw(payload);
+      }
+      state.ethereumProvider = payload;
+    },
     setProvider(state, payload) {
       markRaw(payload);
       payload.pollingInterval = 1000;
       state.provider = payload;
-    },
-    setSignerProvider(state, payload) {
-      markRaw(payload);
-      state.signerProvider = payload;
     },
     setSigner(state, payload) {
       if (payload != null) {
@@ -78,28 +61,24 @@ const store = new Vuex.Store({
       const b = await state.signer.getBalance();
       commit("setBalance", b);
     },
-    async connect({ state, commit }) {
-      const provider = new ethers.providers.JsonRpcProvider(
-        state.chain.rpcUrls[0],
-        state.chain.chainId
-      );
-      commit("setProvider", provider);
-
-      const ws = new WebSocket("ws://localhost:8080");
-
-      ws.onmessage = (data) => {
-        const json = JSON.parse(data.data);
-        console.log(json);
-        if (json.address) {
-          commit("setGameData", json);
-        }
-      };
-    },
     async connectWithMetamask({ state, commit, dispatch }) {
-      const eth = await detectEthereumProvider();
+      const eth = state.ethereumProvider;
+
       if (eth) {
-        const add = await eth.enable();
+        var add;
+        try {
+          add = await eth.request({ method: "eth_requestAccounts" });
+        } catch (e) {
+          // If we have the cookie where they previously gave permission but now they have revoked it
+          // we can just remove the cookie after they decline the new popup
+          if (e.code === 4001) {
+            VueCookieNext.removeCookie("metamask-connected");
+          }
+          return;
+        }
         const address = add[0];
+
+        VueCookieNext.setCookie("metamask-connected", "", { expire: "1d" });
 
         try {
           await eth.request({
@@ -115,12 +94,15 @@ const store = new Vuex.Store({
           }
         }
 
-        const provider = new ethers.providers.Web3Provider(eth, state.chainId);
+        const provider = new ethers.providers.Web3Provider(
+          eth,
+          Number(state.chain.chainId)
+        );
 
         const signer = provider.getSigner(address);
 
-        // signer provider is kept separately, RPC provider is preferred since web3 provider responds VERY slowly to events!
-        commit("setSignerProvider", provider);
+        // OLD: signer provider is kept separately, RPC provider is preferred since web3 provider responds VERY slowly to events!
+        commit("setProvider", provider);
         commit("setSigner", signer);
         dispatch("refreshBalance");
       }

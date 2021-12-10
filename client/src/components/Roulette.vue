@@ -53,10 +53,9 @@ export default {
     },
   },
   mounted() {
-    console.log(rouletteJson.networks);
     this.contract = markRaw(
       new ethers.Contract(
-        rouletteJson.networks[this.chainId].address,
+        rouletteJson.networks[Number(this.chain.chainId)].address,
         rouletteJson.abi,
         this.provider
       )
