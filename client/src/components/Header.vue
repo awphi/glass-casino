@@ -66,7 +66,9 @@ export default {
     ...mapState(["balance", "ethereumProviderExists"]),
     ...mapGetters(["hasSigner"]),
     balanceFormatted() {
-      return ethers.utils.formatEther(this.balance);
+      const v = ethers.utils.formatUnits(this.balance, "ether");
+      const split = v.split(".");
+      return `${split[0]}.${split[1].slice(0, 5)}`;
     },
   },
   methods: {

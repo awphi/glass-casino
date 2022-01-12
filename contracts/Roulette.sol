@@ -32,6 +32,7 @@ contract Roulette {
     BetType bet_type;
     uint256 bet;
     uint256 bet_amount;
+    uint256 timestamp;
   }
 
   // Used so dApp can listen to emitted event to update UIs as soon as the outcome is rolled
@@ -58,7 +59,7 @@ contract Roulette {
   function deposit(BetType bet_type, uint256 bet) public payable {
     require(ready);
     require(msg.value > 0);
-    Bet memory b = Bet(payable(msg.sender), bet_type, bet, msg.value);
+    Bet memory b = Bet(payable(msg.sender), bet_type, bet, msg.value, block.timestamp);
     bets.push(b);
     emit BetPlaced(b);
   }

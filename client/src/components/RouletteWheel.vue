@@ -98,17 +98,12 @@ export default {
 
       this.spinState = SPIN_STATE.SPINNING;
 
-      // Adding multiples of maxWidth to animation keyframes means the goal offset is always strictly less than
-      // the current offset when stopped thus it will animate to the right
-      // adding the current offset simply means we will start spinning on whatever we're currently on
       this.spinningAnimation = this.$refs.container.animate(
         [
           {
-            backgroundPositionX: `${
-              this.currentOffset() + 2 * this.maxWidth
-            }px`,
+            backgroundPositionX: `${this.currentOffset() + this.maxWidth}px`,
           },
-          { backgroundPositionX: `${this.currentOffset() + this.maxWidth}px` },
+          { backgroundPositionX: `${this.currentOffset()}px` },
         ],
         {
           duration: 3000,
@@ -130,7 +125,9 @@ export default {
 
       this.spinState = SPIN_STATE.SPINNING_TO;
 
-      const goal = this.resolveOffsetTo(n);
+      // Subtract max width to put it in range -maxWidth -> 0 so it's always strictly less than current wheel pos
+      // and therefore the roll will always continue rightwards
+      const goal = this.resolveOffsetTo(n) - this.maxWidth;
       const current = this.currentOffset();
 
       console.log(goal, current);

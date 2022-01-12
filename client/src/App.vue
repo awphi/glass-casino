@@ -1,7 +1,7 @@
 <template>
-  <div class="m-0 h-full">
+  <div class="m-0 h-full flex flex-col">
     <Header />
-    <div class="p-6">
+    <div class="p-6 flex-1">
       <Roulette />
     </div>
   </div>
