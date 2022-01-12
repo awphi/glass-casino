@@ -1,3 +1,5 @@
+const { ethers } = require("ethers");
+
 class RouletteScheduler {
   constructor(contract, broadcast, interval, delay) {
     this.nextRoll = 0;

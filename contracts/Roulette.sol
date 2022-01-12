@@ -1,8 +1,13 @@
+/// @title Roulette 0.1.1
+/// @author awphi (https://github.com/awphi)
+/// @notice Roulette game from GlassCasino - L3 BSc ComSci Project @ Durham University
+/// @dev -
+
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Roulette {
-  uint8 private constant HISTORY_LENGTH = 100;
+  // TODO redo history with mappings
 
   enum BetType {
     COLOUR,
@@ -36,7 +41,6 @@ contract Roulette {
   address house;
   bool ready = true;
   Bet[] bets;
-  uint256[HISTORY_LENGTH] history;
 
   // Sets the house on minting of the contract, i.e. who controls the flow of the game
   constructor() {
@@ -51,24 +55,12 @@ contract Roulette {
     return bets.length;
   }
 
-  function get_history() public view returns (uint256[HISTORY_LENGTH] memory) {
-    return history;
-  }
-
   function deposit(BetType bet_type, uint256 bet) public payable {
     require(ready);
     require(msg.value > 0);
     Bet memory b = Bet(payable(msg.sender), bet_type, bet, msg.value);
     bets.push(b);
     emit BetPlaced(b);
-  }
-
-  function add_history(uint256 roll) public {
-    for (uint256 i = 0; i < history.length - 1; i++) {
-      history[i] = history[i + 1];
-    }
-
-    history[history.length - 1] = roll;
   }
 
   // Note: Replace with chainlink

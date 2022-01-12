@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="bg-gray-700 p-8 shadow-lg rounded-md flex flex-col items-center">
+    <RouletteWheel class="w-4/5 h-16" />
     <h1>Last roll: {{ roll }}</h1>
     <VueCountdown
       :time="nextRoll"
@@ -11,6 +12,7 @@
       </h2>
       <h2 v-else>Spinning...</h2>
     </VueCountdown>
+    <button @click="b">Get bets</button>
   </div>
 </template>
 
@@ -20,11 +22,13 @@ import { mapState } from "vuex";
 import { ethers } from "ethers";
 import { markRaw } from "vue";
 import VueCountdown from "@chenfengyuan/vue-countdown";
+import RouletteWheel from "./RouletteWheel.vue";
 
 export default {
   name: "Roulette",
   components: {
     VueCountdown,
+    RouletteWheel,
   },
   data() {
     return {
@@ -50,6 +54,11 @@ export default {
         this.nextRoll = r;
         console.log(this.nextRoll);
       }
+    },
+    b() {
+      console.log(
+        this.contract.get_bets().then(console.log).catch(console.error)
+      );
     },
   },
   mounted() {
