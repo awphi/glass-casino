@@ -15,38 +15,35 @@
           flex flex-col
         "
       >
-        <!-- TODO attribute https://www.svgrepo.com/svg/384232/casino-leisure-roulette-game -->
-        <div class="bg-bop-25 menu-item">
+        <router-link to="roulette" class="menu-item">
           <img src="@/assets/roulette-icon.svg" width="20" />
           <h1 class="menu-text">Roulette</h1>
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link to="game2" class="menu-item">
           <img src="@/assets/roulette-icon.svg" width="20" />
           <h1 class="menu-text">Game 2</h1>
-        </div>
-        <div class="menu-item">
+        </router-link>
+        <router-link to="game3" class="menu-item">
           <img src="@/assets/roulette-icon.svg" width="20" />
           <h1 class="menu-text">Game 3</h1>
-        </div>
+        </router-link>
         <div class="flex-1"></div>
-        <!-- TODO attribute https://www.svgrepo.com/svg/60892/info -->
-        <div class="menu-item">
+        <router-link to="info" class="menu-item">
           <img src="@/assets/info-svgrepo-com.svg" width="20" />
           <h1 class="menu-text">Info</h1>
-        </div>
+        </router-link>
       </div>
-      <Roulette class="p-6 flex-1" />
+      <router-view class="p-6 flex-1"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import Roulette from "./components/Roulette.vue";
 import Header from "./components/Header.vue";
 
 export default {
   name: "App",
-  components: { Roulette, Header },
+  components: { Header },
 };
 </script>
 
@@ -75,6 +72,10 @@ body {
 
 .menu-item + .menu-item {
   @apply mt-2;
+}
+
+.router-link-active {
+  @apply bg-black bg-opacity-25;
 }
 
 .menu-item:hover {

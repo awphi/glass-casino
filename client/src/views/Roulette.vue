@@ -29,8 +29,43 @@
           <RouletteWheel ref="wheel" class="w-full h-full" />
         </VueCountdown>
       </div>
-      <div class="menu-box">
-        <button>TODO</button>
+      <div class="menu-box flex flex-col">
+        <div class="flex flex-row items-center justify-center">
+          <button class="mr-2 bg-bop-20 rounded-md p-2">-0.01</button>
+          <div class="h-full flex relative items-center">
+            <input
+              class="
+                h-full
+                text-center
+                bg-bop-20
+                pl-12
+                pr-12
+                w-48
+                text-white
+                rounded-md
+              "
+              type="number"
+              v-model="betInput"
+            />
+            <div
+              class="
+                absolute
+                right-0
+                bg-bop-10
+                flex
+                items-center
+                justify-center
+                p-1.5
+                mr-1
+                rounded-lg
+              "
+            >
+              <img src="@/assets/matic-token-icon.svg" width="20" />
+            </div>
+          </div>
+          <button class="ml-2 bg-bop-20 rounded-md p-2">+0.01</button>
+        </div>
+        <hr class="w-full opacity-30 mb-8 mt-8" />
       </div>
     </div>
     <div class="bets-list">
@@ -66,8 +101,8 @@ import rouletteJson from "../../../build/contracts/Roulette.json";
 import { mapState } from "vuex";
 import { BigNumber, ethers } from "ethers";
 import { markRaw } from "vue";
-import RouletteWheel from "./RouletteWheel.vue";
-import RouletteBetDisplay from "./RouletteBetDisplay.vue";
+import RouletteWheel from "../components/RouletteWheel.vue";
+import RouletteBetDisplay from "../components/RouletteBetDisplay.vue";
 import VueCountdown from "@chenfengyuan/vue-countdown";
 
 export default {
@@ -83,6 +118,7 @@ export default {
       contract: null,
       nextRoll: 0,
       bets: [],
+      betInput: 0.01,
     };
   },
   computed: {
@@ -153,6 +189,18 @@ export default {
 </script>
 
 <style scoped>
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
 .box {
   @apply bg-gray-700 p-8 rounded-md shadow-md;
 }

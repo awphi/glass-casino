@@ -5,6 +5,7 @@ import "./index.css";
 import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { VueCookieNext } from "vue-cookie-next";
+import router from "./router";
 
 store.state.chain =
   process.env.NODE_ENV === "development"
@@ -48,7 +49,7 @@ ws.onmessage = (data) => {
   }
 };
 
-const app = createApp(App).use(store);
+const app = createApp(App).use(router).use(store);
 app.use(VueCookieNext);
 app.config.globalProperties.window = window;
 app.mount("#app");
