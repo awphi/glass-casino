@@ -14,6 +14,30 @@ a {
   @apply text-gray-100;
 }
 
+.bg-bop-40 {
+  @apply bg-black bg-opacity-40;
+}
+
+.bg-bop-30 {
+  @apply bg-black bg-opacity-30;
+}
+
+.bg-bop-25 {
+  @apply bg-black bg-opacity-25;
+}
+
+.bg-bop-20 {
+  @apply bg-black bg-opacity-20;
+}
+
+.bg-bop-10 {
+  @apply bg-black bg-opacity-10;
+}
+
+.bg-bop-5 {
+  @apply bg-black bg-opacity-5;
+}
+
 html {
   font-family: "Ubuntu", sans-serif;
 }

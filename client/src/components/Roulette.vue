@@ -1,45 +1,49 @@
 <template>
   <div class="wrapper flex flex-row h-full">
-    <div
-      class="
-        bg-gray-700
-        p-8
-        shadow-lg
-        rounded-md
-        flex flex-col
-        items-center
-        flex-1
-        mr-6
-      "
-    >
-      <RouletteWheel class="w-4/5 h-16" />
-      <h1>Last roll: {{ roll }}</h1>
-      <VueCountdown
-        :time="nextRoll"
-        :interval="100"
-        v-slot="{ seconds, milliseconds, totalMilliseconds }"
-      >
-        <h2 v-if="totalMilliseconds > 0">
-          Next roll：{{ seconds }}.{{ Math.floor(milliseconds / 100) }}s
-        </h2>
-        <h2 v-else>Spinning...</h2>
-      </VueCountdown>
+    <div class="flex flex-col w-full">
+      <div class="wheel-box">
+        <VueCountdown
+          @end="if ($refs.wheel) $refs.wheel.startSpinning();"
+          :time="nextRoll"
+          :interval="100"
+          class="w-4/5 h-16 relative"
+          v-slot="{ seconds, milliseconds, totalMilliseconds }"
+        >
+          <div
+            v-if="totalMilliseconds > 0"
+            class="
+              w-full
+              h-full
+              flex
+              items-center
+              justify-center
+              rounded-md
+              absolute
+              bg-black bg-opacity-80
+            "
+          >
+            <p class="text-4xl">
+              {{ seconds }}.{{ Math.floor(milliseconds / 100) }}
+            </p>
+          </div>
+          <RouletteWheel ref="wheel" class="w-full h-full" />
+        </VueCountdown>
+      </div>
+      <div class="menu-box">
+        <button>TODO</button>
+      </div>
     </div>
-    <div
-      class="
-        bets-list
-        pl-8
-        pr-8
-        pt-4
-        pb-4
-        bg-gray-700
-        rounded-md
-        shadow-md
-        w-1/6
-        overflow-hidden
-      "
-    >
-      <h1 class="text-center text-3xl font-bold">Current Bets</h1>
+    <div class="bets-list">
+      <div class="flex flex-row items-center">
+        <h1 class="text-2xl font-bold">Current Bets</h1>
+        <div class="flex-1"></div>
+        <div
+          class="flex flex-row items-center bg-bop-20 rounded-md p-1 min-w-max"
+        >
+          <p class="pr-1 text-lg">{{ betSumFormatted }}</p>
+          <img src="@/assets/matic-token-icon.svg" width="20" />
+        </div>
+      </div>
       <hr class="w-full opacity-30 mb-2 mt-2" />
       <div class="overflow-y-auto h-full">
         <RouletteBetDisplay
@@ -60,23 +64,22 @@
 <script>
 import rouletteJson from "../../../build/contracts/Roulette.json";
 import { mapState } from "vuex";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { markRaw } from "vue";
-import VueCountdown from "@chenfengyuan/vue-countdown";
 import RouletteWheel from "./RouletteWheel.vue";
 import RouletteBetDisplay from "./RouletteBetDisplay.vue";
+import VueCountdown from "@chenfengyuan/vue-countdown";
 
 export default {
   name: "Roulette",
   components: {
-    VueCountdown,
     RouletteWheel,
     RouletteBetDisplay,
+    VueCountdown,
   },
   data() {
     return {
       // TODO use history (on contract) to set this variable initially to position the wheel
-      roll: 0,
       contract: null,
       nextRoll: 0,
       bets: [],
@@ -84,6 +87,13 @@ export default {
   },
   computed: {
     ...mapState(["provider", "signer", "provider", "gameData", "chain"]),
+    betSumFormatted() {
+      var s = BigNumber.from(0);
+      this.bets.forEach((i) => {
+        s = s.add(i.bet_amount);
+      });
+      return ethers.utils.formatUnits(s, "ether");
+    },
   },
   methods: {
     updateTimer(gameData) {
@@ -112,12 +122,16 @@ export default {
     this.updateTimer(this.gameData);
 
     this.contract.on(this.contract.filters["OutcomeDecided"](), (roll) => {
-      this.roll = roll;
+      //console.log("Roll:", roll);
+      this.$refs.wheel.stopSpinningOn(roll.toNumber());
+    });
+
+    this.contract.on(this.contract.filters["BetPlaced"](), (b) => {
+      this.bets = [...this.bets, b];
     });
 
     this.contract.get_bets().then((r) => {
       this.bets = r;
-      console.log(r);
     });
   },
   watch: {
@@ -137,3 +151,21 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.box {
+  @apply bg-gray-700 p-8 rounded-md shadow-md;
+}
+
+.bets-list {
+  @apply box pt-4 pb-4 w-1/4 overflow-hidden ml-6;
+}
+
+.menu-box {
+  @apply box mt-6 flex-1;
+}
+
+.wheel-box {
+  @apply box shadow-lg flex flex-col items-center;
+}
+</style>

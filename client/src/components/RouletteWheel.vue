@@ -1,14 +1,12 @@
 <template>
-  <div
-    @click="toggle()"
-    class="container flex flex-row justify-center"
-    ref="container"
-  >
+  <div class="container flex flex-row justify-center" ref="container">
     <div class="marker" ref="marker"></div>
   </div>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 const ROULETTE_ORDER = [
   0, 26, 3, 35, 12, 28, 7, 29, 18, 22, 9, 31, 14, 20, 1, 33, 16, 24, 5, 10, 23,
   8, 30, 11, 36, 13, 27, 6, 34, 17, 25, 2, 21, 4, 19, 15, 32,
@@ -62,6 +60,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["refreshBalance"]),
     // DEBUG METHOD
     toggle() {
       if (this.spinState === SPIN_STATE.SPINNING) {
@@ -86,7 +85,7 @@ export default {
       const off = this.resolveOffsetTo(n);
       this.$refs.container.style.backgroundPositionX = `${off}px`;
     },
-    async startSpinning() {
+    startSpinning() {
       // If spinning stage 1 -> return as we're already spinning,
       // if stage 2 -> cancel it and start this new spin,
       // if stopped just start
@@ -117,7 +116,6 @@ export default {
       );
     },
     stopSpinningOn(n) {
-      console.log("stage 2");
       if (this.isSpinning) {
         this.spinningAnimation.commitStyles();
         this.spinningAnimation.cancel();
@@ -145,10 +143,10 @@ export default {
       );
 
       this.spinningAnimation.oncancel = () => {
-        console.log("cancel");
         this.spinningAnimation = null;
         this.current = n;
         this.spinState = SPIN_STATE.STOPPED;
+        this.refreshBalance();
       };
 
       this.spinningAnimation.onfinish = () => {
@@ -157,7 +155,6 @@ export default {
       };
     },
     resized() {
-      console.log("resize");
       if (this.spinState === SPIN_STATE.SPINNING) {
         return;
       }
@@ -176,7 +173,7 @@ export default {
 .container {
   background-size: cover;
   background-image: url("../assets/RouletteWheel.svg");
-  @apply rounded-md shadow-md;
+  @apply rounded-md shadow-md h-full;
 }
 
 .marker {

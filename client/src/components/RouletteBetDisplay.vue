@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="w-full flex flex-col bg-black bg-opacity-10 rounded-md mb-2 p-2 pb-1"
-  >
+  <div class="w-full flex flex-col bg-bop-10 rounded-md mb-2 p-2 pb-1">
     <div class="flex flex-row">
       <!-- TODO support other bet types styling here -->
       <div
@@ -23,7 +21,7 @@
       </div>
 
       <div class="flex-1 spacer" />
-      <div class="bet-amount-box">
+      <div class="bet-amount-box bg-bop-20">
         <p class="pr-1 flex-1">{{ betAmountFormatted }}</p>
         <img src="@/assets/matic-token-icon.svg" width="16" />
       </div>
@@ -40,7 +38,7 @@
           better-link
         "
         target="_blank"
-        :href="`https://mumbai.polygonscan.com/address/${contract_address}?fromaddress=${better_address}`"
+        :href="`${this.chain.blockExplorerUrls[0]}/address/${contract_address}?fromaddress=${better_address}`"
       >
         {{ better_address }}
       </a>
@@ -53,15 +51,14 @@
 
 <script>
 import { BigNumber, ethers } from "ethers";
+import { mapState } from "vuex";
+
 export default {
   name: "RouletteBetDisplay",
-  data() {
-    return {};
-  },
   computed: {
+    ...mapState(["chain"]),
     timestampFormatted() {
       const t = this.timestamp;
-      console.log(t);
       const h = t.getHours().toString().padStart(2, "0");
       const m = t.getMinutes().toString().padStart(2, "0");
       const s = t.getSeconds().toString().padStart(2, "0");
@@ -106,7 +103,7 @@ export default {
 }
 
 .bet-amount-box {
-  @apply bg-black bg-opacity-20 pl-1 pr-1 rounded-md flex items-center text-sm;
+  @apply pl-1 pr-1 rounded-md flex items-center text-sm;
 }
 
 .better-link {

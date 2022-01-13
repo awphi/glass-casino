@@ -1,17 +1,18 @@
 <template>
-  <div class="w-100 flex flex-row items-center p-3 bg-gray-700 shadow-lg h-16">
+  <div
+    class="
+      w-100
+      flex flex-row
+      items-center
+      p-3
+      bg-gray-800 bg-opacity-80
+      shadow-lg
+      h-16
+    "
+  >
     <h1 class="text-4xl flex-1 text-left font-bold">GlassCasino</h1>
     <div
-      class="
-        flex
-        items-center
-        p-1
-        pr-2
-        pl-2
-        rounded-md
-        h-full
-        bg-black bg-opacity-10
-      "
+      class="flex items-center p-1 pr-2 pl-2 rounded-md h-full bg-bop-20"
       v-if="hasSigner"
     >
       <h1 class="text-lg pr-2">
@@ -20,22 +21,11 @@
       <img src="@/assets/matic-token-icon.svg" width="24" />
     </div>
     <div
-      class="
-        flex
-        items-center
-        p-1
-        pr-2
-        pl-2
-        rounded-md
-        h-full
-        bg-black bg-opacity-10
-      "
+      class="flex items-center p-1 pr-2 pl-2 rounded-md h-full bg-bop-20"
       v-else
     >
       <p>Connect</p>
-      <div
-        class="w-0.5 h-4/5 bg-black bg-opacity-10 rounded-full mr-2 ml-2"
-      ></div>
+      <div class="w-0.5 h-4/5 bg-bop-20 rounded-full mr-2 ml-2"></div>
 
       <button
         @click="metamaskConnect"
