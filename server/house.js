@@ -13,7 +13,7 @@ var roulette;
 
 // Setup WSS
 wss.on("connection", function connection(ws) {
-  if (roulette) {
+  if (roulette && roulette.rollPending) {
     ws.send(roulette.data());
   }
 });

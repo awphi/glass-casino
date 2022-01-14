@@ -153,6 +153,8 @@ export default {
         this.spinningAnimation.commitStyles();
         this.spinningAnimation.cancel();
       };
+
+      return this.spinningAnimation.finished;
     },
     resized() {
       if (this.spinState === SPIN_STATE.SPINNING) {

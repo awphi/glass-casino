@@ -39,7 +39,7 @@ contract Roulette {
   event OutcomeDecided(uint256 roll);
   event BetPlaced(Bet bet);
 
-  address house;
+  address public house;
   bool ready = true;
   Bet[] bets;
 

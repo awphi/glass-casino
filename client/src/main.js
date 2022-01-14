@@ -39,7 +39,7 @@ store.commit(
   )
 );
 
-const ws = new WebSocket("ws://localhost:8080");
+const ws = new WebSocket("ws://localhost:8090");
 
 ws.onmessage = (data) => {
   const json = JSON.parse(data.data);
