@@ -4,7 +4,7 @@
       <!-- TODO support other bet types styling here -->
       <div
         class="bet-box"
-        :class="{ 'bg-red-500': bet === 0, ' bg-gray-800': bet === 1 }"
+        :class="{ 'bg-red-600': bet === 0, ' bg-gray-800': bet === 1 }"
         v-if="bet_type == 0"
       >
         <p class="text-sm text-center">{{ bet === 0 ? "Red" : "Black" }}</p>

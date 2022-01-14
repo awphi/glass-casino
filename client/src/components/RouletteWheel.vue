@@ -128,7 +128,7 @@ export default {
       const goal = this.resolveOffsetTo(n) - this.maxWidth;
       const current = this.currentOffset();
 
-      console.log(goal, current);
+      //console.log(goal, current);
 
       this.spinningAnimation = this.$refs.container.animate(
         [

@@ -22,9 +22,15 @@
         </VueCountdown>
       </div>
       <RouletteBetControls
-        class="mt-6 justify-self-center"
+        class="mt-6 justify-self-center flex-1"
         :contract="contract"
       />
+      <div class="box mt-6">
+        <h1 class="text-2xl font-bold">Recent Outcomes</h1>
+        <p class="text-xs">Most Recent → (within 1000 blocks)</p>
+        <hr class="w-full opacity-30 mb-2 mt-2" />
+        <RouletteHistory ref="history" :contract="contract" />
+      </div>
     </div>
 
     <div class="flex flex-col w-1/4 ml-6">
@@ -71,19 +77,36 @@
           flex flex-col
         "
       >
+        <h1 class="text-2xl font-bold">Relevant Addresses</h1>
+        <hr class="w-full opacity-30 mb-2 mt-2" />
         <!-- TODO on hover clicky clicky -->
-        <a
-          :href="`${chain.blockExplorerUrls[0]}/address/${contract.address}`"
-          target="_blank"
-          class="text-xs whitespace-nowrap overflow-hidden overflow-ellipsis"
-          >Contract: {{ contract.address }}</a
-        >
-        <a
-          :href="`${chain.blockExplorerUrls[0]}/address/${contract.address}`"
-          target="_blank"
-          class="text-xs whitespace-nowrap overflow-hidden overflow-ellipsis"
-          >House: TODO (once new contract is deployed)</a
-        >
+        <p class="text-xs whitespace-nowrap overflow-hidden overflow-ellipsis">
+          Game:
+          <a
+            :href="`${chain.blockExplorerUrls[0]}/address/${contract.address}`"
+            target="_blank"
+            class="underline opacity-90"
+            >{{ contract.address }}</a
+          >
+        </p>
+        <p class="text-xs whitespace-nowrap overflow-hidden overflow-ellipsis">
+          House:
+          <a
+            :href="`${chain.blockExplorerUrls[0]}/address/${contract.owner}`"
+            target="_blank"
+            class="underline opacity-90"
+            >{{ contract.owner }}</a
+          >
+        </p>
+        <p class="text-xs whitespace-nowrap overflow-hidden overflow-ellipsis">
+          Bank:
+          <a
+            :href="`${chain.blockExplorerUrls[0]}/address/${contract.owner}`"
+            target="_blank"
+            class="underline opacity-90"
+            >TODO</a
+          >
+        </p>
       </div>
     </div>
   </div>
@@ -98,6 +121,7 @@ import RouletteWheel from "../components/RouletteWheel.vue";
 import RouletteBetDisplay from "../components/RouletteBetDisplay.vue";
 import VueCountdown from "@chenfengyuan/vue-countdown";
 import RouletteBetControls from "../components/RouletteBetControls.vue";
+import RouletteHistory from "../components/RouletteHistory.vue";
 
 export default {
   name: "Roulette",
@@ -106,14 +130,13 @@ export default {
     RouletteBetDisplay,
     VueCountdown,
     RouletteBetControls,
+    RouletteHistory,
   },
   data() {
     return {
-      // TODO use history (on contract) to set this variable initially to position the wheel
       contract: null,
       nextRoll: 0,
       bets: [],
-      lastPlayTxHash: "-",
     };
   },
   computed: {
@@ -154,23 +177,27 @@ export default {
     this.updateTimer(this.gameData);
 
     this.contract.on(
-      this.contract.filters["OutcomeDecided"](),
-      async (roll, e) => {
-        this.lastPlayTxHash = e.transactionHash;
+      this.contract.filters.OutcomeDecided(),
+      async (roll, tx) => {
         console.log("Roll:", roll.toNumber());
         await this.$refs.wheel.stopSpinningOn(roll.toNumber());
-        console.log("CLEAR");
+
         // TODO animate wins/losses
         this.bets = [];
+        this.$refs.history.add(tx);
       }
     );
 
-    this.contract.on(this.contract.filters["BetPlaced"](), (b) => {
+    this.contract.on(this.contract.filters.BetPlaced(), (b) => {
       this.bets = [...this.bets, b];
     });
 
     this.contract.get_bets().then((r) => {
       this.bets = r;
+    });
+
+    this.contract.house().then((h) => {
+      this.contract.owner = h;
     });
   },
   watch: {
