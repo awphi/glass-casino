@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full flex flex-col bg-bop-10 rounded-md mb-2 p-2 pb-1">
+  <div class="w-full flex flex-col bg-steel-700 rounded-md mb-2 p-2 pb-1">
     <div class="flex flex-row">
       <!-- TODO support other bet types styling here -->
       <div
@@ -11,7 +11,7 @@
       </div>
       <div
         class="bet-box"
-        :class="{ 'bg-blue-400': bet === 0, 'bg-green-400': bet === 1 }"
+        :class="{ 'bg-blue-600': bet === 0, 'bg-green-600': bet === 1 }"
         v-if="bet_type == 1"
       >
         <p class="text-sm text-center">{{ bet === 0 ? "Even" : "Odd" }}</p>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="flex-1 spacer" />
-      <div class="bet-amount-box bg-bop-20">
+      <div class="bet-amount-box bg-steel-800">
         <p class="pr-1 flex-1">{{ betAmountFormatted }}</p>
         <img src="@/assets/matic-token-icon.svg" width="16" />
       </div>

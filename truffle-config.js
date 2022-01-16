@@ -23,6 +23,7 @@ require("dotenv").config();
 const HDWalletProvider = require("@truffle/hdwallet-provider");
 const mnemonic = process.env.MNEMONIC.trim();
 const mumbaiUrl = process.env.MUMBAI_URL.trim();
+const polygonScanApiKey = process.env.POLYGONSCAN_API_KEY.trim();
 
 module.exports = {
   /**
@@ -86,14 +87,20 @@ module.exports = {
     solc: {
       version: "0.8.7", // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
-      // settings: {          // See the solidity docs for advice about optimization and evmVersion
-      //  optimizer: {
-      //    enabled: false,
-      //    runs: 200
-      //  },
+      settings: {
+        // See the solidity docs for advice about optimization and evmVersion
+        optimizer: {
+          enabled: true,
+          runs: 200,
+        },
+      },
       //  evmVersion: "byzantium"
       // }
     },
+  },
+  plugins: ["truffle-plugin-verify"],
+  api_keys: {
+    polygonscan: polygonScanApiKey,
   },
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:

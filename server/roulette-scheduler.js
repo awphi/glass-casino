@@ -30,8 +30,8 @@ class RouletteScheduler {
 
     console.log(`Rolling with ${len} bets`);
     if (len > 0) {
-      // Waits for the spin to actually go onto the chain
       const tx = await this.contract.play();
+      // Waits for the spin to be confirmed
       await tx.wait();
     }
 

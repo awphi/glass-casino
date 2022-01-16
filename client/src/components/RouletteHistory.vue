@@ -1,13 +1,14 @@
 <template>
   <div class="flex flex-row items-center h-10">
     <h1 class="text-center w-full" v-if="history.length == 0">
-      Oops! Looks like there's been no games recently...
+      Looks like there's been no games recently...
     </h1>
     <div
       class="history-node"
       v-for="h in history"
       :key="h.transactionHash"
       :class="{
+        'bg-green-500': h.args.roll == 0,
         'bg-red-600': isRed(h.args.roll),
         'bg-gray-800': !isRed(h.args.roll),
       }"
@@ -19,7 +20,6 @@
 
 <script>
 import { mapState } from "vuex";
-import { markRaw } from "vue";
 import { isRed } from "../utils/roulette-utils";
 
 export default {
@@ -31,19 +31,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["provider"]),
+    ...mapState(["provider", "game"]),
   },
   async mounted() {
-    // Unfortunate hack becase of Vue 3's reactivity system hating ES6 classes like the ones from ethers :(
-    this.contractInternal = markRaw(this.contract);
+    let p = this.game.contract.filters.OutcomeDecided();
     const b = await this.provider.getBlockNumber();
-    const filter = this.contractInternal.filters.OutcomeDecided();
 
     // Can only query 1000 blocks with free RPC
-    this.history = await this.contractInternal.queryFilter(filter, b - 1000, b);
-    this.history = this.history.reverse().slice(0, 10);
+    let h = await this.game.contract.queryFilter(p, b - 1000, b);
+    this.history = h.reverse().slice(0, 10);
   },
-  props: ["contract"],
   methods: {
     add(tx) {
       this.history = [tx, ...this.history].slice(0, 10);

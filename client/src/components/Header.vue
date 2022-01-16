@@ -1,47 +1,61 @@
 <template>
-  <div
-    class="
-      w-100
-      flex flex-row
-      items-center
-      p-3
-      bg-gray-800 bg-opacity-80
-      shadow-lg
-      h-16
-    "
-  >
-    <h1 class="text-4xl flex-1 text-left font-bold">GlassCasino</h1>
-    <div
-      class="flex items-center p-1 pr-2 pl-2 rounded-md h-full bg-bop-20"
-      v-if="hasSigner"
-    >
-      <h1 class="text-lg pr-2">
-        {{ balanceFormatted }}
-      </h1>
-      <img src="@/assets/matic-token-icon.svg" width="24" />
-    </div>
-    <div
-      class="flex items-center p-1 pr-2 pl-2 rounded-md h-full bg-bop-20"
-      v-else
-    >
-      <p>Connect</p>
-      <div class="w-0.5 h-4/5 bg-bop-20 rounded-full mr-2 ml-2"></div>
-
+  <div class="w-100 flex flex-row items-center p-3 bg-steel-700 shadow-lg h-20">
+    <h1 class="text-4xl text-left font-bold">GlassCasino</h1>
+    <div class="flex-1"></div>
+    <div v-if="hasSigner" class="flex flex-row space-x-2 items-center">
+      <div class="balance-box">
+        <p class="text-xs text-left w-full">Wallet</p>
+        <hr class="w-full" />
+        <div class="flex flex-row w-full text-right">
+          <h1 class="text-lg pr-1 flex-1">
+            {{ format(balance) }}
+          </h1>
+          <img src="@/assets/matic-token-icon.svg" width="20" />
+        </div>
+      </div>
+      <!-- TODO open transfer modal to allow deposit and withdrawal of funds from bank -->
       <button
-        @click="metamaskConnect"
         class="
-          flex
+          flex flex-col
           items-center
-          justify-center
-          bg-green-400 bg-opacity-40
-          rounded-full
-          p-1
-          shadow-sm
+          bg-steel-800
+          p-2
+          pt-1
+          pb-1
+          rounded-md
+          filter
+          hover:bg-steel-900
         "
       >
-        <img src="@/assets/metamask-fox.svg" width="24" />
+        <img src="@/assets/arrows-svgrepo-com.svg" width="20" />
+        <p class="text-xs">Transfer</p>
       </button>
+      <div class="balance-box" v-if="hasSigner">
+        <p class="text-xs text-left w-full">Table</p>
+        <hr class="w-full" />
+        <div class="flex flex-row w-full text-right">
+          <h1 class="text-lg pr-1 flex-1">
+            {{ format(game.contractBalance) }}
+          </h1>
+          <img src="@/assets/matic-token-icon.svg" width="20" />
+        </div>
+      </div>
     </div>
+
+    <button
+      class="flex items-center p-2 h-4/5 rounded-md bg-steel-800"
+      v-else
+      @click="metamaskConnect"
+    >
+      <p>Connect</p>
+      <img src="@/assets/metamask-fox.svg" class="ml-2" width="24" />
+    </button>
+    <!-- TODO helpful popover explaining metamask if unconnected and balances if connected -->
+    <img
+      class="filter hover:brightness-75 ml-2"
+      src="@/assets/help-svgrepo-com.svg"
+      width="24"
+    />
   </div>
 </template>
 
@@ -53,17 +67,17 @@ import { mapState, mapGetters } from "vuex";
 export default {
   name: "Header",
   computed: {
-    ...mapState(["balance", "ethereumProviderExists"]),
-    ...mapGetters(["hasSigner"]),
-    balanceFormatted() {
-      const v = ethers.utils.formatUnits(this.balance, "ether");
-      const split = v.split(".");
-      return `${split[0]}.${split[1].slice(0, 5)}`;
-    },
+    ...mapState(["balance", "game"]),
+    ...mapGetters(["hasSigner", "hasEthereumProvider"]),
   },
   methods: {
+    format(b) {
+      const v = ethers.utils.formatUnits(b, "ether");
+      const split = v.split(".");
+      return `${split[0]}.${split[1].slice(0, 3)}`;
+    },
     metamaskConnect() {
-      if (this.ethereumProviderExists) {
+      if (this.hasEthereumProvider) {
         store.dispatch("connectWithMetamask");
       } else {
         window.open("https://metamask.io/");
@@ -72,3 +86,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.balance-box {
+  @apply flex flex-col items-center p-1 pr-2 pl-2 rounded-md h-full w-28 bg-steel-800;
+}
+</style>

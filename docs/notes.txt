@@ -1,0 +1,18 @@
+24/11/2021 - Experiment with sol's library contracts for RouletteUtils to make testint easier and modularity. However, they are super buggy with structs & enums so ultimately useless
+13/12/2021 - Experiment with MetaMask sign-in via signing a one-time nonce, requires a backend to store said nonce and sessions - put as advanced goal
+13/01/2022 - History via filtering NOT storing in contract
+14/01/2022 - Found out-of-gas bug in 0.2.0 Roulette.play() - if we go OOG before setting ready back to true, the contract is bricked
+		-> Gas cost was too high and unpredictable, fixed by removing ready and moving payments to separate Bank contract
+		-> Bank contract works like a buffer or ledger keeping track of how much the casino owes to a given player (address => int) map
+		-> Moves payments to Bank so game logic is not compromised, gas more predictable as one call = one transfer (21k gas units). before our max number of bets had to much lower (~5)
+15/01/2022 - Revised above plan, players now go through bank for all deposits AND withdrawals i.e. the cages in a casino
+		-> This means fewer concurrent transactions = less gas usse for server AND client (as server pays no gas on payout anymore and clients can dpeosit in bulk)
+		-> Roulette.play() should also be faster due to this too!
+		-> Must rebuild parts of the UI because of this though :(
+	   - Also added auto-code verifiaction for polygonscan!
+16/01/2022 - Key flaw realised with bank contract, either statically set addresses of games (i.e. contracts with permissions to move funds) in bank = no scalability to add new games without losing funds
+							OR set them dynamically when a game is deployed - but who has permission to give games permission? The house of course. Leaves system vulnerable to rug-pulls
+							by a bad house - same issue as all casinos. Solution: each game has an internal bank, the house can only touch its house edge funds 
+							i.e. green on a roulette wheel, there is no way to access player winnings or losses that were not losses via house edge.
+
+							New process: join game, deposit some MATIC to the table, play game with said MATIC, when done take your winnings (or what's left of your original) and move on.

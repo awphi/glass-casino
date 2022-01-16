@@ -7,23 +7,6 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { VueCookieNext } from "vue-cookie-next";
 import router from "./router";
 
-store.state.chain =
-  process.env.NODE_ENV === "development"
-    ? {
-        chainName: "Polygon Testnet",
-        chainId: "0x" + Number(80001).toString(16),
-        rpcUrls: ["https://rpc-mumbai.maticvigil.com/"],
-        nativeCurrency: { name: "MATIC", symbol: "MATIC" },
-        blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
-      }
-    : {
-        chainName: "Polygon",
-        chainId: "0x" + Number(137).toString(16),
-        rpcUrls: ["https://polygon-rpc.com/"],
-        nativeCurrency: { name: "MATIC", symbol: "MATIC" },
-        blockExplorerUrls: ["https://polygonscan.com/"],
-      };
-
 detectEthereumProvider({ timeout: 300 }).then((eth) => {
   store.commit("setEthereumProvider", eth);
   if (VueCookieNext.isCookieAvailable("metamask-connected")) {

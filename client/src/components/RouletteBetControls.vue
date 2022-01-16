@@ -1,19 +1,29 @@
 <template>
-  <div class="box flex flex-col">
+  <div class="box flex flex-col relative">
+    <div
+      class="w-full h-full absolute left-0 top-0 z-10 p-1"
+      v-if="signer == null"
+    ></div>
     <div class="flex flex-row justify-center">
       <button
         v-for="v in betButtonValues"
         :key="v"
         @click="addToBetInput(v)"
-        class="mr-2 bg-bop-20 bet-amount-btn"
+        class="mr-2 bet-amount-btn"
       >
         {{ formatEther(v) }}
       </button>
       <div class="h-full flex relative items-center">
-        <div class="bet-input bg-bop-20">
-          <p>{{ betAmountFormatted }}</p>
-        </div>
-        <div class="token-bg bg-bop-10">
+        <input
+          class="bet-input bg-steel-700"
+          type="number"
+          value="0.01"
+          placeholder="0.01"
+          ref="betInput"
+          min="0.01"
+          @keyup="betInputKeyUp"
+        />
+        <div class="token-bg bg-steel-800">
           <img src="@/assets/matic-token-icon.svg" width="20" />
         </div>
       </div>
@@ -21,19 +31,35 @@
         v-for="v in betButtonValuesAbs"
         :key="v"
         @click="addToBetInput(v)"
-        class="ml-2 bg-bop-20 bet-amount-btn"
+        class="ml-2 bg-steel-700 bet-amount-btn"
       >
         +{{ formatEther(v) }}
       </button>
     </div>
     <hr class="w-full opacity-30 mb-8 mt-8" />
-    <div class="flex flex-row flex-1">
+    <div class="flex flex-row flex-1 items-center">
       <div class="flex flex-col w-full">
-        <!-- TODO hovers clicky clicky -->
-        <button class="bg-red-600 bet-btn">Red</button>
-        <button class="bg-gray-800 bet-btn">Black</button>
-        <button class="bg-blue-400 bet-btn">Even</button>
-        <button class="bg-green-400 bet-btn">Odd</button>
+        <button @click="bet(0, 0)" class="bg-red-600 bet-btn hover:bg-red-700">
+          Red
+        </button>
+        <button
+          @click="bet(0, 1)"
+          class="bg-gray-800 bet-btn hover:bg-gray-900"
+        >
+          Black
+        </button>
+        <button
+          @click="bet(1, 0)"
+          class="bg-blue-600 bet-btn hover:bg-blue-700"
+        >
+          Even
+        </button>
+        <button
+          @click="bet(1, 1)"
+          class="bg-green-600 bet-btn hover:bg-green-700"
+        >
+          Odd
+        </button>
       </div>
       <div class="flex flex-col w-full"></div>
       <div class="flex flex-col w-full"></div>
@@ -42,14 +68,16 @@
 </template>
 
 <script>
-import { ethers } from "ethers";
-const ONE_MATIC_CENT = ethers.BigNumber.from(10000000000000000n);
+import { ethers, BigNumber } from "ethers";
+import { mapState, mapActions } from "vuex";
+const ONE_MATIC_CENT = BigNumber.from(10000000000000000n);
+const ZERO = BigNumber.from(0n);
 
 export default {
   name: "RouletteBetControls",
   data() {
     return {
-      betAmount: ONE_MATIC_CENT.mul(10),
+      betAmount: ONE_MATIC_CENT,
       betButtonValues: [
         ONE_MATIC_CENT.mul(-1000),
         ONE_MATIC_CENT.mul(-100),
@@ -59,18 +87,54 @@ export default {
     };
   },
   methods: {
+    ...mapActions(["refreshBalance"]),
     addToBetInput(v) {
       if (this.betAmount.add(v) < ONE_MATIC_CENT) {
         this.betAmount = ONE_MATIC_CENT;
       } else {
         this.betAmount = this.betAmount.add(v);
       }
+      this.$refs.betInput.value = ethers.utils.formatEther(this.betAmount);
+    },
+    betInputKeyUp(e) {
+      try {
+        this.betAmount = ethers.utils.parseEther(e.target.value);
+      } catch (_) {
+        this.betAmount = ZERO;
+      }
     },
     formatEther(v) {
       return ethers.utils.formatEther(v);
     },
+    async bet(betType, bet) {
+      if (this.betAmount.lte(0)) {
+        window.alert("Invalid bet amount, bet must be > 0!");
+        return;
+      }
+
+      if (this.betAmount.gt(this.game.contractBalance)) {
+        window.alert("Insufficient funds to cover bet!");
+        return;
+      }
+
+      let tx;
+      try {
+        tx = await this.game.contract.place_bet(betType, this.betAmount, bet);
+        console.log(tx);
+      } catch (e) {
+        // User reject is 4001
+        if (e.code != 4001) {
+          console.error(e);
+        }
+        return;
+      }
+      await tx.wait();
+      this.refreshBalance();
+      console.log("Done!");
+    },
   },
   computed: {
+    ...mapState(["signer", "game"]),
     betAmountFormatted() {
       return ethers.utils.formatUnits(this.betAmount, "ether");
     },
@@ -78,25 +142,16 @@ export default {
       return this.betButtonValues.map((a) => a.abs()).reverse();
     },
   },
-  props: ["contract"],
 };
 </script>
 
 <style scoped>
 .bet-amount-btn {
-  @apply rounded-md p-2;
-}
-
-.bet-amount-btn:hover {
-  @apply bg-opacity-30;
-}
-
-.bet-amount-btn:focus {
-  @apply bg-opacity-70;
+  @apply rounded-md p-2 bg-steel-700 hover:bg-steel-800;
 }
 
 .bet-input {
-  @apply h-full text-center pl-12 pr-12 w-48 text-white rounded-md flex justify-center items-center;
+  @apply h-full text-center pl-12 pr-12 w-48 rounded-md flex justify-center items-center;
 }
 
 .token-bg {

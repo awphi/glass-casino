@@ -6,17 +6,12 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
 				"anonymous": false,
 				"inputs": [
 					{
 						"components": [
 							{
-								"internalType": "address payable",
+								"internalType": "address",
 								"name": "player",
 								"type": "address"
 							},
@@ -33,6 +28,11 @@
 							{
 								"internalType": "uint256",
 								"name": "bet_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
 								"type": "uint256"
 							}
 						],
@@ -59,44 +59,24 @@
 				"type": "event"
 			},
 			{
-				"inputs": [
-					{
-						"internalType": "uint256",
-						"name": "roll",
-						"type": "uint256"
-					}
-				],
-				"name": "add_history",
-				"outputs": [],
-				"stateMutability": "nonpayable",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"internalType": "enum Roulette.BetType",
-						"name": "bet_type",
-						"type": "uint8"
-					},
-					{
-						"internalType": "uint256",
-						"name": "bet",
-						"type": "uint256"
-					}
-				],
-				"name": "deposit",
-				"outputs": [],
-				"stateMutability": "payable",
-				"type": "function"
-			},
-			{
 				"inputs": [],
-				"name": "get_bets",
+				"name": "balance",
 				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
 					{
 						"components": [
 							{
-								"internalType": "address payable",
+								"internalType": "address",
 								"name": "player",
 								"type": "address"
 							},
@@ -113,6 +93,71 @@
 							{
 								"internalType": "uint256",
 								"name": "bet_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
+							}
+						],
+						"internalType": "struct Roulette.Bet",
+						"name": "bet",
+						"type": "tuple"
+					},
+					{
+						"internalType": "uint256",
+						"name": "roll",
+						"type": "uint256"
+					}
+				],
+				"name": "calculate_winnings",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "deposit",
+				"outputs": [],
+				"stateMutability": "payable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "get_bets",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "player",
+								"type": "address"
+							},
+							{
+								"internalType": "enum Roulette.BetType",
+								"name": "bet_type",
+								"type": "uint8"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "bet_amount",
+								"type": "uint256"
+							},
+							{
+								"internalType": "uint256",
+								"name": "timestamp",
 								"type": "uint256"
 							}
 						],
@@ -138,65 +183,6 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "get_history",
-				"outputs": [
-					{
-						"internalType": "uint256[100]",
-						"name": "",
-						"type": "uint256[100]"
-					}
-				],
-				"stateMutability": "view",
-				"type": "function"
-			},
-			{
-				"inputs": [
-					{
-						"components": [
-							{
-								"internalType": "address payable",
-								"name": "player",
-								"type": "address"
-							},
-							{
-								"internalType": "enum Roulette.BetType",
-								"name": "bet_type",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet_amount",
-								"type": "uint256"
-							}
-						],
-						"internalType": "struct Roulette.Bet",
-						"name": "bet",
-						"type": "tuple"
-					},
-					{
-						"internalType": "uint256",
-						"name": "roll",
-						"type": "uint256"
-					}
-				],
-				"name": "get_winnings",
-				"outputs": [
-					{
-						"internalType": "uint256",
-						"name": "",
-						"type": "uint256"
-					}
-				],
-				"stateMutability": "pure",
-				"type": "function"
-			},
-			{
 				"inputs": [
 					{
 						"internalType": "uint256",
@@ -213,6 +199,42 @@
 					}
 				],
 				"stateMutability": "pure",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "enum Roulette.BetType",
+						"name": "bet_type",
+						"type": "uint8"
+					},
+					{
+						"internalType": "uint256",
+						"name": "bet_amount",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "bet",
+						"type": "uint256"
+					}
+				],
+				"name": "place_bet",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -240,6 +262,19 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "withdraw",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -263,18 +298,34 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
-		"Roulette.sol": {
-			"keccak256": "0xddc2946e3d7f58dc563f97e110787d1be4ff04fd6a02f47f5770719f3c995f58",
+		"Bank.sol": {
+			"keccak256": "0xe58ec859a0099f2c1e1da97473f68345184efebeb026809a4e2bfc04593eb725",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9bfcc9080cdbb047c4943a1aec680edf22c959a05043422467b61416f39d7703",
-				"dweb:/ipfs/QmNoHRVxAsTKHP5dueRuFvX3ATzKREStNHgc4u7aBaeLNp"
+				"bzz-raw://05225d541a1b33cb6a1756cd5bcd385e9b8cf9898a56634161b92174327ce19c",
+				"dweb:/ipfs/QmV3mo9c7cGEeJJAsPaBVCxv7bkwzq8io2HZAe2gd7ZR3y"
+			]
+		},
+		"Owned.sol": {
+			"keccak256": "0x750904cbf2b07eacf0acf84130a0c2b59c3774f6761cabf2e36d83a6a2ee01e8",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://d7b3ea50c1bd257b81360d0ca98feac65f01d8eec933614380e484cd562b689f",
+				"dweb:/ipfs/QmafLfXpuDaWfBHVLTnbEmBuKNhyPFd2tVGmg92zRTci2S"
+			]
+		},
+		"Roulette.sol": {
+			"keccak256": "0x7a52c76d44d20c662f21de755c7ff3b4860b76889e691810ff5dc4c2326e53be",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://89f74be2dd102d5bb8d69d22ad4c524393ac4c115d4c44c099505b89f7dfbc2b",
+				"dweb:/ipfs/QmUzubTvmZFnDT5qEXRu1gi2XRvZ8f6S8gV5YAVQuT8QQV"
 			]
 		}
 	},

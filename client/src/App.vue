@@ -2,18 +2,8 @@
   <div class="m-0 h-full flex flex-col">
     <Header />
     <div class="flex-1 flex flex-row">
-      <!-- TODO merge vue-router into this -->
       <div
-        class="
-          h-full
-          w-40
-          bg-gray-800 bg-opacity-60
-          shadow-md
-          p-4
-          pb-16
-          pr-0
-          flex flex-col
-        "
+        class="h-full w-40 bg-steel-600 shadow-md p-4 pb-16 pr-0 flex flex-col"
       >
         <router-link to="roulette" class="menu-item">
           <img src="@/assets/roulette-icon.svg" width="20" />
@@ -61,13 +51,13 @@ body {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-gray-600;
+  @apply bg-steel-200;
 }
 </style>
 
 <style scoped>
 .menu-item {
-  @apply p-2 rounded-l-md flex flex-row items-center cursor-pointer;
+  @apply p-2 rounded-l-md flex flex-row items-center cursor-pointer hover:bg-steel-700;
 }
 
 .menu-item + .menu-item {
@@ -75,11 +65,7 @@ body {
 }
 
 .router-link-active {
-  @apply bg-black bg-opacity-25;
-}
-
-.menu-item:hover {
-  @apply bg-black bg-opacity-30;
+  @apply bg-steel-800;
 }
 
 .menu-text {

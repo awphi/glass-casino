@@ -4,8 +4,7 @@
   "description": "Fair end-to-end blockchain iGaming.",
   "main": "truffle-config.js",
   "scripts": {
-    "migrate-reset": "truffle migrate --reset",
-    "test-contracts": "truffle test"
+    "verify": "truffle run verify Roulette Bank --network mumbai --debug --license MIT"
   },
   "repository": {
     "type": "git",
@@ -17,11 +16,13 @@
   "bugs": {
     "url": "https://github.com/awphi/glass-casino/issues"
   },
-  "homepage": "https://github.com/awphi/glass-casino#readme",
+  "homepage": "https://glasscasino.io",
   "dependencies": {
     "@truffle/hdwallet-provider": "^1.6.0",
     "dotenv": "^10.0.0",
     "ethers": "^5.5.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "truffle-plugin-verify": "^0.4.6"
+  }
 }
