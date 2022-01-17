@@ -11,26 +11,20 @@ class RouletteScheduler {
     this.interval = isNaN(interval) ? 10000 : Number(interval);
     this.delay = isNaN(delay) ? 1000 : Number(delay);
 
-    this.contract.on(this.contract.filters["BetPlaced"](), () => {
-      if (this.rollPending) {
-        return;
-      }
-
-      this.rollPending = true;
-      setTimeout(() => {
-        this.scheduleNextRoll(this.contract);
-      }, this.delay);
+    this.contract.on(this.contract.filters.BetPlaced(), () => {
+      console.log("bet");
+      this.scheduleNextRoll();
     });
   }
 
   async roll() {
-    const len = await this.contract.get_bets_length().catch(console.error);
+    const nBets = await this.contract.get_bets_length().catch(console.error);
 
     var before = Date.now();
 
-    console.log(`Rolling with ${len} bets`);
-    if (len > 0) {
-      const tx = await this.contract.play();
+    console.log(`Rolling with ${nBets} bets`);
+    if (nBets > 0) {
+      const tx = await this.contract.play({ gasLimit: nBets * 150000 });
       // Waits for the spin to be confirmed
       await tx.wait();
     }
@@ -51,12 +45,20 @@ class RouletteScheduler {
   }
 
   scheduleNextRoll() {
-    this.nextRoll = Date.now() + this.interval;
-    console.log(`Next roll scheduled for: ${this.nextRoll}`);
-    this.broadcast(this.data());
+    if (this.rollPending) {
+      return;
+    }
+
+    this.rollPending = true;
+
     setTimeout(() => {
-      this.roll(this.contract);
-    }, this.interval);
+      this.nextRoll = Date.now() + this.interval;
+      console.log(`Next roll scheduled for: ${this.nextRoll}`);
+      this.broadcast(this.data());
+      setTimeout(() => {
+        this.roll(this.contract);
+      }, this.interval);
+    }, this.delay);
   }
 }
 

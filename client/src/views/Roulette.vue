@@ -34,21 +34,7 @@
       <div class="flex flex-row items-center">
         <h1 class="text-2xl font-bold">Current Bets</h1>
         <div class="flex-1"></div>
-        <div
-          class="
-            flex flex-row
-            items-center
-            bg-steel-800
-            rounded-md
-            p-2
-            pt-1
-            pb-1
-            min-w-max
-          "
-        >
-          <p class="pr-1 text-lg">{{ betSumFormatted }}</p>
-          <img src="@/assets/matic-token-icon.svg" width="20" />
-        </div>
+        <BalanceBox :value="betSum" />
       </div>
       <hr class="w-full opacity-30 mb-2 mt-2" />
       <div class="overflow-y-auto h-full">
@@ -70,12 +56,13 @@
 <script>
 import rouletteJson from "../../../build/contracts/Roulette.json";
 import { mapMutations, mapState } from "vuex";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 import RouletteWheel from "../components/RouletteWheel.vue";
 import RouletteBetDisplay from "../components/RouletteBetDisplay.vue";
 import VueCountdown from "@chenfengyuan/vue-countdown";
 import RouletteBetControls from "../components/RouletteBetControls.vue";
 import RouletteHistory from "../components/RouletteHistory.vue";
+import BalanceBox from "../components/BalanceBox.vue";
 
 export default {
   name: "Roulette",
@@ -85,6 +72,7 @@ export default {
     VueCountdown,
     RouletteBetControls,
     RouletteHistory,
+    BalanceBox,
   },
   data() {
     return {
@@ -101,19 +89,19 @@ export default {
       "chain",
       "game",
     ]),
-    betSumFormatted() {
+    betSum() {
       var s = BigNumber.from(0);
       this.bets.forEach((i) => {
         s = s.add(i.bet_amount);
       });
-      return ethers.utils.formatUnits(s, "ether");
+      return s;
     },
   },
   methods: {
     ...mapMutations(["setContract"]),
     updateTimer(gameData) {
-      if (this.contract && this.contract.address in gameData) {
-        var r = gameData[this.contract.address].nextRoll - Date.now();
+      if (this.game.contract && this.game.contract.address in gameData) {
+        var r = gameData[this.game.contract.address].nextRoll - Date.now();
 
         // Avoid collisions as if the values are the same, won't trigger be reactive!
         if (this.nextRoll == r) {
@@ -121,7 +109,6 @@ export default {
         }
 
         this.nextRoll = r;
-        console.log(this.nextRoll);
       }
     },
   },
@@ -174,29 +161,5 @@ export default {
 
 .wheel-sheath {
   @apply w-full h-full flex items-center justify-center rounded-md absolute bg-black bg-opacity-80;
-}
-
-.loading::after {
-  display: inline-block;
-  animation: dotty steps(1, end) 2s infinite;
-  content: "";
-}
-
-@keyframes dotty {
-  0% {
-    content: "";
-  }
-  25% {
-    content: ".";
-  }
-  50% {
-    content: "..";
-  }
-  75% {
-    content: "...";
-  }
-  100% {
-    content: "";
-  }
 }
 </style>

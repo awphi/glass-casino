@@ -3,43 +3,39 @@
     <h1 class="text-4xl text-left font-bold">GlassCasino</h1>
     <div class="flex-1"></div>
     <div v-if="hasSigner" class="flex flex-row space-x-2 items-center">
-      <div class="balance-box">
-        <p class="text-xs text-left w-full">Wallet</p>
-        <hr class="w-full" />
-        <div class="flex flex-row w-full text-right">
-          <h1 class="text-lg pr-1 flex-1">
-            {{ format(balance) }}
-          </h1>
-          <img src="@/assets/matic-token-icon.svg" width="20" />
-        </div>
-      </div>
-      <!-- TODO open transfer modal to allow deposit and withdrawal of funds from bank -->
+      <BalanceBox class="w-28" title="Wallet" :value="balance" />
+      <Dialog
+        class="
+          fixed
+          inset-0
+          z-10
+          flex flex-col
+          items-center
+          justify-center
+          overflow-y-auto
+        "
+        :open="isBankOpen"
+        @close="isBankOpen = false"
+      >
+        <DialogOverlay class="fixed inset-0 bg-black opacity-50" />
+        <FundsMenu />
+      </Dialog>
       <button
         class="
           flex flex-col
           items-center
           bg-steel-800
-          p-2
-          pt-1
-          pb-1
+          px-2
+          py-1
           rounded-md
-          filter
           hover:bg-steel-900
         "
+        @click="isBankOpen = true"
       >
         <img src="@/assets/arrows-svgrepo-com.svg" width="20" />
         <p class="text-xs">Transfer</p>
       </button>
-      <div class="balance-box" v-if="hasSigner">
-        <p class="text-xs text-left w-full">Table</p>
-        <hr class="w-full" />
-        <div class="flex flex-row w-full text-right">
-          <h1 class="text-lg pr-1 flex-1">
-            {{ format(game.contractBalance) }}
-          </h1>
-          <img src="@/assets/matic-token-icon.svg" width="20" />
-        </div>
-      </div>
+      <BalanceBox class="w-28" title="Table" :value="game.contractBalance" />
     </div>
 
     <button
@@ -61,21 +57,29 @@
 
 <script>
 import store from "../store/index";
-import { ethers } from "ethers";
 import { mapState, mapGetters } from "vuex";
+import FundsMenu from "./FundsMenu.vue";
+import BalanceBox from "./BalanceBox.vue";
+import { Dialog, DialogOverlay } from "@headlessui/vue";
 
 export default {
   name: "Header",
+  components: {
+    Dialog,
+    DialogOverlay,
+    FundsMenu,
+    BalanceBox,
+  },
+  data() {
+    return {
+      isBankOpen: false,
+    };
+  },
   computed: {
     ...mapState(["balance", "game"]),
     ...mapGetters(["hasSigner", "hasEthereumProvider"]),
   },
   methods: {
-    format(b) {
-      const v = ethers.utils.formatUnits(b, "ether");
-      const split = v.split(".");
-      return `${split[0]}.${split[1].slice(0, 3)}`;
-    },
     metamaskConnect() {
       if (this.hasEthereumProvider) {
         store.dispatch("connectWithMetamask");
@@ -86,9 +90,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.balance-box {
-  @apply flex flex-col items-center p-1 pr-2 pl-2 rounded-md h-full w-28 bg-steel-800;
-}
-</style>

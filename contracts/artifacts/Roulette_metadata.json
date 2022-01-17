@@ -298,7 +298,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
@@ -321,11 +321,11 @@
 			]
 		},
 		"Roulette.sol": {
-			"keccak256": "0x7a52c76d44d20c662f21de755c7ff3b4860b76889e691810ff5dc4c2326e53be",
+			"keccak256": "0x105bd3c904945fc245bf1fbdaa15e69861a3617ba681ea4577a2288ea92e497b",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://89f74be2dd102d5bb8d69d22ad4c524393ac4c115d4c44c099505b89f7dfbc2b",
-				"dweb:/ipfs/QmUzubTvmZFnDT5qEXRu1gi2XRvZ8f6S8gV5YAVQuT8QQV"
+				"bzz-raw://fda7045bff4417d768fcfa58bd43c347f7d4aeef5f74e9b8466cdf716cf85c56",
+				"dweb:/ipfs/QmYCYqfDXCWPzbPnAF8kWqQmHAj6V1muEL84Yk2xmfRT3g"
 			]
 		}
 	},

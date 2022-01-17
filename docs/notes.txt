@@ -16,3 +16,4 @@
 							i.e. green on a roulette wheel, there is no way to access player winnings or losses that were not losses via house edge.
 
 							New process: join game, deposit some MATIC to the table, play game with said MATIC, when done take your winnings (or what's left of your original) and move on.
+16/01/2022 - Client state management is hell with all the contracts, providers, signers, endless async code! Just need a bank transfer modal and MVP is done

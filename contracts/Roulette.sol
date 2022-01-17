@@ -41,6 +41,7 @@ contract Roulette is Owned, Bank {
   event BetPlaced(Bet bet);
 
   Bet[] bets;
+  mapping(address => Bet) betsMap;
 
   function get_bets() public view returns (Bet[] memory) {
     return bets;
@@ -55,7 +56,6 @@ contract Roulette is Owned, Bank {
     funds[msg.sender] -= bet_amount;
     Bet memory b = Bet(msg.sender, bet_type, bet, bet_amount, block.timestamp);
     bets.push(b);
-    
     emit BetPlaced(b);
   }
 
@@ -113,7 +113,7 @@ contract Roulette is Owned, Bank {
           // Else if player won (w > 0) designate their winnings (incl. stake) to them
           funds[bets[i].player] += w;
         }
-        // Else player lost and roll != 0, funds stay in the contract to pay off future winners
+        // Else player lost, funds stay in the contract to pay off future winners
       }
     }
 

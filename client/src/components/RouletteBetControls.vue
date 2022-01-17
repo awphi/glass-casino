@@ -38,7 +38,7 @@
     </div>
     <hr class="w-full opacity-30 mb-8 mt-8" />
     <div class="flex flex-row flex-1 items-center">
-      <div class="flex flex-col w-full">
+      <div class="flex flex-col w-full p-2">
         <button @click="bet(0, 0)" class="bg-red-600 bet-btn hover:bg-red-700">
           Red
         </button>
@@ -61,8 +61,15 @@
           Odd
         </button>
       </div>
-      <div class="flex flex-col w-full"></div>
-      <div class="flex flex-col w-full"></div>
+      <div class="flex flex-col w-full p-2">
+        <button
+          @click="refreshBalance"
+          class="bg-green-600 bet-btn hover:bg-green-700"
+        >
+          Refresh Balance
+        </button>
+      </div>
+      <div class="flex flex-col w-full p-2"></div>
     </div>
   </div>
 </template>
@@ -96,6 +103,7 @@ export default {
       }
       this.$refs.betInput.value = ethers.utils.formatEther(this.betAmount);
     },
+    // TODO replace betInput here with an editable BalanceBox as per FundsMenu (but with +/- the buttons)
     betInputKeyUp(e) {
       try {
         this.betAmount = ethers.utils.parseEther(e.target.value);
@@ -118,9 +126,9 @@ export default {
       }
 
       let tx;
+
       try {
         tx = await this.game.contract.place_bet(betType, this.betAmount, bet);
-        console.log(tx);
       } catch (e) {
         // User reject is 4001
         if (e.code != 4001) {
@@ -128,9 +136,11 @@ export default {
         }
         return;
       }
+      const t = new Date();
+      console.log("Starting place_bet");
       await tx.wait();
+      console.log("Confirmed place_bet", new Date() - t);
       this.refreshBalance();
-      console.log("Done!");
     },
   },
   computed: {

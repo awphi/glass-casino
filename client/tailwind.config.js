@@ -22,9 +22,9 @@ module.exports = {
   },
   variants: {
     extend: {
-      brightness: ["hover", "disabled"],
-      opacity: ["hover", "disabled"],
-      backgroundColor: ["active"],
+      brightness: ["disabled", "active", "hover"],
+      opacity: ["disabled", "active", "hover"],
+      backgroundColor: ["disabled", "active", "hover"],
     },
   },
   plugins: [],

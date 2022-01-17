@@ -5,6 +5,7 @@ export default {
   state: () => ({
     contract: null,
     contractBalance: BigNumber.from(0n),
+    isRefreshing: false,
   }),
   mutations: {
     setContract(state, { address, abi }) {
@@ -33,13 +34,28 @@ export default {
   },
   actions: {
     async refreshBalance({ commit, state }) {
-      if (this.state.signer == null || state.contract == null) {
+      if (
+        state.isRefreshing ||
+        this.state.signer == null ||
+        state.contract == null
+      ) {
         return;
       }
 
-      const b = await state.contract.balance();
+      console.log("Started Refreshing!");
+      const t = Date.now();
+      state.isRefreshing = true;
 
-      commit("setContractBalance", b);
+      try {
+        const b = await state.contract.balance({
+          from: this.state.signer.address,
+        });
+        commit("setContractBalance", b);
+      } catch (_) {
+        console.log(this.state.signer, state.contract);
+      }
+      state.isRefreshing = false;
+      console.log("Done Refreshing!", (Date.now() - t) / 1000);
     },
   },
 };

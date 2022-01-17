@@ -19,8 +19,7 @@ wss.on("connection", function connection(ws) {
 });
 
 function broadcast(data) {
-  //console.log(data);
-  wss.clients.forEach(function each(client) {
+  wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
@@ -59,6 +58,6 @@ provider
       process.env.ROULETTE_INTERVAL,
       process.env.ROULETTE_ROLL_DELAY
     );
-    roulette.roll();
+    roulette.scheduleNextRoll();
   })
   .catch(console.error);
