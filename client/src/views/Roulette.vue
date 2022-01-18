@@ -24,7 +24,7 @@
       <RouletteBetControls class="mt-6 justify-self-center flex-1" />
       <div class="box mt-6">
         <h1 class="text-2xl font-bold">Recent Outcomes</h1>
-        <p class="text-xs">Most Recent → (within 1000 blocks)</p>
+        <p class="text-xs">Most Recent → (within 20 blocks)</p>
         <hr class="w-full opacity-30 mb-2 mt-2" />
         <RouletteHistory ref="history" />
       </div>
@@ -133,9 +133,14 @@ export default {
       }
     );
 
-    this.game.contract.on(this.game.contract.filters.BetPlaced(), (b) => {
-      this.bets = [...this.bets, b];
-    });
+    this.game.contract.on(
+      this.game.contract.filters.BetPlaced(),
+      async (b, c) => {
+        const tx = await c.getTransaction();
+        await tx.wait();
+        this.bets = [...this.bets, b];
+      }
+    );
 
     this.game.contract.get_bets().then((r) => {
       this.bets = r;

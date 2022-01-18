@@ -17,3 +17,6 @@
 
 							New process: join game, deposit some MATIC to the table, play game with said MATIC, when done take your winnings (or what's left of your original) and move on.
 16/01/2022 - Client state management is hell with all the contracts, providers, signers, endless async code! Just need a bank transfer modal and MVP is done
+17/01/2022 - MVP achieved, working on known bugs/issues - almost all to do with MetaMask & ethers.
+							Otherwise: moved RPC to one from Alchemy for speed but introduces huge speed differences with users RPC from MetaMask. MetaMask causing alot of probs
+							as it does not allow transactions to be signed without sending them, thus I have to send them from MetaMask, capture the hash immediately after and wait for it on a faster provider...

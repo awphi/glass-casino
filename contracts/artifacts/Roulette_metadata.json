@@ -11,28 +11,28 @@
 					{
 						"components": [
 							{
+								"internalType": "uint16",
+								"name": "bet_type",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint16",
+								"name": "bet",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint64",
+								"name": "timestamp",
+								"type": "uint64"
+							},
+							{
 								"internalType": "address",
 								"name": "player",
 								"type": "address"
 							},
 							{
-								"internalType": "enum Roulette.BetType",
-								"name": "bet_type",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet",
-								"type": "uint256"
-							},
-							{
 								"internalType": "uint256",
 								"name": "bet_amount",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "timestamp",
 								"type": "uint256"
 							}
 						],
@@ -76,28 +76,28 @@
 					{
 						"components": [
 							{
+								"internalType": "uint16",
+								"name": "bet_type",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint16",
+								"name": "bet",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint64",
+								"name": "timestamp",
+								"type": "uint64"
+							},
+							{
 								"internalType": "address",
 								"name": "player",
 								"type": "address"
 							},
 							{
-								"internalType": "enum Roulette.BetType",
-								"name": "bet_type",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet",
-								"type": "uint256"
-							},
-							{
 								"internalType": "uint256",
 								"name": "bet_amount",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "timestamp",
 								"type": "uint256"
 							}
 						],
@@ -136,28 +136,28 @@
 					{
 						"components": [
 							{
+								"internalType": "uint16",
+								"name": "bet_type",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint16",
+								"name": "bet",
+								"type": "uint16"
+							},
+							{
+								"internalType": "uint64",
+								"name": "timestamp",
+								"type": "uint64"
+							},
+							{
 								"internalType": "address",
 								"name": "player",
 								"type": "address"
 							},
 							{
-								"internalType": "enum Roulette.BetType",
-								"name": "bet_type",
-								"type": "uint8"
-							},
-							{
-								"internalType": "uint256",
-								"name": "bet",
-								"type": "uint256"
-							},
-							{
 								"internalType": "uint256",
 								"name": "bet_amount",
-								"type": "uint256"
-							},
-							{
-								"internalType": "uint256",
-								"name": "timestamp",
 								"type": "uint256"
 							}
 						],
@@ -217,9 +217,9 @@
 			{
 				"inputs": [
 					{
-						"internalType": "enum Roulette.BetType",
+						"internalType": "uint16",
 						"name": "bet_type",
-						"type": "uint8"
+						"type": "uint16"
 					},
 					{
 						"internalType": "uint256",
@@ -227,9 +227,9 @@
 						"type": "uint256"
 					},
 					{
-						"internalType": "uint256",
+						"internalType": "uint16",
 						"name": "bet",
-						"type": "uint256"
+						"type": "uint16"
 					}
 				],
 				"name": "place_bet",
@@ -298,7 +298,7 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": false,
+			"enabled": true,
 			"runs": 200
 		},
 		"remappings": []
@@ -321,11 +321,11 @@
 			]
 		},
 		"Roulette.sol": {
-			"keccak256": "0x105bd3c904945fc245bf1fbdaa15e69861a3617ba681ea4577a2288ea92e497b",
+			"keccak256": "0x9b8c0b66c1f497ad634ed0cc77f2281b116f32d26eaf0e34db3b06e6298cb842",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fda7045bff4417d768fcfa58bd43c347f7d4aeef5f74e9b8466cdf716cf85c56",
-				"dweb:/ipfs/QmYCYqfDXCWPzbPnAF8kWqQmHAj6V1muEL84Yk2xmfRT3g"
+				"bzz-raw://3c722a218192c1de47006dfab8e8a0abb1f71b92d7a74b462e15f49361de4838",
+				"dweb:/ipfs/Qmdb4pWN6pVFwYDMbVBJBEZryhN9yiuPHDHpCRLMh1pRFQ"
 			]
 		}
 	},

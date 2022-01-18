@@ -31,7 +31,9 @@ const rpc = ARGS.includes("--dev")
   ? process.env.MUMBAI_URL.trim()
   : process.env.MAINNET_URL.trim();
 
-const provider = new ethers.providers.JsonRpcProvider(rpc);
+const provider = new ethers.getDefaultProvider(
+  "https://polygon-mumbai.g.alchemy.com/v2/KefZ5j5KdtKEnWEdbOGjqmhdcSNaxHdf"
+);
 provider.pollingInterval = process.env.POLLING_INTERVAL
   ? Number(process.env.POLLING_INTERVAL)
   : 1000;

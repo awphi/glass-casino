@@ -4,13 +4,17 @@ import { markRaw } from "vue";
 export default {
   state: () => ({
     contract: null,
+    // Unfortunately hackish solution to dealing with slow MetaMask providers, used to update contract balance
+    contractUnconnected: null,
     contractBalance: BigNumber.from(0n),
-    isRefreshing: false,
   }),
   mutations: {
     setContract(state, { address, abi }) {
       // this.state refers to root state in this context
       var contract = new Contract(address, abi, this.state.provider);
+      state.contractUnconnected = markRaw(
+        new Contract(address, abi, this.state.provider)
+      );
       if (this.state.signer != null) {
         contract = contract.connect(this.state.signer);
       }
@@ -34,28 +38,18 @@ export default {
   },
   actions: {
     async refreshBalance({ commit, state }) {
-      if (
-        state.isRefreshing ||
-        this.state.signer == null ||
-        state.contract == null
-      ) {
+      if (this.state.signer == null || state.contractUnconnected == null) {
         return;
       }
 
-      console.log("Started Refreshing!");
-      const t = Date.now();
-      state.isRefreshing = true;
-
       try {
-        const b = await state.contract.balance({
-          from: this.state.signer.address,
+        const b = await state.contractUnconnected.balance({
+          from: this.state.signer._address,
         });
         commit("setContractBalance", b);
-      } catch (_) {
-        console.log(this.state.signer, state.contract);
+      } catch (e) {
+        console.error(e);
       }
-      state.isRefreshing = false;
-      console.log("Done Refreshing!", (Date.now() - t) / 1000);
     },
   },
 };

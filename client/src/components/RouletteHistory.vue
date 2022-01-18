@@ -37,8 +37,7 @@ export default {
     let p = this.game.contract.filters.OutcomeDecided();
     const b = await this.provider.getBlockNumber();
 
-    // Can only query 1000 blocks with free RPC
-    let h = await this.game.contract.queryFilter(p, b - 1000, b);
+    let h = await this.game.contract.queryFilter(p, b - 20, b);
     this.history = h.reverse().slice(0, 10);
   },
   methods: {

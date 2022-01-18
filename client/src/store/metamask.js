@@ -52,10 +52,11 @@ export default {
           eth,
           Number(this.state.chain.chainId)
         );
+        provider.pollingInterval = 1000;
 
         const signer = provider.getSigner(addresses[0]);
 
-        commit("setProvider", provider);
+        //commit("setProvider", provider);
         commit("setSigner", signer);
 
         // Finally, we connect to the bank contract and refresh the balances

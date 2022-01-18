@@ -11,9 +11,15 @@ class RouletteScheduler {
     this.interval = isNaN(interval) ? 10000 : Number(interval);
     this.delay = isNaN(delay) ? 1000 : Number(delay);
 
-    this.contract.on(this.contract.filters.BetPlaced(), () => {
-      console.log("bet");
-      this.scheduleNextRoll();
+    this.contract.on(this.contract.filters.BetPlaced(), async (_, c) => {
+      const tx = await c.getTransaction();
+      try {
+        // Await transaction confirmation before scheduling a roll
+        await tx.wait();
+        this.scheduleNextRoll();
+      } catch (e) {
+        console.error(e);
+      }
     });
   }
 

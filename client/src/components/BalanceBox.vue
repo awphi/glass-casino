@@ -41,7 +41,7 @@ export default {
     format(b) {
       const v = ethers.utils.formatUnits(b, "ether");
       const split = v.split(".");
-      return `${split[0]}.${split[1].slice(0, 3)}`;
+      return `${split[0]}.${split[1].slice(0, this.decimals)}`;
     },
     inputKeyUp(e) {
       try {
@@ -71,6 +71,10 @@ export default {
     showValueBelow: {
       type: Boolean,
       default: false,
+    },
+    decimals: {
+      type: Number,
+      default: 4,
     },
   },
 };

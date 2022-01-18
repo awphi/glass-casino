@@ -1,5 +1,5 @@
 import Vuex from "vuex";
-import { BigNumber } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { markRaw } from "vue";
 
 import gameData from "./game-data";
@@ -7,11 +7,17 @@ import gameContract from "./game-contract";
 import { mumbai, main } from "./chains";
 import metamask from "./metamask";
 
+const chain = process.env.NODE_ENV === "development" ? mumbai : main;
+const provider = ethers.getDefaultProvider(
+  "https://polygon-mumbai.g.alchemy.com/v2/KefZ5j5KdtKEnWEdbOGjqmhdcSNaxHdf"
+);
+provider.pollingInterval = 1000;
+
 export default new Vuex.Store({
   state: {
-    provider: null,
+    provider: markRaw(provider),
     signer: null,
-    chain: process.env.NODE_ENV === "development" ? mumbai : main,
+    chain: chain,
     balance: BigNumber.from(0n),
   },
   modules: {
@@ -25,15 +31,6 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    // This is the actual provider (polygon RPC if not logged in, user-specified MetaMask RPC if logged in)
-    setProvider(state, payload) {
-      if (payload != null) {
-        payload = markRaw(payload);
-      }
-      payload.pollingInterval = 1000;
-
-      state.provider = payload;
-    },
     setSigner(state, payload) {
       if (payload != null) {
         markRaw(payload);
@@ -52,7 +49,7 @@ export default new Vuex.Store({
         return;
       }
 
-      const b = await state.signer.getBalance();
+      const b = await provider.getBalance(state.signer._address);
 
       commit("setBalance", b);
     },

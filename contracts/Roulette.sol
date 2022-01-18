@@ -1,7 +1,7 @@
 /// @title Roulette 0.2.0
 /// @author awphi (https://github.com/awphi)
 /// @notice Roulette game from GlassCasino - L3 BSc ComSci Project @ Durham University
-/// @dev -
+/// @dev See get_winnings function for bet types/bet operand breakdown
 
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
@@ -10,30 +10,13 @@ import "./Bank.sol";
 import "./Owned.sol";
 
 contract Roulette is Owned, Bank {
-  enum BetType {
-    COLOUR,
-    ODDEVEN,
-    STRAIGHTUP
-    /*
-    HIGHLOW, 
-    COLUMN, 
-    DOZENS, 
-    SPLIT, 
-    STREET, 
-    CORNER, 
-    LINE, 
-    FIVE, 
-    BASKET, 
-    SNAKE 
-    */
-  }
-
   struct Bet {
+    uint16 bet_type;
+    uint16 bet;
+    uint64 timestamp;
     address player;
-    BetType bet_type;
-    uint bet;
-    uint bet_amount;
-    uint timestamp;
+
+    uint256 bet_amount;
   }
 
   // Used so dApp can listen to emitted event to update UIs as soon as the outcome is rolled
@@ -41,7 +24,6 @@ contract Roulette is Owned, Bank {
   event BetPlaced(Bet bet);
 
   Bet[] bets;
-  mapping(address => Bet) betsMap;
 
   function get_bets() public view returns (Bet[] memory) {
     return bets;
@@ -51,12 +33,11 @@ contract Roulette is Owned, Bank {
     return bets.length;
   }
 
-  function place_bet(BetType bet_type, uint bet_amount, uint bet) public {
+  function place_bet(uint16 bet_type, uint256 bet_amount, uint16 bet) public {
     require(bet_amount > 0 && funds[msg.sender] >= bet_amount);
     funds[msg.sender] -= bet_amount;
-    Bet memory b = Bet(msg.sender, bet_type, bet, bet_amount, block.timestamp);
-    bets.push(b);
-    emit BetPlaced(b);
+    bets.push(Bet(bet_type, bet, uint64(block.timestamp), msg.sender, bet_amount));
+    emit BetPlaced(bets[bets.length - 1]);
   }
 
   // Note: Replace with chainlink
@@ -80,17 +61,33 @@ contract Roulette is Owned, Bank {
       return 0;
     }
 
-    if (bet.bet_type == BetType.COLOUR) {
+    /*
+    COLOUR = 0,
+    ODDEVEN = 1,
+    STRAIGHTUP = 2,
+    HIGHLOW = 3, 
+    COLUMN = 4, 
+    DOZENS = 5, 
+    SPLIT = 6, 
+    STREET = 7, 
+    CORNER = 8, 
+    LINE = 9, 
+    FIVE = 10, 
+    BASKET = 11, 
+    SNAKE =12 
+    */
+
+    if (bet.bet_type == 0) {
       // 0 = red, 1 = black
       if (bet.bet == (is_red(roll) ? 0 : 1)) {
         return bet.bet_amount * 2;
       }
-    } else if (bet.bet_type == BetType.ODDEVEN) {
+    } else if (bet.bet_type == 1) {
       // 0 = even, 1 = odd
       if (bet.bet == (roll % 2)) {
         return bet.bet_amount * 2;
       }
-    } else if (bet.bet_type == BetType.STRAIGHTUP) {
+    } else if (bet.bet_type == 2) {
       if (bet.bet == roll) {
         return bet.bet_amount * 35;
       }

@@ -125,26 +125,29 @@ export default {
         return;
       }
 
-      let tx;
-
       try {
-        tx = await this.game.contract.place_bet(betType, this.betAmount, bet);
+        // MetaMask does not allow the signing of transactions without sending them
+        // thus we sign + send in this call
+        const metamaskTx = await this.game.contract.place_bet(
+          betType,
+          this.betAmount,
+          bet
+        );
+        // And use the hash from the sent transaction to obtain the pending transaction through Alchemy's provider
+        // (much faster + consistent with elsewhere in the app)
+        const tx = await this.provider.getTransaction(metamaskTx.hash);
+        await tx.wait();
+        this.refreshBalance();
       } catch (e) {
         // User reject is 4001
         if (e.code != 4001) {
           console.error(e);
         }
-        return;
       }
-      const t = new Date();
-      console.log("Starting place_bet");
-      await tx.wait();
-      console.log("Confirmed place_bet", new Date() - t);
-      this.refreshBalance();
     },
   },
   computed: {
-    ...mapState(["signer", "game"]),
+    ...mapState(["signer", "game", "provider"]),
     betAmountFormatted() {
       return ethers.utils.formatUnits(this.betAmount, "ether");
     },
