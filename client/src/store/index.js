@@ -7,8 +7,11 @@ import gameContract from "./game-contract";
 import { mumbai, main } from "./chains";
 import metamask from "./metamask";
 
-const chain = process.env.NODE_ENV === "development" ? mumbai : main;
-const provider = ethers.getDefaultProvider(
+// TODO! revise this for prod
+const chain = mumbai; // process.env.NODE_ENV === "development" ? mumbai : main;
+// Use StaticJsonRpcProvider to cache chain id and reduce alchemy calls
+// TODO write override for provider to intercept transaction return values?
+const provider = new ethers.providers.StaticJsonRpcProvider(
   "https://polygon-mumbai.g.alchemy.com/v2/KefZ5j5KdtKEnWEdbOGjqmhdcSNaxHdf"
 );
 provider.pollingInterval = 1000;

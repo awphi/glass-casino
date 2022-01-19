@@ -66,7 +66,7 @@
           @click="refreshBalance"
           class="bg-green-600 bet-btn hover:bg-green-700"
         >
-          Refresh Balance
+          DEBUG
         </button>
       </div>
       <div class="flex flex-col w-full p-2"></div>

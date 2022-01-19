@@ -12,6 +12,7 @@ export default {
     setContract(state, { address, abi }) {
       // this.state refers to root state in this context
       var contract = new Contract(address, abi, this.state.provider);
+      // TODO test what changing contract.provider here changes
       state.contractUnconnected = markRaw(
         new Contract(address, abi, this.state.provider)
       );
