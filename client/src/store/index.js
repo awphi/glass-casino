@@ -4,7 +4,7 @@ import { markRaw } from "vue";
 
 import gameData from "./game-data";
 import gameContract from "./game-contract";
-import { mumbai, main } from "./chains";
+import { mumbai } from "./chains";
 import metamask from "./metamask";
 
 // TODO! revise this for prod
