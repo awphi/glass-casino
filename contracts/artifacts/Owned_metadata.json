@@ -7,6 +7,11 @@
 		"abi": [
 			{
 				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
 				"name": "owner",
 				"outputs": [
 					{
@@ -40,18 +45,18 @@
 			"bytecodeHash": "ipfs"
 		},
 		"optimizer": {
-			"enabled": true,
+			"enabled": false,
 			"runs": 200
 		},
 		"remappings": []
 	},
 	"sources": {
 		"Owned.sol": {
-			"keccak256": "0x0aff05a41c9d41c9df9796d141e714c0dd4404a8c0f805eea07c8b6a0dbad442",
+			"keccak256": "0x750904cbf2b07eacf0acf84130a0c2b59c3774f6761cabf2e36d83a6a2ee01e8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://9139302c1d1b0d941910be87cb113735efd93576552104ac35b025f99ecbe904",
-				"dweb:/ipfs/QmResz6hWcFwgkZt7fvDfDxSgiFYreLHpkcDYTpdH2AWKM"
+				"bzz-raw://d7b3ea50c1bd257b81360d0ca98feac65f01d8eec933614380e484cd562b689f",
+				"dweb:/ipfs/QmafLfXpuDaWfBHVLTnbEmBuKNhyPFd2tVGmg92zRTci2S"
 			]
 		}
 	},
