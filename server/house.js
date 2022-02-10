@@ -43,7 +43,9 @@ const signer = ethers.Wallet.fromMnemonic(process.env.MNEMONIC.trim()).connect(
 );
 
 // Roulette
-const rouletteJson = require("../build/contracts/Roulette.json");
+const rouletteJson = require(`.${
+  ARGS.includes("--dev") ? "./build" : ""
+}/contracts/Roulette.json`);
 const RouletteScheduler = require("./roulette-scheduler.js");
 provider
   .getNetwork()

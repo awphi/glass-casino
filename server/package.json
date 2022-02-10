@@ -8,9 +8,11 @@
   "license": "ISC",
   "scripts": {
     "start": "node house.js",
-    "dev": "nodemon house.js --dev"
+    "dev": "nodemon house.js --dev",
+    "build": "npm install && copyfiles -f ../build/contracts/*.json ./contracts"
   },
   "dependencies": {
+    "copyfiles": "^2.4.1",
     "dotenv": "^10.0.0",
     "ethers": "^5.5.1",
     "log-timestamp": "^0.3.0",
