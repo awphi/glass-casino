@@ -1,0 +1,42 @@
+alerts:
+  - rule: DEPLOYMENT_FAILED
+  - rule: DOMAIN_FAILED
+envs:
+  - key: ROULETTE_INTERVAL
+    scope: RUN_AND_BUILD_TIME
+    value: "20000"
+  - key: POLLING_RATE
+    scope: RUN_AND_BUILD_TIME
+    value: "1000"
+  - key: ROULETTE_ROLL_DELAY
+    scope: RUN_AND_BUILD_TIME
+    value: "1000"
+  - key: MUMBAI_URL
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:ygVZ1xN7BdJOdCz8Huy0uqfB/fqZOE57:A8ltMJTECqcIgyAK3OPXneHi1R1G2Y9QSC/Uv3pwcGC6VnjZrYoXWK1Tf/dywsVeDT/RexBOLadY63Nn6MNFbMD9oWTb1ZVIhFwy9/MV8giqDWJpJDquJJV+rTX2]
+  - key: MAINNET_URL
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:TJ3NxGC6SvrmX4VXSV5Wza8t5O4gyAmh:LSZK+1mo+x9/ZklIjl1cfSxE33yNePUXXMKsLyIikT/Y5p+KSEoiVW5eCy3ysU5Mtbgi60akzXYl0k2W2O7yd36J9H1avfQjQqr4IL9GhxsOHhVm4f8O8MVZan2K/w==]
+  - key: MNEMONIC
+    scope: RUN_AND_BUILD_TIME
+    type: SECRET
+    value: EV[1:QyILAkFfTbOWndbZazfAk5w6WY1HfWSg:rc/EER8bYJkZXCgrA46oxAHNrUOGzbO1gkLVOGwchoRRdLeeQTQXDqMUFEEwMZze4AdkwcddUNzXHe6Zkq4oCns9UckFXwnsQ/nL6/D+QXs+gzzPKLV0ShEUjm0QhAVfmBwYhQ==]
+name: glass-casino
+region: lon
+services:
+  - environment_slug: node-js
+    github:
+      branch: master
+      deploy_on_push: true
+      repo: awphi/glass-casino
+    http_port: 8090
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    name: glass-casino
+    routes:
+      - path: /
+    run_command: npm start
+    build_command: npm run build
+    source_dir: /server

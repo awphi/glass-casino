@@ -13,7 +13,9 @@ detectEthereumProvider({ timeout: 300 }).then((eth) => {
   }
 });
 
-const ws = new WebSocket("ws://localhost:8090");
+console.log(process.env);
+const ws = new WebSocket(process.env.VUE_APP_API_ENDPOINT);
+ws.onopen = console.log;
 ws.onmessage = (data) => {
   const json = JSON.parse(data.data);
   if (json.address) {
