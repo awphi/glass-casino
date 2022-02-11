@@ -13,9 +13,8 @@ detectEthereumProvider({ timeout: 300 }).then((eth) => {
   }
 });
 
-console.log(process.env);
 const ws = new WebSocket(process.env.VUE_APP_API_ENDPOINT);
-ws.onopen = console.log;
+ws.onopen = (e) => {console.log('Connected to WSS', e)};
 ws.onmessage = (data) => {
   const json = JSON.parse(data.data);
   if (json.address) {
