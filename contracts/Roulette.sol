@@ -19,24 +19,39 @@ contract Roulette is Owned, Bank {
     uint256 bet_amount;
   }
 
+  uint128 numBets = 0;
+  Bet[128] bets;
+
   // Used so dApp can listen to emitted event to update UIs as soon as the outcome is rolled
   event OutcomeDecided(uint roll);
   event BetPlaced(Bet bet);
 
-  Bet[] bets;
-
   function get_bets() public view returns (Bet[] memory) {
-    return bets;
+    Bet[] memory ret = new Bet[](numBets);
+
+    for(uint i = 0; i < numBets; i ++) {
+      ret[i] = bets[i];
+    }
+
+    return ret;
   }
 
-  function get_bets_length() public view returns (uint) {
+  function get_bets_length() public view returns (uint128) {
+    return numBets;
+  }
+
+  function get_max_bets() public view returns (uint) {
     return bets.length;
   }
 
   function place_bet(uint16 bet_type, uint256 bet_amount, uint16 bet) public {
-    require(bet_amount > 0 && funds[msg.sender] >= bet_amount);
+    require(bet_amount > 0, "Invalid bet amount.");
+    require(funds[msg.sender] >= bet_amount, "Insufficient funds to cover bet.");
+    require(numBets < bets.length, "Maximum bets reached.");
+
     funds[msg.sender] -= bet_amount;
-    bets.push(Bet(bet_type, bet, uint64(block.timestamp), msg.sender, bet_amount));
+    bets[numBets] = Bet(bet_type, bet, uint64(block.timestamp), msg.sender, bet_amount);
+    numBets += 1;
     emit BetPlaced(bets[bets.length - 1]);
   }
 
@@ -74,7 +89,7 @@ contract Roulette is Owned, Bank {
     LINE = 9, 
     FIVE = 10, 
     BASKET = 11, 
-    SNAKE =12 
+    SNAKE = 12 
     */
 
     if (bet.bet_type == 0) {
@@ -100,20 +115,17 @@ contract Roulette is Owned, Bank {
     uint roll = random(37);
     emit OutcomeDecided(roll);
 
-    for (uint i = 0; i < bets.length; i++) {
-      if (roll == 0) {
-        // If it came up with the house edge, designate stake to the house
-        funds[owner] += bets[i].bet_amount;
+    for (uint i = 0; i < numBets; i++) {
+      uint w = calculate_winnings(bets[i], roll);
+      if(w > 0) {
+        // If player won (w > 0) designate their winnings (incl. stake) to them
+        funds[bets[i].player] += w;
       } else {
-        uint w = calculate_winnings(bets[i], roll);
-        if(w > 0) {
-          // Else if player won (w > 0) designate their winnings (incl. stake) to them
-          funds[bets[i].player] += w;
-        }
-        // Else player lost, funds stay in the contract to pay off future winners
+        // Else player lost, stake is designated to the house to pay off winners & VRF fees etc.
+        funds[owner] += bets[i].bet_amount;
       }
     }
 
-    delete bets;
+    numBets = 0;
   }
 }

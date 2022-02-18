@@ -10,7 +10,6 @@ import metamask from "./metamask";
 // TODO! revise this for prod
 const chain = mumbai; // process.env.NODE_ENV === "development" ? mumbai : main;
 // We use StaticJsonRpcProvider to cache chain id and reduce alchemy calls
-// TODO write override for provider to intercept transaction return values?
 const provider = new ethers.providers.StaticJsonRpcProvider(
   "https://polygon-mumbai.g.alchemy.com/v2/KefZ5j5KdtKEnWEdbOGjqmhdcSNaxHdf"
 );

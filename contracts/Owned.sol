@@ -14,7 +14,7 @@ contract Owned {
     }
 
     modifier onlyHouse {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "Transaction sender is not contract owner.");
         _;
     }
 }
