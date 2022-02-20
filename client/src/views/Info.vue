@@ -10,3 +10,15 @@
     <p>Help icon: https://www.svgrepo.com/svg/371930/help</p>
   </div>
 </template>
+
+<script>
+import { mapMutations } from "vuex";
+export default {
+  methods: {
+    ...mapMutations(["clearContract"]),
+  },
+  beforeMount() {
+    this.clearContract();
+  },
+};
+</script>

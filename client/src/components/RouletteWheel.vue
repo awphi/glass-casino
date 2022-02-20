@@ -130,7 +130,7 @@ export default {
 
       //console.log(goal, current);
 
-      this.spinningAnimation = this.$refs.container.animate(
+      this.spinningAnimation = this.$refs.container.z(
         [
           { backgroundPositionX: `${current}px` },
           { backgroundPositionX: `${goal}px` },

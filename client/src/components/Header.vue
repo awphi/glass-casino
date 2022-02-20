@@ -47,11 +47,58 @@
       <img src="@/assets/metamask-fox.svg" class="ml-2" width="24" />
     </button>
     <!-- TODO helpful popover explaining metamask if unconnected and balances if connected -->
-    <img
-      class="filter hover:brightness-75 ml-2"
-      src="@/assets/help-svgrepo-com.svg"
-      width="24"
-    />
+    <Popover className="relative flex ml-2">
+      <PopoverButton>
+        <img
+          class="filter hover:brightness-75"
+          src="@/assets/help-svgrepo-com.svg"
+          width="24"
+        />
+      </PopoverButton>
+
+      <PopoverPanel
+        className="popover absolute top-10 z-10 bg-steel-800 w-64 p-2 rounded-md right-0 shadow-lg"
+      >
+        <h1 class="text-xl font-bold">Need some help?</h1>
+        <hr class="opacity-30 my-1" />
+        <div class="text-sm">
+          <div v-if="hasEthereumProvider">
+            <p v-if="hasSigner">
+              1) First select a game you want to play with the menu on the left!
+              <br /><br />
+              2) Next, deposit some crypto from your wallet to the game using
+              the exchange button above (
+              <img
+                src="@/assets/arrows-svgrepo-com.svg"
+                class="inline"
+                width="20"
+              />
+              ). <br />
+              <span class="font-bold text-xs"
+                >Make sure to leave some crypto in your wallet to pay gas fees!
+              </span>
+              <br /><br />
+              3) Start playing!
+            </p>
+            <p v-else>
+              We see you've got a wallet installed on this device - perfect!
+              <br />
+              Hit the connect button above (
+              <img src="@/assets/metamask-fox.svg" class="inline" width="20" />
+              ) to start by depositing some crypto and get playing.
+            </p>
+          </div>
+          <p v-else>
+            It seems you don't have a wallet installed on this device. <br />
+            We recommends using
+            <a href="https://metamask.io/" class="underline">MetaMask</a>. Hit
+            the connect button above (
+            <img src="@/assets/metamask-fox.svg" class="inline" width="20" />
+            ) to open the their site and install the app or browser extension!
+          </p>
+        </div>
+      </PopoverPanel>
+    </Popover>
   </div>
 </template>
 
@@ -60,7 +107,13 @@ import store from "../store/index";
 import { mapState, mapGetters } from "vuex";
 import FundsMenu from "./FundsMenu.vue";
 import BalanceBox from "./BalanceBox.vue";
-import { Dialog, DialogOverlay } from "@headlessui/vue";
+import {
+  Dialog,
+  DialogOverlay,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+} from "@headlessui/vue";
 
 export default {
   name: "Header",
@@ -69,6 +122,9 @@ export default {
     DialogOverlay,
     FundsMenu,
     BalanceBox,
+    Popover,
+    PopoverPanel,
+    PopoverButton,
   },
   data() {
     return {

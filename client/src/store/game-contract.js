@@ -33,7 +33,7 @@ export default {
         state.contract = contract;
       }
     },
-    clear(state) {
+    clearContract(state) {
       state.contract = null;
     },
   },

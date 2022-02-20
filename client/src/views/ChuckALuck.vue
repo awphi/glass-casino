@@ -1,19 +1,24 @@
 <template>
   <div class="wrapper">
     <div class="box flex justify-center items-center space-x-6">
-      <Dice :number="1"></Dice>
-      <Dice :number="2"></Dice>
-      <Dice :number="3"></Dice>
+      <Dice ref="dice0" :initialNumber="1"></Dice>
+      <Dice ref="dice1" :initialNumber="2"></Dice>
+      <Dice ref="dice2" :initialNumber="3"></Dice>
     </div>
-    <div class="box history-box row-span-2"></div>
+    <div class="box row-span-2 overflow-hidden">
+      <h1 class="text-2xl font-bold">Game History</h1>
+      <hr class="w-full opacity-30 my-2" />
+      <div class="overflow-y-auto h-full"></div>
+    </div>
     <div class="box">
-      <StakeSelector></StakeSelector>
+      <StakeSelector ref="stakeSelector"></StakeSelector>
       <hr class="w-full opacity-30 mb-8 mt-8" />
       <div class="grid grid-cols-3 grid-rows-2 gap-1">
         <button
           class="bg-steel-700 rounded-md shadow-sm p-2 text-xl h-16"
           v-for="i in [1, 2, 3, 4, 5, 6]"
           :key="i"
+          @click="bet(i)"
         >
           {{ i }}
         </button>
@@ -24,8 +29,7 @@
 
 <script>
 import chuckaluckJson from "../../../build/contracts/ChuckALuck.json";
-import { mapMutations, mapState } from "vuex";
-import { BigNumber } from "ethers";
+import { mapMutations, mapState, mapActions } from "vuex";
 import StakeSelector from "../components/StakeSelector.vue";
 import Dice from "../components/Dice.vue";
 
@@ -36,20 +40,57 @@ export default {
     Dice,
   },
   data() {
-    return {};
+    return {
+      pendingRequest: null,
+    };
   },
   computed: {
     ...mapState(["signer", "provider", "chain", "game"]),
-    betSum() {
-      var s = BigNumber.from(0);
-      this.bets.forEach((i) => {
-        s = s.add(i.bet_amount);
-      });
-      return s;
-    },
   },
   methods: {
     ...mapMutations(["setContract"]),
+    ...mapActions(["refreshBalance"]),
+    async roll(rolls) {
+      const promises = [];
+      for (var i = 0; i < 3; i++) {
+        const dice = this.$refs[`dice${i}`];
+        promises.push(dice.rollTo(rolls[i], 250, 4 * (i + 2)));
+      }
+
+      return Promise.all(promises);
+    },
+    async bet(bet) {
+      const stake = this.$refs.stakeSelector;
+      if (stake.betAmount.lte(0)) {
+        window.alert("Invalid bet amount, bet must be > 0!");
+        return;
+      }
+
+      if (stake.betAmount.gt(this.game.contractBalance)) {
+        window.alert("Insufficient funds to cover bet!");
+        return;
+      }
+
+      if (this.pendingRequest != null) {
+        window.alert(
+          "Game already in progress - please try again after completion!"
+        );
+        return;
+      }
+
+      try {
+        // See comments in Roulette.vue for this mess
+        const metamaskTx = await this.game.contract.play(bet, stake.betAmount);
+        const tx = await this.provider.getTransaction(metamaskTx.hash);
+        await tx.wait();
+        this.refreshBalance();
+      } catch (e) {
+        // User reject is 4001
+        if (e.code != 4001) {
+          console.error(e);
+        }
+      }
+    },
   },
   beforeMount() {
     this.setContract({
@@ -59,11 +100,14 @@ export default {
   },
   mounted() {
     this.game.contract.on(
-      this.game.contract.filters.RandomnessFulfilled(),
-      async (b, c) => {
+      this.game.contract.filters.GameComplete(),
+      async (rolls, bet, c) => {
+        console.log(bet);
+        const anim = this.roll(rolls.map((a) => a.toNumber()));
         const tx = await c.getTransaction();
-        await tx.wait();
-        this.bets = [...this.bets, b];
+        await Promise.all([tx.wait(), anim]);
+        // TODO animate gains/losses
+        this.refreshBalance();
       }
     );
   },

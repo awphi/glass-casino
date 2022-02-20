@@ -21,13 +21,13 @@
       </VueCountdown>
     </div>
 
-    <div class="box pt-4 pb-4 overflow-hidden row-span-3">
+    <div class="box overflow-hidden row-span-3">
       <div class="flex flex-row items-center">
         <h1 class="text-2xl font-bold">Current Bets</h1>
         <div class="flex-1"></div>
         <BalanceBox :value="betSum" />
       </div>
-      <hr class="w-full opacity-30 mb-2 mt-2" />
+      <hr class="w-full opacity-30 my-2" />
       <div class="overflow-y-auto h-full">
         <RouletteBetDisplay
           v-for="b in bets"
