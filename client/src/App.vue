@@ -74,6 +74,7 @@ import { mapState } from "vuex";
 import { BigNumber } from "@ethersproject/bignumber";
 import { ethers } from "ethers";
 import linkJson from "../../build/contracts/LinkTokenInterface.json";
+import { markRaw } from "@vue/reactivity";
 
 export default {
   name: "App",
@@ -100,14 +101,18 @@ export default {
     },
   },
   mounted() {
-    this.linkContract = new ethers.Contract(
-      this.chain.linkAddress,
-      linkJson.abi,
-      this.provider
+    this.linkContract = markRaw(
+      new ethers.Contract(this.chain.linkAddress, linkJson.abi, this.provider)
     );
 
-    this.provider.on("block", () => {
+    console.log(this.linkContract);
+
+    this.provider.on("block", (n) => {
       if (this.currentGameAddress == null) {
+        return;
+      }
+
+      if (n % 10 !== 0) {
         return;
       }
 

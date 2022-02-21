@@ -17,8 +17,5 @@ export default {
   methods: {
     ...mapMutations(["clearContract"]),
   },
-  beforeMount() {
-    this.clearContract();
-  },
 };
 </script>

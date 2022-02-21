@@ -1,15 +1,13 @@
-/// @title Roulette 0.2.0
+/// @title Roulette 0.2.2
 /// @author awphi (https://github.com/awphi)
-/// @notice Roulette game from GlassCasino - L3 BSc ComSci Project @ Durham University
-/// @dev See get_winnings function for bet types/bet operand breakdown
 
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
 import "./Bank.sol";
-import "./Owned.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Roulette is Owned, Bank {
+contract Roulette is Ownable, Bank {
   struct Bet {
     uint16 bet_type;
     uint16 bet;
@@ -111,7 +109,7 @@ contract Roulette is Owned, Bank {
     return 0;
   }
 
-  function play() public onlyHouse {
+  function play() public onlyOwner {
     uint roll = random(37);
     emit OutcomeDecided(roll);
 
@@ -120,9 +118,11 @@ contract Roulette is Owned, Bank {
       if(w > 0) {
         // If player won (w > 0) designate their winnings (incl. stake) to them
         funds[bets[i].player] += w;
-      } else {
-        // Else player lost, stake is designated to the house to pay off winners & VRF fees etc.
-        funds[owner] += bets[i].bet_amount;
+      } else if(roll == 0) {
+        /** @dev When a 0 is rolled, house will skim all bets. This can be used to pay for more LINK, hosting fees or just treated as profit - 
+          it up to the owner. In the long-term, with enough initial capital this is a stable system.
+        **/
+        funds[owner()] += bets[i].bet_amount;
       }
     }
 

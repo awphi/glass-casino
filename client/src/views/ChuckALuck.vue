@@ -28,8 +28,7 @@
 </template>
 
 <script>
-import chuckaluckJson from "../../../build/contracts/ChuckALuck.json";
-import { mapMutations, mapState, mapActions } from "vuex";
+import { mapMutations, mapState, mapActions, mapGetters } from "vuex";
 import StakeSelector from "../components/StakeSelector.vue";
 import Dice from "../components/Dice.vue";
 
@@ -41,11 +40,12 @@ export default {
   },
   data() {
     return {
-      pendingRequest: null,
+      pendingRequest: false,
     };
   },
   computed: {
     ...mapState(["signer", "provider", "chain", "game"]),
+    ...mapGetters(["hasSigner"]),
   },
   methods: {
     ...mapMutations(["setContract"]),
@@ -71,7 +71,7 @@ export default {
         return;
       }
 
-      if (this.pendingRequest != null) {
+      if (this.pending) {
         window.alert(
           "Game already in progress - please try again after completion!"
         );
@@ -81,6 +81,7 @@ export default {
       try {
         // See comments in Roulette.vue for this mess
         const metamaskTx = await this.game.contract.play(bet, stake.betAmount);
+        this.pending = true;
         const tx = await this.provider.getTransaction(metamaskTx.hash);
         await tx.wait();
         this.refreshBalance();
@@ -92,22 +93,22 @@ export default {
       }
     },
   },
-  beforeMount() {
-    this.setContract({
-      address: chuckaluckJson.networks[Number(this.chain.chainId)].address,
-      abi: chuckaluckJson.abi,
-    });
-  },
   mounted() {
+    // TODO history using GameComplete
+    // TODO pending anim using GameStart
     this.game.contract.on(
       this.game.contract.filters.GameComplete(),
       async (rolls, bet, c) => {
-        console.log(bet);
+        if (!this.hasSigner || bet.player !== this.signer._address) {
+          return;
+        }
+        console.log(bet, rolls);
         const anim = this.roll(rolls.map((a) => a.toNumber()));
         const tx = await c.getTransaction();
         await Promise.all([tx.wait(), anim]);
         // TODO animate gains/losses
         this.refreshBalance();
+        this.pending = false;
       }
     );
   },

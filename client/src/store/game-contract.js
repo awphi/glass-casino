@@ -12,7 +12,6 @@ export default {
     setContract(state, { address, abi }) {
       // this.state refers to root state in this context
       var contract = new Contract(address, abi, this.state.provider);
-      // TODO test what changing contract.provider here changes
       state.contractUnconnected = markRaw(
         new Contract(address, abi, this.state.provider)
       );
@@ -44,9 +43,9 @@ export default {
       }
 
       try {
-        const b = await state.contractUnconnected.balance({
-          from: this.state.signer._address,
-        });
+        const b = await state.contractUnconnected.balanceOf(
+          this.state.signer._address
+        );
         commit("setContractBalance", b);
       } catch (e) {
         console.error(e);

@@ -52,7 +52,6 @@
 </template>
 
 <script>
-import rouletteJson from "../../../build/contracts/Roulette.json";
 import { mapMutations, mapState } from "vuex";
 import { BigNumber } from "ethers";
 import RouletteWheel from "../components/RouletteWheel.vue";
@@ -102,12 +101,6 @@ export default {
         this.nextRoll = r;
       }
     },
-  },
-  beforeMount() {
-    this.setContract({
-      address: rouletteJson.networks[Number(this.chain.chainId)].address,
-      abi: rouletteJson.abi,
-    });
   },
   mounted() {
     this.updateTimer(this.gameData);

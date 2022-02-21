@@ -1,13 +1,16 @@
+/// @title ChuckALuck 0.1.1
+/// @author awphi (https://github.com/awphi)
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.7;
 
 import "@chainlink/contracts/src/v0.8/VRFConsumerBase.sol";
 import "./Bank.sol";
-import "./Owned.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ChuckALuck is VRFConsumerBase, Owned, Bank {
-    bytes32 internal keyHash;
-    uint internal fee;
+contract ChuckALuck is VRFConsumerBase, Ownable, Bank {
+    bytes32 internal _keyHash;
+    uint internal _fee;
 
     struct Bet {
         address player;
@@ -17,16 +20,14 @@ contract ChuckALuck is VRFConsumerBase, Owned, Bank {
         uint bet_amount;
     }
     
-    mapping (bytes32 => Bet) bets;
+    mapping (bytes32 => Bet) internal bets;
 
     event GameComplete(uint[] rolls, Bet bet);
+    event GameStart(Bet bet);
 
-    constructor() VRFConsumerBase(
-        0x8C7382F9D8f56b33781fE506E897a4F1e2d17255, // VRF Coordinator
-        0x326C977E6efc84E512bB9C30f76E30c160eD06FB  // LINK Token
-    ) {
-        keyHash = 0x6e75b569a01ef56d18cab6a8e71e6600d6ce853834d4a5748b720d06f878b3a4;
-        fee = 0.0001 ether;
+    constructor(address vrfCoordinator, address linkToken, bytes32 keyHash, uint fee) VRFConsumerBase(vrfCoordinator, linkToken) {
+        _keyHash = keyHash;
+        _fee = fee;
     }
 
     function calculate_winnings(Bet memory bet, uint[] memory rolls) public pure returns (uint) {
@@ -52,14 +53,15 @@ contract ChuckALuck is VRFConsumerBase, Owned, Bank {
     }
     
     function play(uint8 bet, uint248 bet_amount) public returns (bytes32) {
-        require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK - house needs to refill the contract!");
+        require(LINK.balanceOf(address(this)) >= _fee, "Not enough LINK - house needs to refill the contract!");
         require(bet_amount > 0, "Invalid bet amount.");
 
 
-        bytes32 req = requestRandomness(keyHash, fee);
+        bytes32 req = requestRandomness(_keyHash, _fee);
 
         funds[msg.sender] -= bet_amount;
         bets[req] = Bet(msg.sender, uint64(block.timestamp), bet, bet_amount);
+        emit GameStart(bets[req]);
         return req;
     }
 
@@ -78,20 +80,20 @@ contract ChuckALuck is VRFConsumerBase, Owned, Bank {
         uint winnings = calculate_winnings(bet, rolls);
 
         if(winnings > 0) {
-            funds[msg.sender] += winnings;
+            funds[bet.player] += winnings;
         } else {
-            funds[owner] += bet.bet_amount;
+            /** @dev When user loses, house will skim 5% - (the rough average expected loss of each bet with the odds of 2:1, 3:1, 10:1)
+                This can be used to pay for more LINK, hosting fees or just treated as profit - it up to the owner. The rest of the loss remains
+                in the contract to pay off future winners. In the long-term, with enough initial capital this is a stable system.
+            **/
+            funds[owner()] += bet.bet_amount / 20;
         }
         
         emit GameComplete(rolls, bet);
     }
 
-    function withdrawAllLink() public {
-        LINK.transfer(payable(owner), LINK.balanceOf(address(this)));
-    }
-
-    function getBalanceLink() public view returns (uint256) {
-        return LINK.balanceOf(address(this));
+    function withdrawAllLink() public onlyOwner {
+        LINK.transfer(payable(owner()), LINK.balanceOf(address(this)));
     }
 
     // function withdrawLink() external {} - Implement a withdraw function to avoid locking your LINK in the contract
