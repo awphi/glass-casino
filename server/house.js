@@ -6,7 +6,7 @@ const { ethers } = require("ethers");
 const { WebSocketServer, WebSocket } = require("ws");
 
 const wss = new WebSocketServer({
-  port: process.env.PORT ? Number(process.env.PORT) : 8090,
+  port: 8090,
 });
 
 var roulette;
@@ -26,26 +26,18 @@ function broadcast(data) {
   });
 }
 
-// Ethers.js provider
-const rpc = ARGS.includes("--dev")
-  ? process.env.MUMBAI_URL.trim()
-  : process.env.MAINNET_URL.trim();
+// If dev use secret local dev key, else use public, protected key
+const alchemyApi = ARGS.includes("--dev")
+  ? process.env.ALCHEMY_API_ENDPOINT_DEV
+  : "https://polygon-mumbai.g.alchemy.com/v2/KefZ5j5KdtKEnWEdbOGjqmhdcSNaxHdf";
 
-const provider = new ethers.getDefaultProvider(
-  "https://polygon-mumbai.g.alchemy.com/v2/KefZ5j5KdtKEnWEdbOGjqmhdcSNaxHdf"
-);
-provider.pollingInterval = process.env.POLLING_INTERVAL
-  ? Number(process.env.POLLING_INTERVAL)
-  : 1000;
+const provider = new ethers.providers.StaticJsonRpcProvider(alchemyApi);
+provider.pollingInterval = 1000;
 
-const signer = ethers.Wallet.fromMnemonic(process.env.MNEMONIC.trim()).connect(
-  provider
-);
+const signer = ethers.Wallet.fromMnemonic(process.env.MNEMONIC.trim()).connect(provider);
 
 // Roulette
-const rouletteJson = require(`.${
-  ARGS.includes("--dev") ? "./build" : ""
-}/contracts/Roulette.json`);
+const rouletteJson = require(`.${ARGS.includes("--dev") ? "./build" : ""}/contracts/Roulette.json`);
 const RouletteScheduler = require("./roulette-scheduler.js");
 provider
   .getNetwork()
@@ -56,12 +48,7 @@ provider
       provider
     ).connect(signer);
 
-    roulette = new RouletteScheduler(
-      contract,
-      broadcast,
-      process.env.ROULETTE_INTERVAL,
-      process.env.ROULETTE_ROLL_DELAY
-    );
+    roulette = new RouletteScheduler(contract, broadcast);
     roulette.scheduleNextRoll();
   })
   .catch(console.error);

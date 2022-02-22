@@ -50,7 +50,7 @@ export default {
         return;
       }
 
-      if (stake.betAmount.gt(this.game.contractBalance)) {
+      if (stake.betAmount.gt(this.bankBalance)) {
         window.alert("Insufficient funds to cover bet!");
         return;
       }
@@ -77,7 +77,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["signer", "game", "provider"]),
+    ...mapState(["signer", "game", "provider", "bankBalance"]),
   },
 };
 </script>

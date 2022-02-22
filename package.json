@@ -4,7 +4,8 @@
   "description": "Fair end-to-end blockchain iGaming.",
   "main": "truffle-config.js",
   "scripts": {
-    "verify": "truffle run verify Roulette ChuckALuck --network mumbai --debug --license MIT"
+    "verify-mumbai": "truffle run verify Roulette ChuckALuck CentralBank --network mumbai --license MIT",
+    "remigrate-games-mumbai": "truffle migrate --reset --network mumbai -f 3"
   },
   "repository": {
     "type": "git",

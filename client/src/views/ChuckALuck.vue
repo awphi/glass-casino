@@ -44,7 +44,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["signer", "provider", "chain", "game"]),
+    ...mapState(["signer", "provider", "chain", "game", "bankBalance"]),
     ...mapGetters(["hasSigner"]),
   },
   methods: {
@@ -66,7 +66,7 @@ export default {
         return;
       }
 
-      if (stake.betAmount.gt(this.game.contractBalance)) {
+      if (stake.betAmount.gt(this.bankBalance)) {
         window.alert("Insufficient funds to cover bet!");
         return;
       }

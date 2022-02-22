@@ -1,5 +1,5 @@
 <template>
-  <div class="relative box w-1/4">
+  <div class="relative box m-4">
     <DialogTitle class="text-2xl font-bold"
       >Manage Funds - {{ mode }}</DialogTitle
     >
@@ -32,8 +32,8 @@
           :showValueBelow="mode == 'Withdraw'"
           class="w-28"
           ref="table"
-          :value="game.contractBalance"
-          title="Table"
+          :value="bankBalance"
+          title="Bank"
         />
       </div>
       <button
@@ -105,9 +105,9 @@ export default {
 
       var tx;
       if (this.mode === "Deposit") {
-        tx = await this.game.contract.deposit({ value: v });
+        tx = await this.bankContract.deposit({ value: v });
       } else {
-        tx = await this.game.contract.withdraw(v);
+        tx = await this.bankContract.withdraw(v);
       }
 
       this.confirmButtonEnabled = false;
@@ -125,7 +125,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["balance", "game"]),
+    ...mapState(["balance", "game", "bankBalance", "bankContract"]),
   },
 };
 </script>

@@ -4,10 +4,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-import "./Bank.sol";
+import "./ICentralBank.sol";
+import "./Game.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Roulette is Ownable, Bank {
+contract Roulette is Game {
   struct Bet {
     uint16 bet_type;
     uint16 bet;
@@ -16,6 +17,8 @@ contract Roulette is Ownable, Bank {
 
     uint256 bet_amount;
   }
+
+  constructor(address bankAddr) Game(bankAddr) {}
 
   uint128 numBets = 0;
   Bet[128] bets;
@@ -42,12 +45,10 @@ contract Roulette is Ownable, Bank {
     return bets.length;
   }
 
-  function place_bet(uint16 bet_type, uint256 bet_amount, uint16 bet) public {
-    require(bet_amount > 0, "Invalid bet amount.");
-    require(funds[msg.sender] >= bet_amount, "Insufficient funds to cover bet.");
+  function place_bet(uint16 bet_type, uint256 bet_amount, uint16 bet) public minimumBet(bet_amount, 0) requireFunds(bet_amount) {
     require(numBets < bets.length, "Maximum bets reached.");
 
-    funds[msg.sender] -= bet_amount;
+    _bank.subtractFunds(msg.sender, bet_amount);
     bets[numBets] = Bet(bet_type, bet, uint64(block.timestamp), msg.sender, bet_amount);
     numBets += 1;
     emit BetPlaced(bets[bets.length - 1]);
@@ -55,8 +56,7 @@ contract Roulette is Ownable, Bank {
 
   // Note: Replace with chainlink
   function random(uint mod) public view returns (uint) {
-    return
-      uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp))) % mod;
+    return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp))) % mod;
   }
 
   function is_red(uint roll) public pure returns (bool) {
@@ -114,15 +114,15 @@ contract Roulette is Ownable, Bank {
     emit OutcomeDecided(roll);
 
     for (uint i = 0; i < numBets; i++) {
-      uint w = calculate_winnings(bets[i], roll);
-      if(w > 0) {
+      uint winnings = calculate_winnings(bets[i], roll);
+      if(winnings > 0) {
         // If player won (w > 0) designate their winnings (incl. stake) to them
-        funds[bets[i].player] += w;
+        _bank.addFunds(bets[i].player, winnings);
       } else if(roll == 0) {
         /** @dev When a 0 is rolled, house will skim all bets. This can be used to pay for more LINK, hosting fees or just treated as profit - 
           it up to the owner. In the long-term, with enough initial capital this is a stable system.
         **/
-        funds[owner()] += bets[i].bet_amount;
+        _bank.addFunds(owner(), bets[i].bet_amount);
       }
     }
 

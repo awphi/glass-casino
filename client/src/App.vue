@@ -45,19 +45,9 @@
             <div class="flex mt-1">
               <p>Balance:</p>
               <div class="flex-1"></div>
-              <div class="flex flex-col items-end">
-                <div class="flex">
-                  {{ formatEther(currentGameBalance) }}
-                  <img
-                    src="@/assets/matic-token-icon.svg"
-                    class="ml-1"
-                    width="12"
-                  />
-                </div>
-                <div class="flex">
-                  {{ formatEther(currentGameLinkBalance) }}
-                  <img src="@/assets/LINK-blue.svg" class="ml-1" width="12" />
-                </div>
+              <div class="flex">
+                {{ formatEther(linkBalance) }}
+                <img src="@/assets/LINK-blue.svg" class="ml-0.5" width="12" />
               </div>
             </div>
           </div>
@@ -81,8 +71,7 @@ export default {
   components: { Header },
   data() {
     return {
-      currentGameBalance: BigNumber.from(0n),
-      currentGameLinkBalance: BigNumber.from(0n),
+      linkBalance: BigNumber.from(0n),
       linkContract: null,
     };
   },
@@ -90,14 +79,10 @@ export default {
     formatEther(val) {
       return ethers.utils.formatEther(val);
     },
-    updateGameBalances() {
-      this.provider
-        .getBalance(this.currentGameAddress)
-        .then((b) => (this.currentGameBalance = b));
-
+    updateGameBalance() {
       this.linkContract
         .balanceOf(this.currentGameAddress)
-        .then((v) => (this.currentGameLinkBalance = v));
+        .then((v) => (this.linkBalance = v));
     },
   },
   mounted() {
@@ -105,18 +90,12 @@ export default {
       new ethers.Contract(this.chain.linkAddress, linkJson.abi, this.provider)
     );
 
-    console.log(this.linkContract);
-
     this.provider.on("block", (n) => {
-      if (this.currentGameAddress == null) {
+      if (this.currentGameAddress == null || n % 10 !== 0) {
         return;
       }
 
-      if (n % 10 !== 0) {
-        return;
-      }
-
-      this.updateGameBalances();
+      this.updateGameBalance();
     });
   },
   computed: {
@@ -132,7 +111,7 @@ export default {
     game: {
       deep: true,
       handler() {
-        this.updateGameBalances();
+        this.updateGameBalance();
       },
     },
   },

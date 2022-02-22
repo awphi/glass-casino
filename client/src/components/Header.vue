@@ -35,7 +35,7 @@
         <img src="@/assets/arrows-svgrepo-com.svg" width="20" />
         <p class="text-xs">Transfer</p>
       </button>
-      <BalanceBox class="w-28" title="Table" :value="game.contractBalance" />
+      <BalanceBox class="w-28" title="Bank" :value="bankBalance" />
     </div>
 
     <button
@@ -132,7 +132,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["balance", "game"]),
+    ...mapState(["balance", "game", "bankBalance"]),
     ...mapGetters(["hasSigner", "hasEthereumProvider"]),
   },
   methods: {

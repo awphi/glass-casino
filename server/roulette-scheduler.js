@@ -1,15 +1,15 @@
 const { ethers } = require("ethers");
 
 class RouletteScheduler {
-  constructor(contract, broadcast, interval, delay) {
+  constructor(contract, broadcast, interval = 10000, delay = 1000) {
     this.nextRoll = 0;
     this.contract = contract;
     this.broadcast = broadcast;
     this.nextRoll = Date.now();
     this.rollPending = false;
 
-    this.interval = isNaN(interval) ? 10000 : Number(interval);
-    this.delay = isNaN(delay) ? 1000 : Number(delay);
+    this.interval = interval;
+    this.delay = delay;
 
     this.contract.on(this.contract.filters.BetPlaced(), async (_, c) => {
       const tx = await c.getTransaction();
@@ -35,9 +35,7 @@ class RouletteScheduler {
       await tx.wait();
     }
 
-    console.log(
-      `Completed roll! Took ${(Date.now() - before) / 1000} seconds to confirm`
-    );
+    console.log(`Completed roll! Took ${(Date.now() - before) / 1000} seconds to confirm`);
     this.rollPending = false;
   }
 
