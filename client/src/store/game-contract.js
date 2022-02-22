@@ -1,4 +1,4 @@
-import { BigNumber, Contract } from "ethers";
+import { Contract } from "ethers";
 import { markRaw } from "vue";
 
 export default {
