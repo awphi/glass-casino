@@ -41,7 +41,7 @@
         />
       </div>
     </div>
-    <RouletteBetControls class="w-full justify-self-center flex-1" />
+    <RouletteBetControls class="w-full flex-1" />
     <div class="box">
       <h1 class="text-2xl font-bold">Recent Outcomes</h1>
       <p class="text-xs">Most Recent → (within 20 blocks)</p>

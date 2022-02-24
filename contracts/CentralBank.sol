@@ -26,11 +26,7 @@ contract CentralBank is AccessControlEnumerable, ICentralBank {
         _setupRole(ADMIN, address(this));
     }
 
-    function revokeRoleAll(bytes32 role) public {
-        // Verify caller is admin of given role
-        bytes32 admin = getRoleAdmin(role);
-        _checkRole(admin, msg.sender);
-        
+    function revokeRoleAll(bytes32 role) public onlyRole(getRoleAdmin(role))  {        
         // Revoke all
         uint256 count = getRoleMemberCount(role);
         for(uint256 i = 0; i < count; i ++) {

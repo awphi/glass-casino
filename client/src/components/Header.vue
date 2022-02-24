@@ -57,7 +57,7 @@
       </PopoverButton>
 
       <PopoverPanel
-        className="popover absolute top-10 z-10 bg-steel-800 w-64 p-2 rounded-md right-0 shadow-lg"
+        className="popover absolute top-16 z-10 bg-steel-800 w-64 p-2 rounded-md right-0 shadow-lg"
       >
         <h1 class="text-xl font-bold">Need some help?</h1>
         <hr class="opacity-30 my-1" />

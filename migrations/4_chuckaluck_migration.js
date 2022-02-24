@@ -9,6 +9,7 @@ module.exports = async function (deployer) {
 
   const data = chainLinkData[deployer.network_id];
   const bank = await CentralBank.deployed();
+  const game = await deployer.deploy(ChuckALuck, data.vrfCoordinator, data.token, data.keyHash, data.fee, bank.address);
 
-  await deployer.deploy(ChuckALuck, data.vrfCoordinator, data.token, data.keyHash, data.fee, bank.address);
+  await bank.grantRole(await bank.OPERATOR(), game.address);
 };

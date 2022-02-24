@@ -25,33 +25,7 @@
         </router-link>
         <div class="flex-1"></div>
 
-        <div
-          v-if="game.contract"
-          class="p-2 rounded-l-md flex mb-2 bg-steel-700 flex-col"
-        >
-          <h1 class="font-bold text-sm">Contract Info</h1>
-          <hr class="opacity-30 my-1 w-full" />
-          <div class="text-xs flex flex-col">
-            <h1 class="whitespace-nowrap overflow-hidden overflow-ellipsis">
-              Address:
-              <a
-                target="_blank"
-                class="underline"
-                :href="`${this.chain.blockExplorerUrls[0]}/address/${currentGameAddress}`"
-              >
-                {{ currentGameAddress }}
-              </a>
-            </h1>
-            <div class="flex mt-1">
-              <p>Balance:</p>
-              <div class="flex-1"></div>
-              <div class="flex">
-                {{ formatEther(linkBalance) }}
-                <img src="@/assets/LINK-blue.svg" class="ml-0.5" width="12" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <ContractDisclosure />
       </div>
       <router-view class="p-6 flex-1"></router-view>
     </div>
@@ -60,61 +34,11 @@
 
 <script>
 import Header from "./components/Header.vue";
-import { mapState } from "vuex";
-import { BigNumber } from "@ethersproject/bignumber";
-import { ethers } from "ethers";
-import linkJson from "../../build/contracts/LinkTokenInterface.json";
-import { markRaw } from "@vue/reactivity";
+import ContractDisclosure from "./components/ContractDisclosure.vue";
 
 export default {
   name: "App",
-  components: { Header },
-  data() {
-    return {
-      linkBalance: BigNumber.from(0n),
-      linkContract: null,
-    };
-  },
-  methods: {
-    formatEther(val) {
-      return ethers.utils.formatEther(val);
-    },
-    updateGameBalance() {
-      this.linkContract
-        .balanceOf(this.currentGameAddress)
-        .then((v) => (this.linkBalance = v));
-    },
-  },
-  mounted() {
-    this.linkContract = markRaw(
-      new ethers.Contract(this.chain.linkAddress, linkJson.abi, this.provider)
-    );
-
-    this.provider.on("block", (n) => {
-      if (this.currentGameAddress == null || n % 10 !== 0) {
-        return;
-      }
-
-      this.updateGameBalance();
-    });
-  },
-  computed: {
-    ...mapState(["signer", "provider", "chain", "game"]),
-    currentGameAddress() {
-      if (this.game.contract) {
-        return this.game.contract.address;
-      }
-      return null;
-    },
-  },
-  watch: {
-    game: {
-      deep: true,
-      handler() {
-        this.updateGameBalance();
-      },
-    },
-  },
+  components: { Header, ContractDisclosure },
 };
 </script>
 
