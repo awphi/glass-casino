@@ -37,7 +37,7 @@ export default {
     let p = this.game.contract.filters.OutcomeDecided();
     const b = await this.provider.getBlockNumber();
 
-    let h = await this.game.contract.queryFilter(p, b - 20, b);
+    let h = await this.provider.getLogs(p, b - 20, b);
     this.history = h.reverse().slice(0, 10);
   },
   methods: {

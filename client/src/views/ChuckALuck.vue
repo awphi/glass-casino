@@ -87,7 +87,7 @@ export default {
       }
 
       try {
-        // See comments in Roulette.vue for this mess
+        // See comments in RouletteBetControls.vue for explanation of this
         const metamaskTx = await this.game.contract.play(bet, stake.betAmount);
         this.pending = true;
         const tx = await this.provider.getTransaction(metamaskTx.hash);
@@ -104,7 +104,7 @@ export default {
   mounted() {
     // TODO history using GameComplete
     // TODO pending anim using GameStart
-    this.game.contract.on(
+    this.provider.on(
       this.game.contract.filters.GameComplete(),
       async (rolls, bet, c) => {
         if (!this.hasSigner || bet.player !== this.signer._address) {

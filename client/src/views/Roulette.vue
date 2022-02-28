@@ -105,10 +105,10 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
     this.updateTimer(this.gameData);
 
-    this.game.contract.on(
+    this.provider.on(
       this.game.contract.filters.OutcomeDecided(),
       async (roll, tx) => {
         console.log("Roll:", roll.toNumber());
@@ -120,14 +120,11 @@ export default {
       }
     );
 
-    this.game.contract.on(
-      this.game.contract.filters.BetPlaced(),
-      async (b, c) => {
-        const tx = await c.getTransaction();
-        await tx.wait();
-        this.bets = [...this.bets, b];
-      }
-    );
+    this.provider.on(this.game.contract.filters.BetPlaced(), async (b, c) => {
+      const tx = await c.getTransaction();
+      await tx.wait();
+      this.bets = [...this.bets, b];
+    });
 
     this.game.contract.get_bets().then((r) => {
       this.bets = r;
