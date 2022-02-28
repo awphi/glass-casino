@@ -1,27 +1,35 @@
 <template>
-  <div class="wrapper">
-    <div class="box flex justify-center items-center space-x-6">
-      <Dice ref="dice0" :initialNumber="1"></Dice>
-      <Dice ref="dice1" :initialNumber="2"></Dice>
-      <Dice ref="dice2" :initialNumber="3"></Dice>
+  <!-- TODO: why does adding flex-wrap to the following break the bet history display? (it will extend forever) -->
+  <div class="flex flex-row gap-6">
+    <div class="flex flex-col gap-6 flex-1">
+      <div class="box flex justify-center items-center space-x-6 flex-1">
+        <Dice ref="dice0" :initialNumber="1"></Dice>
+        <Dice ref="dice1" :initialNumber="2"></Dice>
+        <Dice ref="dice2" :initialNumber="3"></Dice>
+      </div>
+
+      <div class="box">
+        <StakeSelector ref="stakeSelector"></StakeSelector>
+        <hr class="w-full opacity-30 mb-8 mt-8" />
+        <div class="grid grid-cols-3 grid-rows-2 gap-1">
+          <button
+            class="bg-steel-700 rounded-md shadow-sm p-2 text-xl h-16"
+            v-for="i in [1, 2, 3, 4, 5, 6]"
+            :key="i"
+            @click="bet(i)"
+          >
+            {{ i }}
+          </button>
+        </div>
+      </div>
     </div>
-    <div class="box row-span-2 overflow-hidden">
-      <h1 class="text-2xl font-bold">Game History</h1>
-      <hr class="w-full opacity-30 my-2" />
-      <div class="overflow-y-auto h-full"></div>
-    </div>
-    <div class="box">
-      <StakeSelector ref="stakeSelector"></StakeSelector>
-      <hr class="w-full opacity-30 mb-8 mt-8" />
-      <div class="grid grid-cols-3 grid-rows-2 gap-1">
-        <button
-          class="bg-steel-700 rounded-md shadow-sm p-2 text-xl h-16"
-          v-for="i in [1, 2, 3, 4, 5, 6]"
-          :key="i"
-          @click="bet(i)"
-        >
-          {{ i }}
-        </button>
+
+    <div class="flex flex-col gap-6 w-1/3">
+      <div class="box flex flex-col">Pending bet</div>
+      <div class="box bet-box min-h-0 flex flex-1 flex-col">
+        <h1 class="text-2xl font-bold">Game History</h1>
+        <hr class="w-full opacity-30 my-2" />
+        <div class="overflow-y-auto"></div>
       </div>
     </div>
   </div>
@@ -117,8 +125,7 @@ export default {
 
 <style scoped>
 .wrapper {
-  @apply gap-6 grid h-full;
-  grid-template-columns: 3fr 1.2fr;
+  @apply gap-6 grid;
   grid-template-rows: minmax(0, 1fr);
 }
 </style>

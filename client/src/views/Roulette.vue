@@ -1,34 +1,44 @@
 <template>
-  <div class="wrapper">
-    <div class="box flex items-center justify-center">
-      <VueCountdown
-        @end="if ($refs.wheel) $refs.wheel.startSpinning();"
-        :time="nextRoll"
-        :interval="100"
-        class="w-4/5 h-16 relative"
-        v-slot="{ seconds, milliseconds, totalMilliseconds }"
-      >
-        <div
-          v-if="totalMilliseconds > 0 || bets.length == 0"
-          class="wheel-sheath"
+  <div class="flex flex-row gap-6">
+    <div class="flex flex-col flex-1 gap-6">
+      <div class="box flex items-center justify-center">
+        <VueCountdown
+          @end="if ($refs.wheel) $refs.wheel.startSpinning();"
+          :time="nextRoll"
+          :interval="100"
+          class="w-4/5 h-16 relative"
+          v-slot="{ seconds, milliseconds, totalMilliseconds }"
         >
-          <p v-if="totalMilliseconds > 0" class="text-4xl">
-            {{ seconds }}.{{ Math.floor(milliseconds / 100) }}
-          </p>
-          <p v-else class="text-2xl loading">Awaiting bets</p>
-        </div>
-        <RouletteWheel ref="wheel" />
-      </VueCountdown>
+          <div
+            v-if="totalMilliseconds > 0 || bets.length == 0"
+            class="wheel-sheath"
+          >
+            <p v-if="totalMilliseconds > 0" class="text-4xl">
+              {{ seconds }}.{{ Math.floor(milliseconds / 100) }}
+            </p>
+            <p v-else class="text-2xl loading">Awaiting bets</p>
+          </div>
+          <RouletteWheel ref="wheel" />
+        </VueCountdown>
+      </div>
+
+      <RouletteBetControls class="w-full flex-1 col-start-1" />
+      <div class="box col-start-1">
+        <h1 class="text-2xl font-bold">Recent Outcomes</h1>
+        <p class="text-xs">Most Recent → (within 20 blocks)</p>
+        <hr class="w-full opacity-30 mb-2 mt-2" />
+        <RouletteHistory ref="history" />
+      </div>
     </div>
 
-    <div class="box overflow-hidden row-span-3">
+    <div class="box bet-box min-h-0 flex flex-col h-full w-1/3">
       <div class="flex flex-row items-center">
         <h1 class="text-2xl font-bold">Current Bets</h1>
         <div class="flex-1"></div>
         <BalanceBox :value="betSum" />
       </div>
       <hr class="w-full opacity-30 my-2" />
-      <div class="overflow-y-auto h-full">
+      <div class="overflow-y-auto flex-1">
         <RouletteBetDisplay
           v-for="b in bets"
           :key="b"
@@ -40,13 +50,6 @@
           :timestamp="new Date(b.timestamp.toNumber() * 1000)"
         />
       </div>
-    </div>
-    <RouletteBetControls class="w-full flex-1" />
-    <div class="box">
-      <h1 class="text-2xl font-bold">Recent Outcomes</h1>
-      <p class="text-xs">Most Recent → (within 20 blocks)</p>
-      <hr class="w-full opacity-30 mb-2 mt-2" />
-      <RouletteHistory ref="history" />
     </div>
   </div>
 </template>
@@ -140,11 +143,6 @@ export default {
 </script>
 
 <style scoped>
-.wrapper {
-  @apply gap-6 grid h-full;
-  grid-template-columns: 3fr 1.2fr;
-}
-
 .wheel-sheath {
   @apply w-full h-full flex items-center justify-center rounded-md absolute bg-black bg-opacity-80;
 }

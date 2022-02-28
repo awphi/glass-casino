@@ -1,5 +1,5 @@
 <template>
-  <div class="w-100 flex flex-row items-center p-3 bg-steel-700 shadow-lg h-20">
+  <div class="flex flex-row items-center p-3 bg-steel-700 shadow-lg">
     <h1 class="text-4xl text-left font-bold">GlassCasino</h1>
     <div class="flex-1"></div>
     <div v-if="hasSigner" class="flex flex-row space-x-2 items-center">

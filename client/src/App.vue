@@ -1,10 +1,9 @@
 <template>
-  <div class="m-0 h-full flex flex-col">
-    <Header />
-    <div class="flex-1 flex flex-row">
+  <div class="flex flex-col absolute w-full h-full">
+    <Header class="h-20" />
+    <div class="flex flex-row flex-1 min-h-0">
       <div
         class="
-          h-full
           w-40
           flex-shrink-0
           bg-steel-600
@@ -12,7 +11,7 @@
           p-4
           pb-16
           pr-0
-          flex flex-col
+          flex-col flex
         "
       >
         <router-link to="roulette" class="menu-item">
@@ -43,14 +42,12 @@ export default {
 </script>
 
 <style>
-body,
 html,
+body,
 #app {
-  @apply h-full;
-}
-
-body {
-  @apply m-0;
+  height: 100%;
+  margin: 0;
+  overflow: auto;
 }
 
 #app {
