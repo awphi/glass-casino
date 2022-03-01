@@ -1,7 +1,10 @@
 <template>
-  <div class="flex flex-row justify-center">
+  <div class="flex flex-row h-10 justify-center">
     <button
-      v-for="v in betButtonValues"
+      v-for="v in betButtonValues.slice(
+        betButtonValues.length - shownButtons,
+        shownButtons + 1
+      )"
       :key="v"
       @click="addToBetInput(v)"
       class="mr-2 bet-amount-btn"
@@ -10,7 +13,7 @@
     </button>
     <div class="flex relative items-center">
       <input
-        class="bet-input bg-steel-700"
+        class="bet-input h-full bg-steel-700"
         type="number"
         value="0.01"
         placeholder="0.01"
@@ -23,7 +26,7 @@
       </div>
     </div>
     <button
-      v-for="v in betButtonValuesAbs"
+      v-for="v in betButtonValuesAbs.slice(0, shownButtons)"
       :key="v"
       @click="addToBetInput(v)"
       class="ml-2 bg-steel-700 bet-amount-btn"
@@ -52,6 +55,12 @@ export default {
       ],
     };
   },
+  props: {
+    showButtons: {
+      type: Number,
+      default: 4,
+    },
+  },
   methods: {
     betInputKeyUp(e) {
       try {
@@ -75,6 +84,9 @@ export default {
   computed: {
     betButtonValuesAbs() {
       return this.betButtonValues.map((a) => a.abs()).reverse();
+    },
+    shownButtons() {
+      return Math.min(this.showButtons, this.betButtonValues.length);
     },
     betAmountFormatted() {
       return ethers.utils.formatUnits(this.betAmount, "ether");

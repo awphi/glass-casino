@@ -50,16 +50,16 @@ contract Roulette is Game {
 
     _bank.subtractFunds(msg.sender, bet_amount);
     bets[numBets] = Bet(bet_type, bet, uint64(block.timestamp), msg.sender, bet_amount);
+    emit BetPlaced(bets[numBets]);
     numBets += 1;
-    emit BetPlaced(bets[bets.length - 1]);
   }
 
   // Note: Replace with chainlink
-  function random(uint mod) public view returns (uint) {
+  function _random(uint mod) internal view returns (uint) {
     return uint(keccak256(abi.encodePacked(block.difficulty, block.timestamp))) % mod;
   }
 
-  function is_red(uint roll) public pure returns (bool) {
+  function _is_red(uint roll) internal pure returns (bool) {
     if (roll < 11 || (roll > 18 && roll < 29)) {
       // Red odd, black even
       return roll % 2 == 1;
@@ -68,7 +68,7 @@ contract Roulette is Game {
     }
   }
 
-  function calculate_winnings(Bet memory bet, uint roll) public pure returns (uint) {
+  function _calculate_winnings(Bet memory bet, uint roll) internal pure returns (uint) {
     // House edge
     if (roll == 0) {
       return 0;
@@ -92,7 +92,7 @@ contract Roulette is Game {
 
     if (bet.bet_type == 0) {
       // 0 = red, 1 = black
-      if (bet.bet == (is_red(roll) ? 0 : 1)) {
+      if (bet.bet == (_is_red(roll) ? 0 : 1)) {
         return bet.bet_amount * 2;
       }
     } else if (bet.bet_type == 1) {
@@ -110,11 +110,11 @@ contract Roulette is Game {
   }
 
   function play() public onlyOwner {
-    uint roll = random(37);
+    uint roll = _random(37);
     emit OutcomeDecided(roll);
 
     for (uint i = 0; i < numBets; i++) {
-      uint winnings = calculate_winnings(bets[i], roll);
+      uint winnings = _calculate_winnings(bets[i], roll);
       if(winnings > 0) {
         // If player won (w > 0) designate their winnings (incl. stake) to them
         _bank.addFunds(bets[i].player, winnings);

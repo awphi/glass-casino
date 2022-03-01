@@ -28,13 +28,13 @@ export default new Vuex.Store({
     chain: chain,
     balance: BigNumber.from(0n),
     bankContract: markRaw(bankContract),
+    bankContractReadOnly: markRaw(bankContract.connect(provider)),
     bankBalance: BigNumber.from(0n),
   },
   modules: {
     gameData: gameData,
     game: gameContract,
     metamask: metamask,
-    bank: bankContract,
   },
   getters: {
     hasSigner(state) {
@@ -45,9 +45,10 @@ export default new Vuex.Store({
     setSigner(state, payload) {
       if (payload != null) {
         markRaw(payload);
+        state.bankContract = markRaw(state.bankContract.connect(payload));
+      } else {
+        state.bankContract = markRaw(state.bankContract.connect(state.provider));
       }
-
-      state.bankContract = markRaw(bankContract.connect(payload));
 
       state.signer = payload;
     },
@@ -66,7 +67,7 @@ export default new Vuex.Store({
       }
 
       provider.getBalance(state.signer._address).then((b) => commit("setBalance", b));
-      state.bankContract.balanceOf(this.state.signer._address).then((b) => commit("setBankBalance", b));
+      state.bankContractReadOnly.balanceOf(this.state.signer._address).then((b) => commit("setBankBalance", b));
     },
   },
 });

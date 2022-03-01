@@ -31,7 +31,7 @@ contract ChuckALuck is VRFConsumerBase, Game {
         _fee = fee;
     }
 
-    function calculate_winnings(Bet memory bet, uint[] memory rolls) public pure returns (uint) {
+    function _calculate_winnings(Bet memory bet, uint[] memory rolls) internal pure returns (uint) {
         // Count up matching dice rolls
         uint c = 0;
         for(uint i = 0; i < rolls.length; i ++) {
@@ -53,7 +53,7 @@ contract ChuckALuck is VRFConsumerBase, Game {
         return 0;
     }
     
-    function play(uint8 bet, uint248 bet_amount) public minimumBet(bet_amount, 0) requireFunds(bet_amount) returns (bytes32) {
+    function play(uint8 bet, uint248 bet_amount) public minimumBet(bet_amount, 0) requireFunds(bet_amount) {
         require(LINK.balanceOf(address(this)) >= _fee, "Not enough LINK - house needs to refill the contract!");
 
         bytes32 req = requestRandomness(_keyHash, _fee);
@@ -61,10 +61,9 @@ contract ChuckALuck is VRFConsumerBase, Game {
         _bank.subtractFunds(msg.sender, bet_amount);
         bets[req] = Bet(msg.sender, uint64(block.timestamp), bet, bet_amount);
         emit GameStart(bets[req]);
-        return req;
     }
 
-    function expand(uint randomValue, uint n, uint mod, uint add) public pure returns (uint[] memory expandedValues) {
+    function _expand(uint randomValue, uint n, uint mod, uint add) internal pure returns (uint[] memory expandedValues) {
         expandedValues = new uint[](n);
         for (uint i = 0; i < n; i++) {
             expandedValues[i] = (uint(keccak256(abi.encode(randomValue, i))) % mod) + add;
@@ -74,9 +73,9 @@ contract ChuckALuck is VRFConsumerBase, Game {
 
     function fulfillRandomness(bytes32 requestId, uint randomness) internal override {
         // Expand rolls to 3 values bounded [1, 6]
-        uint[] memory rolls = expand(randomness, 3, 6, 1);
+        uint[] memory rolls = _expand(randomness, 3, 6, 1);
         Bet memory bet = bets[requestId];
-        uint winnings = calculate_winnings(bet, rolls);
+        uint winnings = _calculate_winnings(bet, rolls);
 
         if(winnings > 0) {
             _bank.addFunds(bet.player, winnings);

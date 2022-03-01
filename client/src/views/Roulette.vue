@@ -25,9 +25,9 @@
       <RouletteBetControls class="w-full flex-1 col-start-1" />
       <div class="box col-start-1">
         <h1 class="text-2xl font-bold">Recent Outcomes</h1>
-        <p class="text-xs">Most Recent → (within 20 blocks)</p>
+        <p class="text-xs">Newest → Oldest (within 50 blocks)</p>
         <hr class="w-full opacity-30 mb-2 mt-2" />
-        <RouletteHistory ref="history" />
+        <RouletteHistory ref="history" :blocks="50" />
       </div>
     </div>
 
@@ -46,7 +46,7 @@
           :contract_address="game.contract.address"
           :bet_type="b.bet_type"
           :bet_amount="b.bet_amount"
-          :bet="b.bet.toNumber()"
+          :bet="b.bet"
           :timestamp="new Date(b.timestamp.toNumber() * 1000)"
         />
       </div>
@@ -108,23 +108,29 @@ export default {
   async mounted() {
     this.updateTimer(this.gameData);
 
-    this.provider.on(
+    this.game.contract.on(
       this.game.contract.filters.OutcomeDecided(),
-      async (roll, tx) => {
-        console.log("Roll:", roll.toNumber());
+      async (roll, receipt) => {
+        console.log("OutcomeDecided", roll, receipt);
+        const tx = await receipt.getTransaction();
+        await tx.wait();
         await this.$refs.wheel.stopSpinningOn(roll.toNumber());
 
         // TODO animate wins/losses
         this.bets = [];
-        this.$refs.history.add(tx);
+        this.$refs.history.add(receipt);
       }
     );
 
-    this.provider.on(this.game.contract.filters.BetPlaced(), async (b, c) => {
-      const tx = await c.getTransaction();
-      await tx.wait();
-      this.bets = [...this.bets, b];
-    });
+    this.game.contract.on(
+      this.game.contract.filters.BetPlaced(),
+      async (bet, receipt) => {
+        console.log("BetPlaced", bet, receipt);
+        const tx = await receipt.getTransaction();
+        await tx.wait();
+        this.bets = [...this.bets, bet];
+      }
+    );
 
     this.game.contract.get_bets().then((r) => {
       this.bets = r;

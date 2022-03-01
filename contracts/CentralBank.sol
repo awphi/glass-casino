@@ -23,15 +23,6 @@ contract CentralBank is AccessControlEnumerable, ICentralBank {
 
         // Initially grant contract creator the admin role so they can add fund operators
         _setupRole(ADMIN, msg.sender);
-        _setupRole(ADMIN, address(this));
-    }
-
-    function revokeRoleAll(bytes32 role) public onlyRole(getRoleAdmin(role))  {        
-        // Revoke all
-        uint256 count = getRoleMemberCount(role);
-        for(uint256 i = 0; i < count; i ++) {
-            _revokeRole(role, getRoleMember(role, i));
-        }
     }
 
     function withdraw(uint256 amount) override public {

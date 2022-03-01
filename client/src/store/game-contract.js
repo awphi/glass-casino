@@ -17,10 +17,15 @@ export default {
       state.contract = contract;
     },
     setSigner(state, payload) {
-      if (state.contract != null) {
-        const contract = state.contract.connect(payload);
-        markRaw(contract);
-        state.contract = contract;
+      if (state.contract == null) {
+        return;
+      }
+
+      if (payload != null) {
+        markRaw(payload);
+        state.contract = markRaw(state.contract.connect(payload));
+      } else {
+        state.contract = markRaw(state.contract.connect(this.state.provider));
       }
     },
     clearContract(state) {

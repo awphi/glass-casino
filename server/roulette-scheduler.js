@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
 
 class RouletteScheduler {
-  constructor(contract, broadcast, interval = 10000, delay = 1000) {
+  constructor(contract, broadcast, interval = 15000, delay = 1000) {
     this.nextRoll = 0;
     this.contract = contract;
     this.broadcast = broadcast;

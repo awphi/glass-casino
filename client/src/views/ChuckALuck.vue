@@ -25,7 +25,16 @@
     </div>
 
     <div class="flex flex-col gap-6 w-1/3">
-      <div class="box flex flex-col">Pending bet</div>
+      <div class="box flex flex-col">
+        <h1 class="text-2xl font-bold">Bet Status</h1>
+        <hr class="w-full opacity-30 my-2" />
+        <p
+          class="text-sm text-center"
+          :class="{ loading: this.pendingRequest !== null }"
+        >
+          {{ statusString }}
+        </p>
+      </div>
       <div class="box bet-box min-h-0 flex flex-1 flex-col">
         <h1 class="text-2xl font-bold">Game History</h1>
         <hr class="w-full opacity-30 my-2" />
@@ -48,12 +57,21 @@ export default {
   },
   data() {
     return {
-      pendingRequest: false,
+      pendingRequest: null,
     };
   },
   computed: {
     ...mapState(["signer", "provider", "chain", "game", "bankBalance"]),
     ...mapGetters(["hasSigner"]),
+    statusString() {
+      if (this.pendingRequest === null) {
+        return "Ready to accept bet!";
+      } else if (this.pendingRequest === true) {
+        return "Awaiting bet confirmation";
+      } else {
+        return "Awaiting random number generation";
+      }
+    },
   },
   methods: {
     ...mapMutations(["setContract"]),
@@ -79,7 +97,7 @@ export default {
         return;
       }
 
-      if (this.pending) {
+      if (this.pendingRequest !== null) {
         window.alert(
           "Game already in progress - please try again after completion!"
         );
@@ -89,7 +107,8 @@ export default {
       try {
         // See comments in RouletteBetControls.vue for explanation of this
         const metamaskTx = await this.game.contract.play(bet, stake.betAmount);
-        this.pending = true;
+        // Set pendingRequest to some placeholder value to stop spamming
+        this.pendingRequest = true;
         const tx = await this.provider.getTransaction(metamaskTx.hash);
         await tx.wait();
         this.refreshBalance();
@@ -102,23 +121,35 @@ export default {
     },
   },
   mounted() {
-    // TODO history using GameComplete
-    // TODO pending anim using GameStart
-    this.provider.on(
+    this.game.contract.on(
+      this.game.contract.filters.GameStart(),
+      async (bet, receipt) => {
+        console.log("GameStart", bet, receipt);
+        const tx = await receipt.getTransaction();
+        await tx.wait();
+        this.pendingRequest = bet;
+        this.refreshBalance();
+      }
+    );
+
+    this.game.contract.on(
       this.game.contract.filters.GameComplete(),
-      async (rolls, bet, c) => {
+      async (rolls, bet, receipt) => {
         if (!this.hasSigner || bet.player !== this.signer._address) {
           return;
         }
-        console.log(bet, rolls);
+        console.log("GameComplete", bet, rolls);
+        this.pendingRequest = null;
         const anim = this.roll(rolls.map((a) => a.toNumber()));
-        const tx = await c.getTransaction();
+        const tx = await receipt.getTransaction();
         await Promise.all([tx.wait(), anim]);
         // TODO animate gains/losses
         this.refreshBalance();
-        this.pending = false;
+        // TODO append to history
       }
     );
+
+    // TODO history using GameComplete logs
   },
 };
 </script>

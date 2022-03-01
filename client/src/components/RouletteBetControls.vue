@@ -2,32 +2,22 @@
   <div class="box flex flex-col relative">
     <StakeSelector ref="stakeSelector"></StakeSelector>
     <hr class="w-full opacity-30 mb-8 mt-8" />
-    <div class="flex flex-row flex-1 items-center">
-      <div class="flex flex-col w-full p-2"></div>
-      <div class="flex flex-col w-full p-2">
-        <button @click="bet(0, 0)" class="bg-red-600 bet-btn hover:bg-red-700">
-          Red
-        </button>
-        <button
-          @click="bet(0, 1)"
-          class="bg-gray-800 bet-btn hover:bg-gray-900"
-        >
-          Black
-        </button>
-        <button
-          @click="bet(1, 0)"
-          class="bg-blue-600 bet-btn hover:bg-blue-700"
-        >
-          Even
-        </button>
-        <button
-          @click="bet(1, 1)"
-          class="bg-green-600 bet-btn hover:bg-green-700"
-        >
-          Odd
-        </button>
-      </div>
-      <div class="flex flex-col w-full p-2"></div>
+    <div class="flex flex-col flex-1 items-center">
+      <button @click="bet(0, 0)" class="bg-red-600 bet-btn hover:bg-red-700">
+        Red
+      </button>
+      <button @click="bet(0, 1)" class="bg-gray-800 bet-btn hover:bg-gray-900">
+        Black
+      </button>
+      <button @click="bet(1, 0)" class="bg-blue-600 bet-btn hover:bg-blue-700">
+        Even
+      </button>
+      <button
+        @click="bet(1, 1)"
+        class="bg-green-600 bet-btn hover:bg-green-700"
+      >
+        Odd
+      </button>
     </div>
   </div>
 </template>
@@ -88,6 +78,6 @@ export default {
 }
 
 .bet-btn {
-  @apply rounded-md p-2 pt-1 pb-1;
+  @apply rounded-md p-2 pt-1 pb-1 w-1/3;
 }
 </style>

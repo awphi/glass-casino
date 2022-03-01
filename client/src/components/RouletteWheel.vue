@@ -130,7 +130,7 @@ export default {
 
       //console.log(goal, current);
 
-      this.spinningAnimation = this.$refs.container.z(
+      this.spinningAnimation = this.$refs.container.animate(
         [
           { backgroundPositionX: `${current}px` },
           { backgroundPositionX: `${goal}px` },
@@ -147,11 +147,12 @@ export default {
         this.current = n;
         this.spinState = SPIN_STATE.STOPPED;
         this.refreshBalance();
+        console.log("Ending...");
       };
 
       this.spinningAnimation.onfinish = () => {
         this.spinningAnimation.commitStyles();
-        this.spinningAnimation.cancel();
+        this.spinningAnimation.oncancel();
       };
 
       return this.spinningAnimation.finished;

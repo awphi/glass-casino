@@ -40,6 +40,7 @@ export default {
             params: [{ chainId: this.state.chain.chainId }],
           });
         } catch (e) {
+          // TODO verify this is working
           if (e.code === 4902) {
             await window.ethereum.request({
               method: "wallet_addEthereumChain",
@@ -48,10 +49,7 @@ export default {
           }
         }
 
-        const provider = new ethers.providers.Web3Provider(
-          eth,
-          Number(this.state.chain.chainId)
-        );
+        const provider = new ethers.providers.Web3Provider(eth, Number(this.state.chain.chainId));
         provider.pollingInterval = 1000;
 
         const signer = provider.getSigner(addresses[0]);

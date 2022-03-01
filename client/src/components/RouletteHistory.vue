@@ -27,8 +27,13 @@ export default {
   data() {
     return {
       history: [],
-      contractInternal: null,
     };
+  },
+  props: {
+    blocks: {
+      type: Number,
+      default: 20,
+    },
   },
   computed: {
     ...mapState(["provider", "game"]),
@@ -37,7 +42,7 @@ export default {
     let p = this.game.contract.filters.OutcomeDecided();
     const b = await this.provider.getBlockNumber();
 
-    let h = await this.provider.getLogs(p, b - 20, b);
+    let h = await this.game.contract.queryFilter(p, b - this.blocks, b);
     this.history = h.reverse().slice(0, 10);
   },
   methods: {

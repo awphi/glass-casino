@@ -49,6 +49,5 @@ provider
     ).connect(signer);
 
     roulette = new RouletteScheduler(contract, broadcast);
-    roulette.scheduleNextRoll();
   })
   .catch(console.error);
