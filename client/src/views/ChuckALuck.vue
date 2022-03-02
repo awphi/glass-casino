@@ -2,10 +2,30 @@
   <!-- TODO: why does adding flex-wrap to the following break the bet history display? (it will extend forever) -->
   <div class="flex flex-row gap-6">
     <div class="flex flex-col gap-6 flex-1">
-      <div class="box flex justify-center items-center space-x-6 flex-1">
-        <Dice ref="dice0" :initialNumber="1"></Dice>
-        <Dice ref="dice1" :initialNumber="2"></Dice>
-        <Dice ref="dice2" :initialNumber="3"></Dice>
+      <div
+        class="box flex flex-col relative justify-center items-center flex-1"
+      >
+        <div class="flex space-x-6">
+          <Dice ref="dice0" class="big-dice" :initialNumber="1"></Dice>
+          <Dice ref="dice1" class="big-dice" :initialNumber="2"></Dice>
+          <Dice ref="dice2" class="big-dice" :initialNumber="3"></Dice>
+        </div>
+        <p
+          class="
+            text-xs text-center
+            bottom-6
+            bg-steel-600
+            p-2
+            rounded-md
+            w-4/5
+            mt-6
+            md:absolute md:w-1/3
+            xl:w-1/4
+          "
+          :class="{ loading: this.pendingRequest !== null }"
+        >
+          {{ statusString }}
+        </p>
       </div>
 
       <div class="box">
@@ -24,21 +44,16 @@
       </div>
     </div>
 
-    <div class="flex flex-col gap-6 w-1/3">
-      <div class="box flex flex-col">
-        <h1 class="text-2xl font-bold">Bet Status</h1>
-        <hr class="w-full opacity-30 my-2" />
-        <p
-          class="text-sm text-center"
-          :class="{ loading: this.pendingRequest !== null }"
-        >
-          {{ statusString }}
-        </p>
-      </div>
-      <div class="box bet-box min-h-0 flex flex-1 flex-col">
-        <h1 class="text-2xl font-bold">Game History</h1>
-        <hr class="w-full opacity-30 my-2" />
-        <div class="overflow-y-auto"></div>
+    <div class="box bet-box min-h-0 flex w-1/4 flex-col">
+      <h1 class="text-2xl font-bold">Game History</h1>
+      <hr class="w-full opacity-30 my-2" />
+      <div class="overflow-y-auto">
+        <ChuckALuckBetDisplay
+          v-for="h in history"
+          :key="h"
+          :game="h"
+          :contract_address="game.contract.address"
+        ></ChuckALuckBetDisplay>
       </div>
     </div>
   </div>
@@ -48,16 +63,29 @@
 import { mapMutations, mapState, mapActions, mapGetters } from "vuex";
 import StakeSelector from "../components/StakeSelector.vue";
 import Dice from "../components/Dice.vue";
+import { BigNumber, ethers } from "ethers";
+import ChuckALuckBetDisplay from "../components/ChuckALuckBetDisplay.vue";
 
 export default {
   name: "ChuckALuck",
   components: {
     StakeSelector,
     Dice,
+    ChuckALuckBetDisplay,
   },
   data() {
     return {
       pendingRequest: null,
+      history: [
+        {
+          bet: 2,
+          bet_amount: ethers.utils.parseEther("0.1"),
+          player: "0x8E95eC0DA80bA1f7882C00eA2Fb8b98420B151cc",
+          timestamp: BigNumber.from(1646241622n),
+          winnings: ethers.utils.parseEther("0.2"),
+          rolls: [1, 3, 4],
+        },
+      ],
     };
   },
   computed: {
@@ -121,6 +149,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.game.contract);
     this.game.contract.on(
       this.game.contract.filters.GameStart(),
       async (bet, receipt) => {
@@ -134,18 +163,20 @@ export default {
 
     this.game.contract.on(
       this.game.contract.filters.GameComplete(),
-      async (rolls, bet, receipt) => {
+      async (rolls, bet, winnings, receipt) => {
         if (!this.hasSigner || bet.player !== this.signer._address) {
           return;
         }
         console.log("GameComplete", bet, rolls);
         this.pendingRequest = null;
-        const anim = this.roll(rolls.map((a) => a.toNumber()));
+        const rollsSmall = rolls.map((a) => a.toNumber());
+        const anim = this.roll(rollsSmall);
         const tx = await receipt.getTransaction();
         await Promise.all([tx.wait(), anim]);
         // TODO animate gains/losses
         this.refreshBalance();
         // TODO append to history
+        history.push({ ...bet, rolls: rollsSmall, winnings: winnings });
       }
     );
 
@@ -158,5 +189,9 @@ export default {
 .wrapper {
   @apply gap-6 grid;
   grid-template-rows: minmax(0, 1fr);
+}
+
+.big-dice {
+  @apply w-32 h-32 p-2 rounded-lg;
 }
 </style>

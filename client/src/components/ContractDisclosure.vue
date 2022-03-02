@@ -76,6 +76,7 @@
 <script>
 import { Disclosure, DisclosureButton, DisclosurePanel } from "@headlessui/vue";
 import linkJson from "../../../build/contracts/LinkTokenInterface.json";
+import LINKAddresses from "@/assets/LINK.json";
 import { markRaw } from "@vue/reactivity";
 import { ethers, BigNumber } from "ethers";
 import { mapState } from "vuex";
@@ -118,8 +119,9 @@ export default {
     },
   },
   mounted() {
+    const address = LINKAddresses[this.chain.chainId];
     this.linkContract = markRaw(
-      new ethers.Contract(this.chain.linkAddress, linkJson.abi, this.provider)
+      new ethers.Contract(address, linkJson.abi, this.provider)
     );
 
     this.provider.on("block", (n) => {

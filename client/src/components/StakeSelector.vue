@@ -1,11 +1,9 @@
 <template>
   <div class="flex flex-row h-10 justify-center">
     <button
-      v-for="v in betButtonValues.slice(
-        betButtonValues.length - shownButtons,
-        shownButtons + 1
-      )"
-      :key="v"
+      v-for="(v, i) in betButtonValues"
+      :key="i"
+      :index="i"
       @click="addToBetInput(v)"
       class="mr-2 bet-amount-btn"
     >
@@ -26,8 +24,9 @@
       </div>
     </div>
     <button
-      v-for="v in betButtonValuesAbs.slice(0, shownButtons)"
+      v-for="(v, i) in betButtonValuesAbs"
       :key="v"
+      :index="betButtonValuesAbs.length - i - 1"
       @click="addToBetInput(v)"
       class="ml-2 bg-steel-700 bet-amount-btn"
     >
@@ -55,12 +54,6 @@ export default {
       ],
     };
   },
-  props: {
-    showButtons: {
-      type: Number,
-      default: 4,
-    },
-  },
   methods: {
     betInputKeyUp(e) {
       try {
@@ -85,9 +78,6 @@ export default {
     betButtonValuesAbs() {
       return this.betButtonValues.map((a) => a.abs()).reverse();
     },
-    shownButtons() {
-      return Math.min(this.showButtons, this.betButtonValues.length);
-    },
     betAmountFormatted() {
       return ethers.utils.formatUnits(this.betAmount, "ether");
     },
@@ -96,10 +86,6 @@ export default {
 </script>
 
 <style scoped>
-.bet-amount-btn {
-  @apply rounded-md p-2 bg-steel-700 hover:bg-steel-800;
-}
-
 .bet-input {
   @apply h-full text-center pl-12 pr-12 w-48 rounded-md flex justify-center items-center;
 }
@@ -118,5 +104,25 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type="number"] {
   -moz-appearance: textfield;
+}
+
+.bet-amount-btn {
+  @apply rounded-md p-2 bg-steel-700 hover:bg-steel-800 hidden;
+}
+
+.bet-amount-btn[index="0"] {
+  @apply xl:block;
+}
+
+.bet-amount-btn[index="1"] {
+  @apply lg:block;
+}
+
+.bet-amount-btn[index="2"] {
+  @apply md:block;
+}
+
+.bet-amount-btn[index="3"] {
+  @apply sm:block;
 }
 </style>

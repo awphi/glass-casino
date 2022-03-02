@@ -1,0 +1,37 @@
+<svg width="384" height="64" viewBox="0 0 384 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="384" height="64" fill="black"/>
+<rect width="64" height="64" fill="#292F38"/>
+<rect x="256" width="64" height="64" fill="#292F38"/>
+<circle cx="32" cy="32" r="6" fill="white"/>
+<circle cx="288" cy="32" r="6" fill="white"/>
+<circle cx="308" cy="12" r="6" fill="white"/>
+<circle cx="308" cy="52" r="6" fill="white"/>
+<circle cx="288" cy="32" r="6" fill="white"/>
+<circle cx="308" cy="12" r="6" fill="white"/>
+<circle cx="308" cy="52" r="6" fill="white"/>
+<circle cx="268" cy="52" r="6" fill="white"/>
+<circle cx="268" cy="12" r="6" fill="white"/>
+<circle cx="160" cy="32" r="6" fill="white"/>
+<circle cx="180" cy="52" r="6" fill="white"/>
+<rect x="128" width="64" height="64" fill="#292F38"/>
+<circle cx="160" cy="32" r="6" fill="white"/>
+<circle cx="180" cy="52" r="6" fill="white"/>
+<circle cx="140" cy="12" r="6" fill="white"/>
+<circle cx="96" cy="32" r="6" fill="white"/>
+<circle cx="116" cy="52" r="6" fill="white"/>
+<rect x="64" width="64" height="64" fill="#292F38"/>
+<circle cx="116" cy="52" r="6" fill="white"/>
+<circle cx="76" cy="12" r="6" fill="white"/>
+<rect x="192" width="64" height="64" fill="#292F38"/>
+<circle cx="244" cy="12" r="6" fill="white"/>
+<circle cx="244" cy="52" r="6" fill="white"/>
+<circle cx="204" cy="52" r="6" fill="white"/>
+<circle cx="204" cy="12" r="6" fill="white"/>
+<rect x="320" width="64" height="64" fill="#292F38"/>
+<circle cx="332" cy="32" r="6" fill="white"/>
+<circle cx="372" cy="32" r="6" fill="white"/>
+<circle cx="372" cy="12" r="6" fill="white"/>
+<circle cx="372" cy="52" r="6" fill="white"/>
+<circle cx="332" cy="52" r="6" fill="white"/>
+<circle cx="332" cy="12" r="6" fill="white"/>
+</svg>

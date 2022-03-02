@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row gap-6">
     <div class="flex flex-col flex-1 gap-6">
-      <div class="box flex items-center justify-center">
+      <div class="box flex flex-1 items-center justify-center">
         <VueCountdown
           @end="if ($refs.wheel) $refs.wheel.startSpinning();"
           :time="nextRoll"
@@ -22,33 +22,36 @@
         </VueCountdown>
       </div>
 
-      <RouletteBetControls class="w-full flex-1 col-start-1" />
-      <div class="box col-start-1">
+      <RouletteBetControls class="w-full" />
+    </div>
+
+    <div class="flex flex-col gap-6 w-1/4">
+      <div class="box flex flex-col h-full">
+        <div class="flex flex-row items-center">
+          <h1 class="text-2xl font-bold">Current Bets</h1>
+          <div class="flex-1"></div>
+          <BalanceBox :value="betSum" />
+        </div>
+        <hr class="w-full opacity-30 my-2" />
+        <div class="overflow-y-auto flex-1">
+          <RouletteBetDisplay
+            v-for="b in bets"
+            :key="b"
+            :better_address="b.player"
+            :contract_address="game.contract.address"
+            :bet_type="b.bet_type"
+            :bet_amount="b.bet_amount"
+            :bet="b.bet"
+            :timestamp="new Date(b.timestamp.toNumber() * 1000)"
+          />
+        </div>
+      </div>
+
+      <div class="box">
         <h1 class="text-2xl font-bold">Recent Outcomes</h1>
         <p class="text-xs">Newest → Oldest (within 50 blocks)</p>
         <hr class="w-full opacity-30 mb-2 mt-2" />
         <RouletteHistory ref="history" :blocks="50" />
-      </div>
-    </div>
-
-    <div class="box bet-box min-h-0 flex flex-col h-full w-1/3">
-      <div class="flex flex-row items-center">
-        <h1 class="text-2xl font-bold">Current Bets</h1>
-        <div class="flex-1"></div>
-        <BalanceBox :value="betSum" />
-      </div>
-      <hr class="w-full opacity-30 my-2" />
-      <div class="overflow-y-auto flex-1">
-        <RouletteBetDisplay
-          v-for="b in bets"
-          :key="b"
-          :better_address="b.player"
-          :contract_address="game.contract.address"
-          :bet_type="b.bet_type"
-          :bet_amount="b.bet_amount"
-          :bet="b.bet"
-          :timestamp="new Date(b.timestamp.toNumber() * 1000)"
-        />
       </div>
     </div>
   </div>

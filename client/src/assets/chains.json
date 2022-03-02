@@ -1,18 +1,18 @@
 {
   "mumbai": {
-    "chainName": "Polygon Testnet",
+    "chainName": "Mumbai",
     "chainId": "0x13881",
     "rpcUrls": [
-      "https://rpc-mumbai.maticvigil.com/"
+      "https://matic-mumbai.chainstacklabs.com"
     ],
     "nativeCurrency": {
       "name": "MATIC",
-      "symbol": "MATIC"
+      "symbol": "MATIC",
+      "decimals": 18
     },
     "blockExplorerUrls": [
       "https://mumbai.polygonscan.com/"
-    ],
-    "linkAddress": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB"
+    ]
   },
   "main": {
     "chainName": "Polygon",
@@ -22,11 +22,11 @@
     ],
     "nativeCurrency": {
       "name": "MATIC",
-      "symbol": "MATIC"
+      "symbol": "MATIC",
+      "decimals": 18
     },
     "blockExplorerUrls": [
       "https://polygonscan.com/"
-    ],
-    "linkAddress": "0xb0897686c545045afc77cf20ec7a532e3120e0f1"
+    ]
   }
 }

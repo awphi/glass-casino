@@ -40,9 +40,8 @@ export default {
             params: [{ chainId: this.state.chain.chainId }],
           });
         } catch (e) {
-          // TODO verify this is working
           if (e.code === 4902) {
-            await window.ethereum.request({
+            await eth.request({
               method: "wallet_addEthereumChain",
               params: [this.state.chain],
             });

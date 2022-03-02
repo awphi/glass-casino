@@ -48,6 +48,6 @@ provider
       provider
     ).connect(signer);
 
-    roulette = new RouletteScheduler(contract, broadcast);
+    roulette = new RouletteScheduler(contract, broadcast, ARGS.includes("--dev") ? 15000 : 45000);
   })
   .catch(console.error);

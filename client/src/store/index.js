@@ -6,11 +6,11 @@ import gameData from "./game-data";
 import gameContract from "./game-contract";
 import metamask from "./metamask";
 
-import chainsJson from "./chains.json";
+import chainsJson from "../assets/chains.json";
 import bankContractJson from "../../../build/contracts/CentralBank.json";
 
 // TODO! revise this for prod
-const chain = chainsJson["mumbai"]; //[process.env.NODE_ENV === "development" ? "mumbai" : "main"];
+const chain = markRaw(chainsJson["mumbai"]); //[process.env.NODE_ENV === "development" ? "mumbai" : "main"];
 
 const provider = new ethers.providers.StaticJsonRpcProvider(process.env.VUE_APP_ALCHEMY_API_ENDPOINT);
 provider.pollingInterval = 1000;

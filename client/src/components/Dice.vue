@@ -1,50 +1,34 @@
 <template>
-  <div
-    class="
-      rounded-md
-      inline-grid
-      grid-cols-3
-      bg-steel-700
-      grid-rows-3
-      gap-2
-      p-3
-    "
-    ref="dice"
-  >
-    <div
-      v-for="i in [0, 1, 2, 3, 4, 5, 6, 7, 8]"
-      :key="i"
-      class="w-4 h-4 bg-gray-100 rounded-full"
-      :class="{ 'opacity-0': !face[i] }"
-    ></div>
+  <div class="bg-steel-700" ref="diceWrapper">
+    <div class="dice w-full h-full" ref="dice"></div>
   </div>
 </template>
 
 <script>
-const FACES = [
-  [false, false, false, false, true, false, false, false, false],
-  [true, false, false, false, false, false, false, false, true],
-  [true, false, false, false, true, false, false, false, true],
-  [true, false, true, false, false, false, true, false, true],
-  [true, false, true, false, true, false, true, false, true],
-  [true, false, true, true, false, true, true, false, true],
-];
-
 export default {
   name: "Dice",
   data() {
     return {
-      number: this.initialNumber,
+      current: this.initialNumber,
     };
   },
-  computed: {
-    face() {
-      return FACES[this.number - 1];
-    },
+  mounted() {
+    this.resized();
+
+    window.addEventListener("resize", this.resized);
+  },
+  unmounted() {
+    window.removeEventListener("resize", this.resized);
   },
   methods: {
+    setTo(num) {
+      this.current = num;
+      this.$refs.dice.style = `background-position-x: ${
+        (1 - num) * this.$refs.dice.clientHeight
+      }px`;
+    },
     rollTo(num, time = 200, iters = 10) {
-      const dice = this.$refs.dice;
+      const dice = this.$refs.diceWrapper;
       const anim = dice.animate(
         [
           { transform: `translateY(0px)` },
@@ -59,15 +43,18 @@ export default {
         }
       );
       const roller = setInterval(() => {
-        this.number = Math.floor(Math.random() * 6) + 1;
+        this.setTo(Math.floor(Math.random() * 6) + 1);
       }, time / 2);
 
       anim.onfinish = () => {
         clearInterval(roller);
-        this.number = num;
+        this.setTo(num);
       };
 
       return anim.finished;
+    },
+    resized() {
+      this.setTo(this.current);
     },
   },
   props: {
@@ -78,3 +65,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.dice {
+  background-image: url("../assets/Dice.svg");
+  background-size: cover;
+}
+</style>

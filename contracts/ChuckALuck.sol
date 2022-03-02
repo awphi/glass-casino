@@ -23,7 +23,7 @@ contract ChuckALuck is VRFConsumerBase, Game {
     
     mapping (bytes32 => Bet) internal bets;
 
-    event GameComplete(uint[] rolls, Bet bet);
+    event GameComplete(uint[] rolls, Bet bet, uint winnings);
     event GameStart(Bet bet);
 
     constructor(address vrfCoordinator, address linkToken, bytes32 keyHash, uint fee, address bankAddr) VRFConsumerBase(vrfCoordinator, linkToken) Game(bankAddr) {
@@ -87,7 +87,7 @@ contract ChuckALuck is VRFConsumerBase, Game {
             _bank.addFunds(owner(), bet.bet_amount / 20);
         }
         
-        emit GameComplete(rolls, bet);
+        emit GameComplete(rolls, bet, winnings);
     }
 
     function withdrawAllLink() public onlyOwner {
