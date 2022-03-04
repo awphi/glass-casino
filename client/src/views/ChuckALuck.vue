@@ -51,8 +51,7 @@
         <ChuckALuckBetDisplay
           v-for="h in history"
           :key="h"
-          :game="h"
-          :contract_address="game.contract.address"
+          :transaction="h"
         ></ChuckALuckBetDisplay>
       </div>
     </div>
@@ -63,7 +62,6 @@
 import { mapMutations, mapState, mapActions, mapGetters } from "vuex";
 import StakeSelector from "../components/StakeSelector.vue";
 import Dice from "../components/Dice.vue";
-import { BigNumber, ethers } from "ethers";
 import ChuckALuckBetDisplay from "../components/ChuckALuckBetDisplay.vue";
 
 export default {
@@ -76,16 +74,7 @@ export default {
   data() {
     return {
       pendingRequest: null,
-      history: [
-        {
-          bet: 2,
-          bet_amount: ethers.utils.parseEther("0.1"),
-          player: "0x8E95eC0DA80bA1f7882C00eA2Fb8b98420B151cc",
-          timestamp: BigNumber.from(1646241622n),
-          winnings: ethers.utils.parseEther("0.2"),
-          rolls: [1, 3, 4],
-        },
-      ],
+      history: [],
     };
   },
   computed: {
@@ -97,7 +86,7 @@ export default {
       } else if (this.pendingRequest === true) {
         return "Awaiting bet confirmation";
       } else {
-        return "Awaiting random number generation";
+        return "Bet confirmed! Awaiting RNG";
       }
     },
   },
@@ -175,12 +164,34 @@ export default {
         await Promise.all([tx.wait(), anim]);
         // TODO animate gains/losses
         this.refreshBalance();
-        // TODO append to history
-        history.push({ ...bet, rolls: rollsSmall, winnings: winnings });
+        console.log("Tx", receipt, tx);
+        this.history.push({
+          ...bet,
+          rolls: rollsSmall,
+          winnings: winnings,
+          transactionHash: receipt.transactionHash,
+        });
       }
     );
 
-    // TODO history using GameComplete logs
+    // TODO n most recent blocks
+    this.game.contract
+      .queryFilter(
+        this.game.contract.filters.GameComplete(),
+        25363135,
+        25363137
+      )
+      .then((results) => {
+        results.forEach((tx) => {
+          const o = {
+            ...tx.args.bet,
+            rolls: tx.args.rolls.map((a) => a.toNumber()),
+            winnings: tx.args.winnings,
+            transactionHash: tx.transactionHash,
+          };
+          this.history.push(o);
+        });
+      });
   },
 };
 </script>

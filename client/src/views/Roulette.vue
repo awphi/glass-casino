@@ -34,16 +34,7 @@
         </div>
         <hr class="w-full opacity-30 my-2" />
         <div class="overflow-y-auto flex-1">
-          <RouletteBetDisplay
-            v-for="b in bets"
-            :key="b"
-            :better_address="b.player"
-            :contract_address="game.contract.address"
-            :bet_type="b.bet_type"
-            :bet_amount="b.bet_amount"
-            :bet="b.bet"
-            :timestamp="new Date(b.timestamp.toNumber() * 1000)"
-          />
+          <RouletteBetDisplay v-for="b in bets" :key="b" :transaction="b" />
         </div>
       </div>
 

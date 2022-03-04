@@ -4,25 +4,37 @@
       <!-- TODO support other bet types styling here -->
       <div
         class="bet-box"
-        :class="{ 'bg-red-600': bet === 0, ' bg-gray-800': bet === 1 }"
+        :class="{
+          'bg-red-600': transaction.bet === 0,
+          ' bg-gray-800': transaction.bet === 1,
+        }"
         v-if="bet_type == 0"
       >
-        <p class="text-sm text-center">{{ bet === 0 ? "Red" : "Black" }}</p>
+        <p class="text-sm text-center">
+          {{ transaction.bet === 0 ? "Red" : "Black" }}
+        </p>
       </div>
       <div
         class="bet-box"
-        :class="{ 'bg-blue-600': bet === 0, 'bg-green-600': bet === 1 }"
+        :class="{
+          'bg-blue-600': bet === 0,
+          'bg-green-600': transaction.bet === 1,
+        }"
         v-if="bet_type == 1"
       >
-        <p class="text-sm text-center">{{ bet === 0 ? "Even" : "Odd" }}</p>
+        <p class="text-sm text-center">
+          {{ transaction.bet === 0 ? "Even" : "Odd" }}
+        </p>
       </div>
-      <div class="bet-box bg-purple-600" v-if="bet_type == 2">
-        <p class="text-sm text-center whitespace-nowrap">{{ bet }} S.U.</p>
+      <div class="bet-box bg-purple-600" v-if="transaction.bet_type == 2">
+        <p class="text-sm text-center whitespace-nowrap">
+          {{ transaction.bet }} S.U.
+        </p>
       </div>
 
       <div class="flex-1 spacer" />
       <div class="bet-amount-box bg-steel-800">
-        <p class="pr-1 flex-1">{{ betAmountFormatted }}</p>
+        <p class="pr-1 flex-1">{{ formatEther(transaction.bet_amount) }}</p>
         <img src="@/assets/matic-token-icon.svg" width="16" />
       </div>
     </div>
@@ -38,62 +50,29 @@
           better-link
         "
         target="_blank"
-        :href="`${this.chain.blockExplorerUrls[0]}/address/${contract_address}?fromaddress=${better_address}`"
+        :href="`${chain.blockExplorerUrls[0]}/address/${game.contract.address}?fromaddress=${transaction.player}`"
       >
-        {{ better_address }}
+        {{ transaction.player }}
       </a>
       <p class="timestamp text-xs ml-6 opacity-50">
-        {{ timestampFormatted }}
+        {{ formatTimestamp(transaction.timestamp.mul(1000).toNumber()) }}
       </p>
     </div>
   </div>
 </template>
 
 <script>
-import { BigNumber, ethers } from "ethers";
 import { mapState } from "vuex";
+import TimestampMixin from "../mixins/TimestampMixin";
+import EtherFormatMixin from "../mixins/EtherFormatMixin";
 
 export default {
   name: "RouletteBetDisplay",
+  mixins: [TimestampMixin, EtherFormatMixin],
   computed: {
-    ...mapState(["chain"]),
-    timestampFormatted() {
-      const t = this.timestamp;
-      const h = t.getHours().toString().padStart(2, "0");
-      const m = t.getMinutes().toString().padStart(2, "0");
-      const s = t.getSeconds().toString().padStart(2, "0");
-      return `${h}:${m}:${s}`;
-    },
-    betAmountFormatted() {
-      return ethers.utils.formatUnits(this.bet_amount, "ether").padEnd(5, "0");
-    },
+    ...mapState(["chain", "game"]),
   },
-  props: {
-    better_address: {
-      type: String,
-      default: "",
-    },
-    bet_type: {
-      type: Number,
-      default: 0,
-    },
-    contract_address: {
-      type: String,
-      default: "null",
-    },
-    bet_amount: {
-      type: BigNumber,
-      default: BigNumber.from(0n),
-    },
-    timestamp: {
-      type: Date,
-      default: new Date(),
-    },
-    bet: {
-      type: Number,
-      default: 0,
-    },
-  },
+  props: ["transaction"],
 };
 </script>
 

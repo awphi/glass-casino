@@ -12,14 +12,14 @@
         @keyup="inputKeyUp"
       />
       <h1 v-else class="text-lg pr-1 flex-1">
-        {{ format(value) }}
+        {{ formatEther(value, decimals) }}
       </h1>
       <img src="@/assets/matic-token-icon.svg" width="20" />
     </div>
     <hr v-if="showValueBelow" class="w-full" />
     <div v-if="showValueBelow" class="flex flex-row w-full text-right">
       <h1 class="text-lg pr-1 flex-1">
-        {{ format(value) }}
+        {{ formatEther(value, decimals) }}
       </h1>
       <img src="@/assets/matic-token-icon.svg" width="20" />
     </div>
@@ -29,6 +29,7 @@
 <script>
 import { BigNumber, ethers } from "ethers";
 const ZERO = BigNumber.from(0n);
+import EtherFormatMixin from "../mixins/EtherFormatMixin";
 
 export default {
   name: "BalanceBox",
@@ -37,12 +38,8 @@ export default {
       inputValue: null,
     };
   },
+  mixins: [EtherFormatMixin],
   methods: {
-    format(b) {
-      const v = ethers.utils.formatUnits(b, "ether");
-      const split = v.split(".");
-      return `${split[0]}.${split[1].slice(0, this.decimals)}`;
-    },
     inputKeyUp(e) {
       try {
         this.inputValue = ethers.utils.parseEther(e.target.value);
