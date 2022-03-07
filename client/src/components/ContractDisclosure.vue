@@ -80,9 +80,11 @@ import LINKAddresses from "@/assets/LINK.json";
 import { markRaw } from "@vue/reactivity";
 import { ethers, BigNumber } from "ethers";
 import { mapState } from "vuex";
+import EtherFormatMixin from "../mixins/EtherFormatMixin";
 
 export default {
   name: "ContractDisclosure",
+  mixins: [EtherFormatMixin],
   components: {
     Disclosure,
     DisclosureButton,
@@ -105,9 +107,6 @@ export default {
     },
   },
   methods: {
-    formatEther(val) {
-      return ethers.utils.formatEther(val);
-    },
     updateBalances() {
       this.linkContract
         .balanceOf(this.currentGameAddress)

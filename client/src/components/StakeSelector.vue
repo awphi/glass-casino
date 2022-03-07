@@ -40,9 +40,11 @@ const ONE_MATIC_CENT = BigNumber.from(10000000000000000n);
 const ZERO = BigNumber.from(0n);
 
 import { ethers, BigNumber } from "ethers";
+import EtherFormatMixin from "../mixins/EtherFormatMixin";
 
 export default {
   name: "StakeSelector",
+  mixins: [EtherFormatMixin],
   data() {
     return {
       betAmount: ONE_MATIC_CENT,
@@ -68,18 +70,12 @@ export default {
       } else {
         this.betAmount = this.betAmount.add(v);
       }
-      this.$refs.betInput.value = ethers.utils.formatEther(this.betAmount);
-    },
-    formatEther(v) {
-      return ethers.utils.formatEther(v);
+      this.$refs.betInput.value = this.formatEther(this.betAmount);
     },
   },
   computed: {
     betButtonValuesAbs() {
       return this.betButtonValues.map((a) => a.abs()).reverse();
-    },
-    betAmountFormatted() {
-      return ethers.utils.formatUnits(this.betAmount, "ether");
     },
   },
 };

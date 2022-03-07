@@ -8,7 +8,7 @@
           'bg-red-600': transaction.bet === 0,
           ' bg-gray-800': transaction.bet === 1,
         }"
-        v-if="bet_type == 0"
+        v-if="transaction.bet_type == 0"
       >
         <p class="text-sm text-center">
           {{ transaction.bet === 0 ? "Red" : "Black" }}
@@ -17,10 +17,10 @@
       <div
         class="bet-box"
         :class="{
-          'bg-blue-600': bet === 0,
+          'bg-blue-600': transaction.bet === 0,
           'bg-green-600': transaction.bet === 1,
         }"
-        v-if="bet_type == 1"
+        v-if="transaction.bet_type == 1"
       >
         <p class="text-sm text-center">
           {{ transaction.bet === 0 ? "Even" : "Odd" }}
@@ -50,9 +50,9 @@
           better-link
         "
         target="_blank"
-        :href="`${chain.blockExplorerUrls[0]}/address/${game.contract.address}?fromaddress=${transaction.player}`"
+        :href="`${chain.blockExplorerUrls[0]}/tx/${transaction.transactionHash}`"
       >
-        {{ transaction.player }}
+        {{ transaction.transactionHash }}
       </a>
       <p class="timestamp text-xs ml-6 opacity-50">
         {{ formatTimestamp(transaction.timestamp.mul(1000).toNumber()) }}

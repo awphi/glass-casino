@@ -122,7 +122,10 @@ export default {
         console.log("BetPlaced", bet, receipt);
         const tx = await receipt.getTransaction();
         await tx.wait();
-        this.bets = [...this.bets, bet];
+        this.bets = [
+          ...this.bets,
+          { ...bet, transactionHash: receipt.transactionHash },
+        ];
       }
     );
 
