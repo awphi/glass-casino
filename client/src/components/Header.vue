@@ -3,7 +3,7 @@
     <h1 class="text-4xl text-left font-bold">GlassCasino</h1>
     <div class="flex-1"></div>
     <div v-if="hasSigner" class="flex flex-row space-x-2 items-center">
-      <BalanceBox class="w-28" title="Wallet" :value="balance" />
+      <BalanceBox class="text-lg w-28" title="Wallet" :value="balance" />
       <Dialog
         class="
           fixed
@@ -35,7 +35,7 @@
         <img src="@/assets/arrows-svgrepo-com.svg" width="20" />
         <p class="text-xs">Transfer</p>
       </button>
-      <BalanceBox class="w-28" title="Bank" :value="bankBalance" />
+      <BalanceBox class="text-lg w-28" title="Bank" :value="bankBalance" />
     </div>
 
     <button

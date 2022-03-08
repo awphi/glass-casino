@@ -122,16 +122,27 @@ export default {
         console.log("BetPlaced", bet, receipt);
         const tx = await receipt.getTransaction();
         await tx.wait();
-        this.bets = [
-          ...this.bets,
-          { ...bet, transactionHash: receipt.transactionHash },
-        ];
+        console.log("Tx", receipt, tx);
+        this.bets.push({ ...bet, transactionHash: receipt.transactionHash });
       }
     );
 
-    this.game.contract.get_bets().then((r) => {
-      this.bets = r;
-    });
+    this.game.contract
+      .lastRoll()
+      .then((blockNum) =>
+        this.game.contract.queryFilter(
+          this.game.contract.filters.BetPlaced(),
+          blockNum.toNumber()
+        )
+      )
+      .then((results) => {
+        results.forEach((receipt) => {
+          this.bets.push({
+            ...receipt.args.bet,
+            transactionHash: receipt.transactionHash,
+          });
+        });
+      });
   },
   watch: {
     gameData: {

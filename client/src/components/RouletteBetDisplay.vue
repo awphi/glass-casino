@@ -33,7 +33,9 @@
       </div>
 
       <div class="flex-1 spacer" />
-      <div class="bet-amount-box bg-steel-800">
+      <div
+        class="px-1.5 py-1 rounded-md flex items-center text-sm bg-steel-800"
+      >
         <p class="pr-1 flex-1">{{ formatEther(transaction.bet_amount) }}</p>
         <img src="@/assets/matic-token-icon.svg" width="16" />
       </div>
@@ -47,7 +49,8 @@
           text-xs
           whitespace-nowrap
           overflow-hidden overflow-ellipsis
-          better-link
+          opacity-90
+          hover:opacity-70
         "
         target="_blank"
         :href="`${chain.blockExplorerUrls[0]}/tx/${transaction.transactionHash}`"
@@ -78,18 +81,6 @@ export default {
 
 <style scoped>
 .bet-box {
-  @apply rounded-md p-0.5 pl-1 pr-1;
-}
-
-.bet-amount-box {
-  @apply pl-1 pr-1 rounded-md flex items-center text-sm;
-}
-
-.better-link {
-  opacity: 90%;
-}
-
-.better-link:hover {
-  opacity: 70%;
+  @apply rounded-md px-1.5 flex items-center;
 }
 </style>

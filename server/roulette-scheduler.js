@@ -24,7 +24,7 @@ class RouletteScheduler {
   }
 
   async roll() {
-    const nBets = await this.contract.get_bets_length().catch(console.error);
+    const nBets = await this.contract.numBets().catch(console.error);
 
     var before = Date.now();
 

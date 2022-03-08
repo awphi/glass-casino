@@ -28,7 +28,9 @@
       </div>
 
       <div class="flex-1 spacer" />
-      <div class="bet-amount-box bg-steel-800">
+      <div
+        class="px-1.5 py-1 rounded-md flex items-center text-sm bg-steel-800"
+      >
         <p
           class="pr-1 flex-1 font-bold"
           :class="{ 'text-red-500': sum < 0, 'text-green-500': sum > 0 }"
@@ -47,7 +49,8 @@
           text-xs
           whitespace-nowrap
           overflow-hidden overflow-ellipsis
-          better-link
+          opacity-90
+          hover:opacity-70
         "
         target="_blank"
         :href="`${this.chain.blockExplorerUrls[0]}/tx/${transaction.transactionHash}`"
@@ -82,18 +85,6 @@ export default {
 </script>
 
 <style scoped>
-.bet-amount-box {
-  @apply pl-1 pr-1 rounded-md flex items-center text-sm p-2;
-}
-
-.better-link {
-  opacity: 90%;
-}
-
-.better-link:hover {
-  opacity: 70%;
-}
-
 .mini-dice {
   @apply w-6 h-6 p-1 rounded-sm;
 }

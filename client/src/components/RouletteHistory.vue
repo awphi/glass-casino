@@ -39,10 +39,10 @@ export default {
     ...mapState(["provider", "game"]),
   },
   async mounted() {
-    let p = this.game.contract.filters.OutcomeDecided();
-    const b = await this.provider.getBlockNumber();
-
-    let h = await this.game.contract.queryFilter(p, b - this.blocks, b);
+    const h = await this.game.contract.queryFilter(
+      this.game.contract.filters.OutcomeDecided(),
+      -this.blocks
+    );
     this.history = h.reverse().slice(0, 10);
   },
   methods: {

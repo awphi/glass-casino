@@ -18,28 +18,17 @@ contract Roulette is Game {
     uint256 bet_amount;
   }
 
-  constructor(address bankAddr) Game(bankAddr) {}
+  constructor(address bankAddr) Game(bankAddr) {
+    lastRoll = block.number;
+  }
 
-  uint128 numBets = 0;
+  uint256 public lastRoll = 0;
+  uint128 public numBets = 0;
   Bet[128] bets;
 
   // Used so dApp can listen to emitted event to update UIs as soon as the outcome is rolled
   event OutcomeDecided(uint roll);
   event BetPlaced(Bet bet);
-
-  function get_bets() public view returns (Bet[] memory) {
-    Bet[] memory ret = new Bet[](numBets);
-
-    for(uint i = 0; i < numBets; i ++) {
-      ret[i] = bets[i];
-    }
-
-    return ret;
-  }
-
-  function get_bets_length() public view returns (uint128) {
-    return numBets;
-  }
 
   function get_max_bets() public view returns (uint) {
     return bets.length;
@@ -127,5 +116,6 @@ contract Roulette is Game {
     }
 
     numBets = 0;
+    lastRoll = block.number;
   }
 }
