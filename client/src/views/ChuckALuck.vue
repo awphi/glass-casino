@@ -5,7 +5,7 @@
       <div
         class="box flex flex-col relative justify-center items-center flex-1"
       >
-        <div class="flex space-x-6">
+        <div class="flex space-x-2 md:space-x-4 lg:space-x-6 my-12">
           <Dice ref="dice0" class="big-dice" :initialNumber="1"></Dice>
           <Dice ref="dice1" class="big-dice" :initialNumber="2"></Dice>
           <Dice ref="dice2" class="big-dice" :initialNumber="3"></Dice>
@@ -18,8 +18,8 @@
             p-2
             rounded-md
             w-4/5
-            mt-6
-            md:absolute md:w-1/3
+            absolute
+            md:w-1/3
             xl:w-1/4
           "
           :class="{ loading: this.pendingRequest !== null }"
@@ -44,7 +44,7 @@
       </div>
     </div>
 
-    <div class="box bet-box min-h-0 flex w-1/4 flex-col">
+    <div class="box game-history-box min-h-0 flex w-full lg:w-1/4 flex-col">
       <h1 class="text-2xl font-bold">Game History</h1>
       <hr class="w-full opacity-30 my-2" />
       <div class="overflow-y-auto">
@@ -203,6 +203,11 @@ export default {
 }
 
 .big-dice {
-  @apply w-32 h-32 p-2 rounded-lg;
+  @apply w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 p-2 rounded-lg;
+}
+
+.game-history-box {
+  height: 500px;
+  @apply lg:h-full;
 }
 </style>

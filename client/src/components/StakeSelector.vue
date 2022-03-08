@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-row h-10 justify-center">
+  <div class="flex flex-row h-10 w-full justify-center">
     <button
       v-for="(v, i) in betButtonValues"
       :key="i"
@@ -83,7 +83,7 @@ export default {
 
 <style scoped>
 .bet-input {
-  @apply h-full text-center pl-12 pr-12 w-48 rounded-md flex justify-center items-center;
+  @apply h-full text-center w-full rounded-md flex justify-center items-center;
 }
 
 .token-bg {
@@ -119,6 +119,6 @@ input[type="number"] {
 }
 
 .bet-amount-btn[index="3"] {
-  @apply sm:block;
+  @apply block;
 }
 </style>

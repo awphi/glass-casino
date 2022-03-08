@@ -1,9 +1,11 @@
 <template>
   <div class="flex flex-col absolute w-full h-full">
     <Header class="h-20" />
-    <div class="flex flex-row flex-1">
-      <Sidebar></Sidebar>
-      <router-view class="p-6 flex-1"></router-view>
+    <div class="flex flex-row flex-1 min-h-0">
+      <Sidebar class="hidden lg:flex"></Sidebar>
+      <router-view
+        class="p-6 w-full flex-wrap overflow-auto bg-steel-200"
+      ></router-view>
     </div>
   </div>
 </template>
@@ -24,12 +26,10 @@ body,
 #app {
   height: 100%;
   margin: 0;
-  overflow: auto;
 }
 
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-steel-200;
 }
 </style>

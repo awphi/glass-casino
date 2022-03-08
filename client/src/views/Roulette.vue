@@ -1,12 +1,12 @@
 <template>
-  <div class="flex flex-row gap-6">
+  <div class="flex flex-row gap-6 h-full">
     <div class="flex flex-col flex-1 gap-6">
       <div class="box flex flex-1 items-center justify-center">
         <VueCountdown
           @end="if ($refs.wheel) $refs.wheel.startSpinning();"
           :time="nextRoll"
           :interval="100"
-          class="w-4/5 h-16 relative"
+          class="w-full lg:w-4/5 h-16 relative"
           v-slot="{ seconds, milliseconds, totalMilliseconds }"
         >
           <div
@@ -25,24 +25,24 @@
       <RouletteBetControls class="w-full" />
     </div>
 
-    <div class="flex flex-col gap-6 w-1/4">
-      <div class="box flex flex-col h-full">
+    <div class="flex flex-col gap-6 w-full h-full lg:w-1/4 lg:flex-col-reverse">
+      <div class="box">
+        <h1 class="text-2xl font-bold">Recent Outcomes</h1>
+        <p class="text-xs">Newest → Oldest (within 50 blocks)</p>
+        <hr class="w-full opacity-30 mb-2 mt-2" />
+        <RouletteHistory ref="history" :blocks="50" />
+      </div>
+
+      <div class="box current-bets-box flex flex-col flex-1">
         <div class="flex flex-row items-center">
           <h1 class="text-2xl font-bold">Current Bets</h1>
           <div class="flex-1"></div>
           <BalanceBox :value="betSum" />
         </div>
         <hr class="w-full opacity-30 my-2" />
-        <div class="overflow-y-auto flex-1">
+        <div class="overflow-y-auto">
           <RouletteBetDisplay v-for="b in bets" :key="b" :transaction="b" />
         </div>
-      </div>
-
-      <div class="box">
-        <h1 class="text-2xl font-bold">Recent Outcomes</h1>
-        <p class="text-xs">Newest → Oldest (within 50 blocks)</p>
-        <hr class="w-full opacity-30 mb-2 mt-2" />
-        <RouletteHistory ref="history" :blocks="50" />
       </div>
     </div>
   </div>
@@ -156,5 +156,17 @@ export default {
 <style scoped>
 .wheel-sheath {
   @apply w-full h-full flex items-center justify-center rounded-md absolute bg-black bg-opacity-80;
+}
+
+.current-bets-box {
+  height: 500px;
+}
+
+.clearfix:after {
+  content: ".";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
 }
 </style>

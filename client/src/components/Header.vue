@@ -1,6 +1,28 @@
 <template>
-  <div class="flex flex-row items-center p-3 bg-steel-700 shadow-lg">
-    <h1 class="text-4xl text-left font-bold">GlassCasino</h1>
+  <div class="flex flex-row items-center p-4 bg-steel-700 shadow-lg">
+    <button
+      @click="isSidebarModalOpen = true"
+      class="h-full flex p-1.5 md:hidden filter hover:brightness-75"
+    >
+      <img src="@/assets/menu-svgrepo-com.svg" class="h-full" />
+    </button>
+    <Dialog
+      class="
+        fixed
+        inset-0
+        z-10
+        flex flex-col
+        items-center
+        justify-center
+        overflow-y-auto
+      "
+      :open="isSidebarModalOpen"
+      @close="isSidebarModalOpen = false"
+    >
+      <DialogOverlay class="fixed inset-0 bg-black opacity-50" />
+      <Sidebar class="z-10 fixed left-0 top-0 h-full" />
+    </Dialog>
+    <h1 class="text-4xl text-left font-bold hidden md:block">GlassCasino</h1>
     <div class="flex-1"></div>
     <div v-if="hasSigner" class="flex flex-row space-x-2 items-center">
       <BalanceBox class="text-lg w-28" title="Wallet" :value="balance" />
@@ -39,7 +61,7 @@
     </div>
 
     <button
-      class="flex items-center p-2 h-4/5 rounded-md bg-steel-800"
+      class="flex items-center p-2 h-full rounded-md bg-steel-800"
       v-else
       @click="metamaskConnect"
     >
@@ -47,12 +69,11 @@
       <img src="@/assets/metamask-fox.svg" class="ml-2" width="24" />
     </button>
     <!-- TODO helpful popover explaining metamask if unconnected and balances if connected -->
-    <Popover className="relative flex ml-2">
+    <Popover className="relative h-full flex ml-2">
       <PopoverButton>
         <img
-          class="filter hover:brightness-75"
+          class="filter hover:brightness-75 h-full"
           src="@/assets/help-svgrepo-com.svg"
-          width="24"
         />
       </PopoverButton>
 
@@ -114,6 +135,7 @@ import {
   PopoverButton,
   PopoverPanel,
 } from "@headlessui/vue";
+import Sidebar from "./Sidebar.vue";
 
 export default {
   name: "Header",
@@ -125,10 +147,12 @@ export default {
     Popover,
     PopoverPanel,
     PopoverButton,
+    Sidebar,
   },
   data() {
     return {
       isBankOpen: false,
+      isSidebarModalOpen: false,
     };
   },
   computed: {

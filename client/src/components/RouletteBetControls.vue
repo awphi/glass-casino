@@ -78,6 +78,6 @@ export default {
 }
 
 .bet-btn {
-  @apply rounded-md p-2 pt-1 pb-1 w-1/3;
+  @apply rounded-md p-2 pt-1 pb-1 w-full sm:w-4/5 md:w-1/2 lg:w-1/3;
 }
 </style>
