@@ -68,7 +68,6 @@
       <p>Connect</p>
       <img src="@/assets/metamask-fox.svg" class="ml-2" width="24" />
     </button>
-    <!-- TODO helpful popover explaining metamask if unconnected and balances if connected -->
     <Popover className="relative h-full flex ml-2">
       <PopoverButton>
         <img

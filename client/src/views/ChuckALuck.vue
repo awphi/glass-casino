@@ -1,5 +1,4 @@
 <template>
-  <!-- TODO: why does adding flex-wrap to the following break the bet history display? (it will extend forever) -->
   <div class="flex flex-row gap-6">
     <div class="flex flex-col gap-6 flex-1">
       <div
