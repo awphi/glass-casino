@@ -13,6 +13,7 @@ import bankContractJson from "../../../build/contracts/CentralBank.json";
 const chain = markRaw(chainsJson["mumbai"]); //[process.env.NODE_ENV === "development" ? "mumbai" : "main"];
 
 const provider = new ethers.providers.StaticJsonRpcProvider(process.env.VUE_APP_ALCHEMY_API_ENDPOINT);
+// TODO lower this
 provider.pollingInterval = 1000;
 
 const bankContract = new Contract(

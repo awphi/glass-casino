@@ -1,0 +1,502 @@
+[
+  {
+    "name": "Binance Node",
+    "stake": 402175799,
+    "perc": 0.15038808655388394
+  },
+  {
+    "name": "Stakin",
+    "stake": 306114523,
+    "perc": 0.11446729886480538
+  },
+  {
+    "name": "Allnodes.com ⚡️ 0% fee",
+    "stake": 302382055,
+    "perc": 0.11307159399633912
+  },
+  {
+    "name": "Web3Nodes Validator 🌎 0% fee",
+    "stake": 219892453,
+    "perc": 0.08222574639382976
+  },
+  {
+    "name": "Anonymous 92",
+    "stake": 116223550,
+    "perc": 0.043460191638730744
+  },
+  {
+    "name": "Anonymous 94",
+    "stake": 114188708,
+    "perc": 0.04269929057113697
+  },
+  {
+    "name": "MANTRA DAO",
+    "stake": 95167123,
+    "perc": 0.03558643152172396
+  },
+  {
+    "name": "Vault Staking",
+    "stake": 80408210,
+    "perc": 0.03006753980520562
+  },
+  {
+    "name": "Staking4all - 0% fee",
+    "stake": 77248434,
+    "perc": 0.02888598520206829
+  },
+  {
+    "name": "🐠 stake.fish",
+    "stake": 73202244,
+    "perc": 0.027372968323761647
+  },
+  {
+    "name": "Anonymous 91",
+    "stake": 71668544,
+    "perc": 0.026799462387001656
+  },
+  {
+    "name": "Chain Guardians",
+    "stake": 68713863,
+    "perc": 0.025694600227040818
+  },
+  {
+    "name": "Decentral Games",
+    "stake": 67645250,
+    "perc": 0.025295007151733457
+  },
+  {
+    "name": "SelfLiquidity",
+    "stake": 63046150,
+    "perc": 0.023575237213836305
+  },
+  {
+    "name": "DraftKings Node",
+    "stake": 52993994,
+    "perc": 0.01981637228377336
+  },
+  {
+    "name": "Vader73",
+    "stake": 42331318,
+    "perc": 0.015829211830132982
+  },
+  {
+    "name": "InfStones",
+    "stake": 42039114,
+    "perc": 0.01571994617925927
+  },
+  {
+    "name": "Everstake",
+    "stake": 37963865,
+    "perc": 0.014196063089166547
+  },
+  {
+    "name": "Anonymous 93",
+    "stake": 27002487,
+    "perc": 0.010097207147280698
+  },
+  {
+    "name": "Abyss Finance 🔥 0% fee",
+    "stake": 26558024,
+    "perc": 0.009931006345839637
+  },
+  {
+    "name": "StakePool",
+    "stake": 20389866,
+    "perc": 0.00762450883532675
+  },
+  {
+    "name": "Valis Labs",
+    "stake": 20339524,
+    "perc": 0.00760568413957897
+  },
+  {
+    "name": "Torus Validator",
+    "stake": 20068694,
+    "perc": 0.007504411000860375
+  },
+  {
+    "name": "Prometheus Pool",
+    "stake": 17391070,
+    "perc": 0.006503150480282017
+  },
+  {
+    "name": "Infosys",
+    "stake": 17104467,
+    "perc": 0.006395979246016371
+  },
+  {
+    "name": "Validation Capital",
+    "stake": 16299085,
+    "perc": 0.006094817768309105
+  },
+  {
+    "name": "RADAR staking",
+    "stake": 15885969,
+    "perc": 0.005940338744660061
+  },
+  {
+    "name": "AUDIT.one",
+    "stake": 15099078,
+    "perc": 0.005646091721068091
+  },
+  {
+    "name": "Supermoon",
+    "stake": 14975643,
+    "perc": 0.0055999349072818425
+  },
+  {
+    "name": "Newroad Network",
+    "stake": 14189775,
+    "perc": 0.005306070420413682
+  },
+  {
+    "name": "Chainflow",
+    "stake": 12100243,
+    "perc": 0.0045247187825118934
+  },
+  {
+    "name": "Anonymous 112",
+    "stake": 11780260,
+    "perc": 0.0044050655581771014
+  },
+  {
+    "name": "Witval",
+    "stake": 11065555,
+    "perc": 0.004137811492497994
+  },
+  {
+    "name": "The Abyss (0% commission)",
+    "stake": 10693363,
+    "perc": 0.003998635433546065
+  },
+  {
+    "name": "HashQuark",
+    "stake": 10615304,
+    "perc": 0.003969446348381073
+  },
+  {
+    "name": "Blockops",
+    "stake": 10057075,
+    "perc": 0.003760704322188472
+  },
+  {
+    "name": "Bware Labs",
+    "stake": 7327594,
+    "perc": 0.0027400525925323532
+  },
+  {
+    "name": "Stake DAO",
+    "stake": 7026930,
+    "perc": 0.002627623441479341
+  },
+  {
+    "name": "BCW Technologies",
+    "stake": 7006705,
+    "perc": 0.0026200605820081465
+  },
+  {
+    "name": "Matic Foundation Node 1",
+    "stake": 6363575,
+    "perc": 0.0023795709992289514
+  },
+  {
+    "name": "Fahrenheit ❄️ 0%",
+    "stake": 6130015,
+    "perc": 0.002292234462364074
+  },
+  {
+    "name": "WolfEdge Capital",
+    "stake": 5862428,
+    "perc": 0.0021921739987142107
+  },
+  {
+    "name": "StakeBaby 0% to 2023",
+    "stake": 5328941,
+    "perc": 0.0019926839017693873
+  },
+  {
+    "name": "SolidStake",
+    "stake": 5005776,
+    "perc": 0.0018718408124735395
+  },
+  {
+    "name": "Figment",
+    "stake": 4438435,
+    "perc": 0.0016596914797048438
+  },
+  {
+    "name": "Nobi",
+    "stake": 4135125,
+    "perc": 0.00154627289348937
+  },
+  {
+    "name": "IGGalaxy",
+    "stake": 4111858,
+    "perc": 0.0015375725201239173
+  },
+  {
+    "name": "ATEAM",
+    "stake": 4049476,
+    "perc": 0.0015142456326316036
+  },
+  {
+    "name": "Shard Labs",
+    "stake": 3769757,
+    "perc": 0.0014096485751075982
+  },
+  {
+    "name": "Smart Stake - 0% commission",
+    "stake": 3331117,
+    "perc": 0.001245625204109097
+  },
+  {
+    "name": "Wetez",
+    "stake": 3311700,
+    "perc": 0.001238364485080559
+  },
+  {
+    "name": "Matic Foundation Node 4",
+    "stake": 3039703,
+    "perc": 0.0011366549628265938
+  },
+  {
+    "name": "DSRV",
+    "stake": 3018028,
+    "perc": 0.0011285498958778601
+  },
+  {
+    "name": "bountyblok",
+    "stake": 3012153,
+    "perc": 0.0011263530207533475
+  },
+  {
+    "name": "VC Capital",
+    "stake": 2932620,
+    "perc": 0.0010966127536422227
+  },
+  {
+    "name": "Matic Foundation Node 5",
+    "stake": 2562435,
+    "perc": 0.0009581871846264463
+  },
+  {
+    "name": "FreshMATIC.net",
+    "stake": 2466076,
+    "perc": 0.0009221550671587175
+  },
+  {
+    "name": "AnkrValidator",
+    "stake": 2216704,
+    "perc": 0.0008289058512353219
+  },
+  {
+    "name": "Making.cash",
+    "stake": 2172681,
+    "perc": 0.0008124440582810381
+  },
+  {
+    "name": "Matic Foundation Node 3",
+    "stake": 2124005,
+    "perc": 0.0007942423402281405
+  },
+  {
+    "name": "Coinstash",
+    "stake": 2121853,
+    "perc": 0.0007934376295442339
+  },
+  {
+    "name": "Proton Gaming",
+    "stake": 2119129,
+    "perc": 0.0007924190273588429
+  },
+  {
+    "name": "Tavis Digital",
+    "stake": 2092281,
+    "perc": 0.000782379588491964
+  },
+  {
+    "name": "Matic Foundation Node 2",
+    "stake": 2076695,
+    "perc": 0.0007765514190127039
+  },
+  {
+    "name": "Sakura Foundation",
+    "stake": 2064820,
+    "perc": 0.000772110926739753
+  },
+  {
+    "name": "MyCointainer.com",
+    "stake": 2056356,
+    "perc": 0.0007689459308156892
+  },
+  {
+    "name": "algo | stake",
+    "stake": 1941685,
+    "perc": 0.0007260662938109265
+  },
+  {
+    "name": "Ethermon Validator",
+    "stake": 1933406,
+    "perc": 0.000722970476082273
+  },
+  {
+    "name": "Perfect Stake 🥩",
+    "stake": 1920480,
+    "perc": 0.0007181369768721539
+  },
+  {
+    "name": "Ownest",
+    "stake": 1802939,
+    "perc": 0.0006741841429980548
+  },
+  {
+    "name": "AutoMATIC Generator",
+    "stake": 1687903,
+    "perc": 0.0006311680192834287
+  },
+  {
+    "name": "Just-Mining",
+    "stake": 1565887,
+    "perc": 0.000585541820952786
+  },
+  {
+    "name": "Staked",
+    "stake": 1491555,
+    "perc": 0.0005577463959731658
+  },
+  {
+    "name": "pathrocknetwork",
+    "stake": 1437643,
+    "perc": 0.0005375867480220643
+  },
+  {
+    "name": "YieldWallet.io",
+    "stake": 1408579,
+    "perc": 0.0005267186665550287
+  },
+  {
+    "name": "Tessellated Geometry",
+    "stake": 1399909,
+    "perc": 0.0005234766397755353
+  },
+  {
+    "name": "Hounddog Streaming",
+    "stake": 1344495,
+    "perc": 0.0005027553396649414
+  },
+  {
+    "name": "ANON LowFee",
+    "stake": 1319243,
+    "perc": 0.000493312702959547
+  },
+  {
+    "name": "DeFiMatic",
+    "stake": 1282844,
+    "perc": 0.00047970179952854566
+  },
+  {
+    "name": "kytzu",
+    "stake": 1263622,
+    "perc": 0.0004725139980573319
+  },
+  {
+    "name": "Marlin",
+    "stake": 1259710,
+    "perc": 0.00047105115967655014
+  },
+  {
+    "name": "Girnaar Nodes",
+    "stake": 1212184,
+    "perc": 0.0004532794682437698
+  },
+  {
+    "name": "Rasputin",
+    "stake": 1193433,
+    "perc": 0.0004462677907187085
+  },
+  {
+    "name": "double jump.tokyo",
+    "stake": 1167262,
+    "perc": 0.00043648150665341167
+  },
+  {
+    "name": "Blue Ocean",
+    "stake": 1032121,
+    "perc": 0.00038594739581056004
+  },
+  {
+    "name": "Matic Foundation Node 7",
+    "stake": 998273,
+    "perc": 0.00037329040360383636
+  },
+  {
+    "name": "VK Labs",
+    "stake": 940442,
+    "perc": 0.00035166529971861313
+  },
+  {
+    "name": "Bi23 Labs",
+    "stake": 893235,
+    "perc": 0.00033401289393089145
+  },
+  {
+    "name": "EMC2 Node",
+    "stake": 875095,
+    "perc": 0.00032722969141877944
+  },
+  {
+    "name": "Masternode24.de",
+    "stake": 806177,
+    "perc": 0.00030145875697943345
+  },
+  {
+    "name": "Matrix Stake",
+    "stake": 638710,
+    "perc": 0.0002388367848131787
+  },
+  {
+    "name": "Stake.Works",
+    "stake": 606390,
+    "perc": 0.000226751167106924
+  },
+  {
+    "name": "Blocks United",
+    "stake": 593581,
+    "perc": 0.00022196141843119948
+  },
+  {
+    "name": "Cryptonomicon",
+    "stake": 559812,
+    "perc": 0.0002093339671835969
+  },
+  {
+    "name": "PrideVel",
+    "stake": 435348,
+    "perc": 0.00016279237305639134
+  },
+  {
+    "name": "MillenniumClub",
+    "stake": 410803,
+    "perc": 0.00015361410923832137
+  },
+  {
+    "name": "Atlas Staking",
+    "stake": 197851,
+    "perc": 0.0000739836494059467
+  },
+  {
+    "name": "Mind Heart Soul",
+    "stake": 170078,
+    "perc": 0.00006359831956201689
+  },
+  {
+    "name": "Sapien",
+    "stake": 164707,
+    "perc": 0.00006158990827797313
+  },
+  {
+    "name": "Power",
+    "stake": 1997,
+    "perc": 7.467505742385712e-7
+  }
+]

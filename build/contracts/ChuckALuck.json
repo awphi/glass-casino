@@ -16797,11 +16797,58 @@
           ],
           "name": "OwnershipTransferred",
           "type": "event"
+        },
+        "0xa689fef7034e737b434045d5a58741b70a319cf54c2dbe6cf498428815701be2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256[]",
+              "name": "rolls",
+              "type": "uint256[]"
+            },
+            {
+              "components": [
+                {
+                  "internalType": "address",
+                  "name": "player",
+                  "type": "address"
+                },
+                {
+                  "internalType": "uint64",
+                  "name": "timestamp",
+                  "type": "uint64"
+                },
+                {
+                  "internalType": "uint32",
+                  "name": "bet",
+                  "type": "uint32"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "bet_amount",
+                  "type": "uint256"
+                }
+              ],
+              "indexed": false,
+              "internalType": "struct ChuckALuck.Bet",
+              "name": "bet",
+              "type": "tuple"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "winnings",
+              "type": "uint256"
+            }
+          ],
+          "name": "GameComplete",
+          "type": "event"
         }
       },
       "links": {},
-      "address": "0x794e28be91b1e57ff87406f64d12884C9831959a",
-      "transactionHash": "0x5a4cc41d14671a4b00967d1770a8ae1888e665d92b0b2367db55535f85272bd6"
+      "address": "0xC8A67E937C66DFDDd00dA47A50c3fb02B3a86f66",
+      "transactionHash": "0xf45e90945354eaec6030ecd8f7f1e59fd0fa1733b86d640dfd9e9fa8f63ce25d"
     },
     "80001": {
       "events": {
@@ -16954,7 +17001,7 @@
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-03-08T14:27:24.143Z",
+  "updatedAt": "2022-04-05T21:40:07.998Z",
   "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
