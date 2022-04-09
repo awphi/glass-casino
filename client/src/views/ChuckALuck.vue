@@ -140,7 +140,7 @@ export default {
     console.log(this.game.contract);
     this.game.contract.on(
       this.game.contract.filters.GameStart(),
-      async (bet, receipt) => {
+      async (requestId, bet, receipt) => {
         console.log("GameStart", bet, receipt);
         const tx = await receipt.getTransaction();
         await tx.wait();
@@ -151,7 +151,7 @@ export default {
 
     this.game.contract.on(
       this.game.contract.filters.GameComplete(),
-      async (rolls, bet, winnings, receipt) => {
+      async (requestId, rolls, bet, winnings, receipt) => {
         if (!this.hasSigner || bet.player !== this.signer._address) {
           return;
         }

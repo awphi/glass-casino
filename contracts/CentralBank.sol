@@ -15,8 +15,8 @@ contract CentralBank is AccessControlEnumerable, ICentralBank {
 
     mapping(address => uint256) private funds;
 
-    event Withdraw(address addr, uint256 amount, uint256 remaining);
-    event Deposit(address addr, uint256 amount, uint256 oldBalance);
+    event Withdraw(address indexed addr, uint256 amount, uint256 remaining);
+    event Deposit(address indexed addr, uint256 amount, uint256 oldBalance);
 
     constructor() {
         _setRoleAdmin(OPERATOR, ADMIN);

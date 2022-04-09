@@ -1228,21 +1228,21 @@
         924
       ],
       "Game": [
-        2374
+        2380
       ],
       "ICentralBank": [
-        2406
+        2412
       ],
       "Ownable": [
         902
       ]
     },
-    "id": 2375,
+    "id": 2381,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2322,
+        "id": 2328,
         "literals": [
           "solidity",
           ">=",
@@ -1258,11 +1258,11 @@
       {
         "absolutePath": "project:/contracts/ICentralBank.sol",
         "file": "./ICentralBank.sol",
-        "id": 2323,
+        "id": 2329,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2375,
-        "sourceUnit": 2407,
+        "scope": 2381,
+        "sourceUnit": 2413,
         "src": "144:28:15",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1270,10 +1270,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/access/Ownable.sol",
         "file": "@openzeppelin/contracts/access/Ownable.sol",
-        "id": 2324,
+        "id": 2330,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2375,
+        "scope": 2381,
         "sourceUnit": 903,
         "src": "174:52:15",
         "symbolAliases": [],
@@ -1284,13 +1284,13 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 2325,
+              "id": 2331,
               "name": "Ownable",
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 902,
               "src": "247:7:15"
             },
-            "id": 2326,
+            "id": 2332,
             "nodeType": "InheritanceSpecifier",
             "src": "247:7:15"
           }
@@ -1298,9 +1298,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 2374,
+        "id": 2380,
         "linearizedBaseContracts": [
-          2374,
+          2380,
           902,
           924
         ],
@@ -1310,33 +1310,33 @@
         "nodes": [
           {
             "constant": false,
-            "id": 2329,
+            "id": 2335,
             "mutability": "mutable",
             "name": "_bank",
             "nameLocation": "284:5:15",
             "nodeType": "VariableDeclaration",
-            "scope": 2374,
+            "scope": 2380,
             "src": "262:27:15",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_ICentralBank_$2406",
+              "typeIdentifier": "t_contract$_ICentralBank_$2412",
               "typeString": "contract ICentralBank"
             },
             "typeName": {
-              "id": 2328,
+              "id": 2334,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 2327,
+                "id": 2333,
                 "name": "ICentralBank",
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 2406,
+                "referencedDeclaration": 2412,
                 "src": "262:12:15"
               },
-              "referencedDeclaration": 2406,
+              "referencedDeclaration": 2412,
               "src": "262:12:15",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                "typeIdentifier": "t_contract$_ICentralBank_$2412",
                 "typeString": "contract ICentralBank"
               }
             },
@@ -1344,26 +1344,26 @@
           },
           {
             "body": {
-              "id": 2340,
+              "id": 2346,
               "nodeType": "Block",
               "src": "328:49:15",
               "statements": [
                 {
                   "expression": {
-                    "id": 2338,
+                    "id": 2344,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 2334,
+                      "id": 2340,
                       "name": "_bank",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2329,
+                      "referencedDeclaration": 2335,
                       "src": "339:5:15",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                        "typeIdentifier": "t_contract$_ICentralBank_$2412",
                         "typeString": "contract ICentralBank"
                       }
                     },
@@ -1372,11 +1372,11 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 2336,
+                          "id": 2342,
                           "name": "bankAddr",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2331,
+                          "referencedDeclaration": 2337,
                           "src": "360:8:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -1391,18 +1391,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 2335,
+                        "id": 2341,
                         "name": "ICentralBank",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2406,
+                        "referencedDeclaration": 2412,
                         "src": "347:12:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_ICentralBank_$2406_$",
+                          "typeIdentifier": "t_type$_t_contract$_ICentralBank_$2412_$",
                           "typeString": "type(contract ICentralBank)"
                         }
                       },
-                      "id": 2337,
+                      "id": 2343,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -1413,23 +1413,23 @@
                       "src": "347:22:15",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                        "typeIdentifier": "t_contract$_ICentralBank_$2412",
                         "typeString": "contract ICentralBank"
                       }
                     },
                     "src": "339:30:15",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                      "typeIdentifier": "t_contract$_ICentralBank_$2412",
                       "typeString": "contract ICentralBank"
                     }
                   },
-                  "id": 2339,
+                  "id": 2345,
                   "nodeType": "ExpressionStatement",
                   "src": "339:30:15"
                 }
               ]
             },
-            "id": 2341,
+            "id": 2347,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
@@ -1437,17 +1437,17 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2332,
+              "id": 2338,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2331,
+                  "id": 2337,
                   "mutability": "mutable",
                   "name": "bankAddr",
                   "nameLocation": "318:8:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2341,
+                  "scope": 2347,
                   "src": "310:16:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1456,7 +1456,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2330,
+                    "id": 2336,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "310:7:15",
@@ -1472,12 +1472,12 @@
               "src": "309:18:15"
             },
             "returnParameters": {
-              "id": 2333,
+              "id": 2339,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "328:0:15"
             },
-            "scope": 2374,
+            "scope": 2380,
             "src": "298:79:15",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -1485,7 +1485,7 @@
           },
           {
             "body": {
-              "id": 2355,
+              "id": 2361,
               "nodeType": "Block",
               "src": "429:70:15",
               "statements": [
@@ -1497,17 +1497,17 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2350,
+                        "id": 2356,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 2348,
+                          "id": 2354,
                           "name": "v",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2343,
+                          "referencedDeclaration": 2349,
                           "src": "448:1:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -1517,11 +1517,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": ">",
                         "rightExpression": {
-                          "id": 2349,
+                          "id": 2355,
                           "name": "min",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2345,
+                          "referencedDeclaration": 2351,
                           "src": "452:3:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -1536,7 +1536,7 @@
                       },
                       {
                         "hexValue": "496e76616c69642062657420616d6f756e742e",
-                        "id": 2351,
+                        "id": 2357,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1562,7 +1562,7 @@
                           "typeString": "literal_string \"Invalid bet amount.\""
                         }
                       ],
-                      "id": 2347,
+                      "id": 2353,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1576,7 +1576,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 2352,
+                    "id": 2358,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1591,33 +1591,33 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2353,
+                  "id": 2359,
                   "nodeType": "ExpressionStatement",
                   "src": "440:39:15"
                 },
                 {
-                  "id": 2354,
+                  "id": 2360,
                   "nodeType": "PlaceholderStatement",
                   "src": "490:1:15"
                 }
               ]
             },
-            "id": 2356,
+            "id": 2362,
             "name": "minimumBet",
             "nameLocation": "394:10:15",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2346,
+              "id": 2352,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2343,
+                  "id": 2349,
                   "mutability": "mutable",
                   "name": "v",
                   "nameLocation": "413:1:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2356,
+                  "scope": 2362,
                   "src": "405:9:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1626,7 +1626,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2342,
+                    "id": 2348,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "405:7:15",
@@ -1639,12 +1639,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 2345,
+                  "id": 2351,
                   "mutability": "mutable",
                   "name": "min",
                   "nameLocation": "424:3:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2356,
+                  "scope": 2362,
                   "src": "416:11:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1653,7 +1653,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2344,
+                    "id": 2350,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "416:7:15",
@@ -1673,7 +1673,7 @@
           },
           {
             "body": {
-              "id": 2372,
+              "id": 2378,
               "nodeType": "Block",
               "src": "540:108:15",
               "statements": [
@@ -1685,7 +1685,7 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2367,
+                        "id": 2373,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -1694,7 +1694,7 @@
                           "arguments": [
                             {
                               "expression": {
-                                "id": 2363,
+                                "id": 2369,
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
@@ -1705,7 +1705,7 @@
                                   "typeString": "msg"
                                 }
                               },
-                              "id": 2364,
+                              "id": 2370,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -1727,32 +1727,32 @@
                               }
                             ],
                             "expression": {
-                              "id": 2361,
+                              "id": 2367,
                               "name": "_bank",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2329,
+                              "referencedDeclaration": 2335,
                               "src": "559:5:15",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                                "typeIdentifier": "t_contract$_ICentralBank_$2412",
                                 "typeString": "contract ICentralBank"
                               }
                             },
-                            "id": 2362,
+                            "id": 2368,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "balanceOf",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 2405,
+                            "referencedDeclaration": 2411,
                             "src": "559:15:15",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
                               "typeString": "function (address) view external returns (uint256)"
                             }
                           },
-                          "id": 2365,
+                          "id": 2371,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -1770,11 +1770,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": ">=",
                         "rightExpression": {
-                          "id": 2366,
+                          "id": 2372,
                           "name": "v",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2358,
+                          "referencedDeclaration": 2364,
                           "src": "590:1:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -1789,7 +1789,7 @@
                       },
                       {
                         "hexValue": "496e73756666696369656e742066756e647320746f20636f766572206265742e",
-                        "id": 2368,
+                        "id": 2374,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -1815,7 +1815,7 @@
                           "typeString": "literal_string \"Insufficient funds to cover bet.\""
                         }
                       ],
-                      "id": 2360,
+                      "id": 2366,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -1829,7 +1829,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 2369,
+                    "id": 2375,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -1844,33 +1844,33 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2370,
+                  "id": 2376,
                   "nodeType": "ExpressionStatement",
                   "src": "551:77:15"
                 },
                 {
-                  "id": 2371,
+                  "id": 2377,
                   "nodeType": "PlaceholderStatement",
                   "src": "639:1:15"
                 }
               ]
             },
-            "id": 2373,
+            "id": 2379,
             "name": "requireFunds",
             "nameLocation": "516:12:15",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2359,
+              "id": 2365,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2358,
+                  "id": 2364,
                   "mutability": "mutable",
                   "name": "v",
                   "nameLocation": "537:1:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2373,
+                  "scope": 2379,
                   "src": "529:9:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -1879,7 +1879,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2357,
+                    "id": 2363,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "529:7:15",
@@ -1898,7 +1898,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 2375,
+        "scope": 2381,
         "src": "230:421:15",
         "usedErrors": []
       }
@@ -1912,21 +1912,21 @@
         924
       ],
       "Game": [
-        2374
+        2380
       ],
       "ICentralBank": [
-        2406
+        2412
       ],
       "Ownable": [
         902
       ]
     },
-    "id": 2375,
+    "id": 2381,
     "license": "MIT",
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 2322,
+        "id": 2328,
         "literals": [
           "solidity",
           ">=",
@@ -1942,11 +1942,11 @@
       {
         "absolutePath": "project:/contracts/ICentralBank.sol",
         "file": "./ICentralBank.sol",
-        "id": 2323,
+        "id": 2329,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2375,
-        "sourceUnit": 2407,
+        "scope": 2381,
+        "sourceUnit": 2413,
         "src": "144:28:15",
         "symbolAliases": [],
         "unitAlias": ""
@@ -1954,10 +1954,10 @@
       {
         "absolutePath": "@openzeppelin/contracts/access/Ownable.sol",
         "file": "@openzeppelin/contracts/access/Ownable.sol",
-        "id": 2324,
+        "id": 2330,
         "nameLocation": "-1:-1:-1",
         "nodeType": "ImportDirective",
-        "scope": 2375,
+        "scope": 2381,
         "sourceUnit": 903,
         "src": "174:52:15",
         "symbolAliases": [],
@@ -1968,13 +1968,13 @@
         "baseContracts": [
           {
             "baseName": {
-              "id": 2325,
+              "id": 2331,
               "name": "Ownable",
               "nodeType": "IdentifierPath",
               "referencedDeclaration": 902,
               "src": "247:7:15"
             },
-            "id": 2326,
+            "id": 2332,
             "nodeType": "InheritanceSpecifier",
             "src": "247:7:15"
           }
@@ -1982,9 +1982,9 @@
         "contractDependencies": [],
         "contractKind": "contract",
         "fullyImplemented": true,
-        "id": 2374,
+        "id": 2380,
         "linearizedBaseContracts": [
-          2374,
+          2380,
           902,
           924
         ],
@@ -1994,33 +1994,33 @@
         "nodes": [
           {
             "constant": false,
-            "id": 2329,
+            "id": 2335,
             "mutability": "mutable",
             "name": "_bank",
             "nameLocation": "284:5:15",
             "nodeType": "VariableDeclaration",
-            "scope": 2374,
+            "scope": 2380,
             "src": "262:27:15",
             "stateVariable": true,
             "storageLocation": "default",
             "typeDescriptions": {
-              "typeIdentifier": "t_contract$_ICentralBank_$2406",
+              "typeIdentifier": "t_contract$_ICentralBank_$2412",
               "typeString": "contract ICentralBank"
             },
             "typeName": {
-              "id": 2328,
+              "id": 2334,
               "nodeType": "UserDefinedTypeName",
               "pathNode": {
-                "id": 2327,
+                "id": 2333,
                 "name": "ICentralBank",
                 "nodeType": "IdentifierPath",
-                "referencedDeclaration": 2406,
+                "referencedDeclaration": 2412,
                 "src": "262:12:15"
               },
-              "referencedDeclaration": 2406,
+              "referencedDeclaration": 2412,
               "src": "262:12:15",
               "typeDescriptions": {
-                "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                "typeIdentifier": "t_contract$_ICentralBank_$2412",
                 "typeString": "contract ICentralBank"
               }
             },
@@ -2028,26 +2028,26 @@
           },
           {
             "body": {
-              "id": 2340,
+              "id": 2346,
               "nodeType": "Block",
               "src": "328:49:15",
               "statements": [
                 {
                   "expression": {
-                    "id": 2338,
+                    "id": 2344,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
                     "lValueRequested": false,
                     "leftHandSide": {
-                      "id": 2334,
+                      "id": 2340,
                       "name": "_bank",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [],
-                      "referencedDeclaration": 2329,
+                      "referencedDeclaration": 2335,
                       "src": "339:5:15",
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                        "typeIdentifier": "t_contract$_ICentralBank_$2412",
                         "typeString": "contract ICentralBank"
                       }
                     },
@@ -2056,11 +2056,11 @@
                     "rightHandSide": {
                       "arguments": [
                         {
-                          "id": 2336,
+                          "id": 2342,
                           "name": "bankAddr",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2331,
+                          "referencedDeclaration": 2337,
                           "src": "360:8:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_address",
@@ -2075,18 +2075,18 @@
                             "typeString": "address"
                           }
                         ],
-                        "id": 2335,
+                        "id": 2341,
                         "name": "ICentralBank",
                         "nodeType": "Identifier",
                         "overloadedDeclarations": [],
-                        "referencedDeclaration": 2406,
+                        "referencedDeclaration": 2412,
                         "src": "347:12:15",
                         "typeDescriptions": {
-                          "typeIdentifier": "t_type$_t_contract$_ICentralBank_$2406_$",
+                          "typeIdentifier": "t_type$_t_contract$_ICentralBank_$2412_$",
                           "typeString": "type(contract ICentralBank)"
                         }
                       },
-                      "id": 2337,
+                      "id": 2343,
                       "isConstant": false,
                       "isLValue": false,
                       "isPure": false,
@@ -2097,23 +2097,23 @@
                       "src": "347:22:15",
                       "tryCall": false,
                       "typeDescriptions": {
-                        "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                        "typeIdentifier": "t_contract$_ICentralBank_$2412",
                         "typeString": "contract ICentralBank"
                       }
                     },
                     "src": "339:30:15",
                     "typeDescriptions": {
-                      "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                      "typeIdentifier": "t_contract$_ICentralBank_$2412",
                       "typeString": "contract ICentralBank"
                     }
                   },
-                  "id": 2339,
+                  "id": 2345,
                   "nodeType": "ExpressionStatement",
                   "src": "339:30:15"
                 }
               ]
             },
-            "id": 2341,
+            "id": 2347,
             "implemented": true,
             "kind": "constructor",
             "modifiers": [],
@@ -2121,17 +2121,17 @@
             "nameLocation": "-1:-1:-1",
             "nodeType": "FunctionDefinition",
             "parameters": {
-              "id": 2332,
+              "id": 2338,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2331,
+                  "id": 2337,
                   "mutability": "mutable",
                   "name": "bankAddr",
                   "nameLocation": "318:8:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2341,
+                  "scope": 2347,
                   "src": "310:16:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2140,7 +2140,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 2330,
+                    "id": 2336,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "310:7:15",
@@ -2156,12 +2156,12 @@
               "src": "309:18:15"
             },
             "returnParameters": {
-              "id": 2333,
+              "id": 2339,
               "nodeType": "ParameterList",
               "parameters": [],
               "src": "328:0:15"
             },
-            "scope": 2374,
+            "scope": 2380,
             "src": "298:79:15",
             "stateMutability": "nonpayable",
             "virtual": false,
@@ -2169,7 +2169,7 @@
           },
           {
             "body": {
-              "id": 2355,
+              "id": 2361,
               "nodeType": "Block",
               "src": "429:70:15",
               "statements": [
@@ -2181,17 +2181,17 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2350,
+                        "id": 2356,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
                         "lValueRequested": false,
                         "leftExpression": {
-                          "id": 2348,
+                          "id": 2354,
                           "name": "v",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2343,
+                          "referencedDeclaration": 2349,
                           "src": "448:1:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -2201,11 +2201,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": ">",
                         "rightExpression": {
-                          "id": 2349,
+                          "id": 2355,
                           "name": "min",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2345,
+                          "referencedDeclaration": 2351,
                           "src": "452:3:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -2220,7 +2220,7 @@
                       },
                       {
                         "hexValue": "496e76616c69642062657420616d6f756e742e",
-                        "id": 2351,
+                        "id": 2357,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2246,7 +2246,7 @@
                           "typeString": "literal_string \"Invalid bet amount.\""
                         }
                       ],
-                      "id": 2347,
+                      "id": 2353,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -2260,7 +2260,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 2352,
+                    "id": 2358,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2275,33 +2275,33 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2353,
+                  "id": 2359,
                   "nodeType": "ExpressionStatement",
                   "src": "440:39:15"
                 },
                 {
-                  "id": 2354,
+                  "id": 2360,
                   "nodeType": "PlaceholderStatement",
                   "src": "490:1:15"
                 }
               ]
             },
-            "id": 2356,
+            "id": 2362,
             "name": "minimumBet",
             "nameLocation": "394:10:15",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2346,
+              "id": 2352,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2343,
+                  "id": 2349,
                   "mutability": "mutable",
                   "name": "v",
                   "nameLocation": "413:1:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2356,
+                  "scope": 2362,
                   "src": "405:9:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2310,7 +2310,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2342,
+                    "id": 2348,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "405:7:15",
@@ -2323,12 +2323,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 2345,
+                  "id": 2351,
                   "mutability": "mutable",
                   "name": "min",
                   "nameLocation": "424:3:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2356,
+                  "scope": 2362,
                   "src": "416:11:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2337,7 +2337,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2344,
+                    "id": 2350,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "416:7:15",
@@ -2357,7 +2357,7 @@
           },
           {
             "body": {
-              "id": 2372,
+              "id": 2378,
               "nodeType": "Block",
               "src": "540:108:15",
               "statements": [
@@ -2369,7 +2369,7 @@
                           "typeIdentifier": "t_uint256",
                           "typeString": "uint256"
                         },
-                        "id": 2367,
+                        "id": 2373,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": false,
@@ -2378,7 +2378,7 @@
                           "arguments": [
                             {
                               "expression": {
-                                "id": 2363,
+                                "id": 2369,
                                 "name": "msg",
                                 "nodeType": "Identifier",
                                 "overloadedDeclarations": [],
@@ -2389,7 +2389,7 @@
                                   "typeString": "msg"
                                 }
                               },
-                              "id": 2364,
+                              "id": 2370,
                               "isConstant": false,
                               "isLValue": false,
                               "isPure": false,
@@ -2411,32 +2411,32 @@
                               }
                             ],
                             "expression": {
-                              "id": 2361,
+                              "id": 2367,
                               "name": "_bank",
                               "nodeType": "Identifier",
                               "overloadedDeclarations": [],
-                              "referencedDeclaration": 2329,
+                              "referencedDeclaration": 2335,
                               "src": "559:5:15",
                               "typeDescriptions": {
-                                "typeIdentifier": "t_contract$_ICentralBank_$2406",
+                                "typeIdentifier": "t_contract$_ICentralBank_$2412",
                                 "typeString": "contract ICentralBank"
                               }
                             },
-                            "id": 2362,
+                            "id": 2368,
                             "isConstant": false,
                             "isLValue": false,
                             "isPure": false,
                             "lValueRequested": false,
                             "memberName": "balanceOf",
                             "nodeType": "MemberAccess",
-                            "referencedDeclaration": 2405,
+                            "referencedDeclaration": 2411,
                             "src": "559:15:15",
                             "typeDescriptions": {
                               "typeIdentifier": "t_function_external_view$_t_address_$returns$_t_uint256_$",
                               "typeString": "function (address) view external returns (uint256)"
                             }
                           },
-                          "id": 2365,
+                          "id": 2371,
                           "isConstant": false,
                           "isLValue": false,
                           "isPure": false,
@@ -2454,11 +2454,11 @@
                         "nodeType": "BinaryOperation",
                         "operator": ">=",
                         "rightExpression": {
-                          "id": 2366,
+                          "id": 2372,
                           "name": "v",
                           "nodeType": "Identifier",
                           "overloadedDeclarations": [],
-                          "referencedDeclaration": 2358,
+                          "referencedDeclaration": 2364,
                           "src": "590:1:15",
                           "typeDescriptions": {
                             "typeIdentifier": "t_uint256",
@@ -2473,7 +2473,7 @@
                       },
                       {
                         "hexValue": "496e73756666696369656e742066756e647320746f20636f766572206265742e",
-                        "id": 2368,
+                        "id": 2374,
                         "isConstant": false,
                         "isLValue": false,
                         "isPure": true,
@@ -2499,7 +2499,7 @@
                           "typeString": "literal_string \"Insufficient funds to cover bet.\""
                         }
                       ],
-                      "id": 2360,
+                      "id": 2366,
                       "name": "require",
                       "nodeType": "Identifier",
                       "overloadedDeclarations": [
@@ -2513,7 +2513,7 @@
                         "typeString": "function (bool,string memory) pure"
                       }
                     },
-                    "id": 2369,
+                    "id": 2375,
                     "isConstant": false,
                     "isLValue": false,
                     "isPure": false,
@@ -2528,33 +2528,33 @@
                       "typeString": "tuple()"
                     }
                   },
-                  "id": 2370,
+                  "id": 2376,
                   "nodeType": "ExpressionStatement",
                   "src": "551:77:15"
                 },
                 {
-                  "id": 2371,
+                  "id": 2377,
                   "nodeType": "PlaceholderStatement",
                   "src": "639:1:15"
                 }
               ]
             },
-            "id": 2373,
+            "id": 2379,
             "name": "requireFunds",
             "nameLocation": "516:12:15",
             "nodeType": "ModifierDefinition",
             "parameters": {
-              "id": 2359,
+              "id": 2365,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 2358,
+                  "id": 2364,
                   "mutability": "mutable",
                   "name": "v",
                   "nameLocation": "537:1:15",
                   "nodeType": "VariableDeclaration",
-                  "scope": 2373,
+                  "scope": 2379,
                   "src": "529:9:15",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -2563,7 +2563,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 2357,
+                    "id": 2363,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "529:7:15",
@@ -2582,7 +2582,7 @@
             "visibility": "internal"
           }
         ],
-        "scope": 2375,
+        "scope": 2381,
         "src": "230:421:15",
         "usedErrors": []
       }
@@ -2595,7 +2595,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.3",
-  "updatedAt": "2022-04-05T21:39:58.309Z",
+  "updatedAt": "2022-04-08T14:44:53.784Z",
   "devdoc": {
     "kind": "dev",
     "methods": {
