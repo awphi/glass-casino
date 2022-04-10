@@ -37,9 +37,11 @@
           overflow-y-auto
         "
         :open="isBankOpen"
-        @close="isBankOpen = false"
       >
-        <DialogOverlay class="fixed inset-0 bg-black opacity-50" />
+        <DialogOverlay
+          @click="isBankOpen = false"
+          class="fixed inset-0 bg-black opacity-50"
+        />
         <FundsMenu />
       </Dialog>
       <button

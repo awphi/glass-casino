@@ -6,10 +6,12 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { VueCookieNext } from "vue-cookie-next";
 import router from "./router";
 
-detectEthereumProvider({ timeout: 300 }).then((eth) => {
+detectEthereumProvider({ timeout: 300 }).then(async (eth) => {
   store.commit("setEthereumProvider", eth);
   if (VueCookieNext.isCookieAvailable("metamask-connected")) {
     store.dispatch("connectWithMetamask");
+    eth.on("accountsChanged", () => store.dispatch("connectWithMetamask"));
+    eth.on("chainChanged", () => store.dispatch("connectWithMetamask"));
   }
 });
 

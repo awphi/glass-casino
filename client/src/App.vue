@@ -7,16 +7,18 @@
         class="p-6 w-full flex-wrap overflow-auto bg-steel-200"
       ></router-view>
     </div>
+    <AlertCenter></AlertCenter>
   </div>
 </template>
 
 <script>
 import Sidebar from "./components/Sidebar.vue";
 import Header from "./components/Header.vue";
+import AlertCenter from "./components/AlertCenter.vue";
 
 export default {
   name: "App",
-  components: { Header, Sidebar },
+  components: { Header, Sidebar, AlertCenter },
 };
 </script>
 

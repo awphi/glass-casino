@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import StakeSelector from "./StakeSelector.vue";
 
 export default {
@@ -33,15 +33,24 @@ export default {
   },
   methods: {
     ...mapActions(["refreshBalance"]),
+    ...mapMutations(["addAlert"]),
     async bet(betType, bet) {
       const stake = this.$refs.stakeSelector;
       if (stake.betAmount.lte(0)) {
-        window.alert("Invalid bet amount, bet must be > 0!");
+        this.addAlert({
+          title: "Invalid Stake.",
+          content:
+            "You must stake more than 0 MATIC to play, please adjust your stake and try again!",
+        });
         return;
       }
 
       if (stake.betAmount.gt(this.bankBalance)) {
-        window.alert("Insufficient funds to cover bet!");
+        this.addAlert({
+          title: "Invalid Stake.",
+          content:
+            "You cannot stake more than your balance, please adjust your stake and try again or deposit more MATIC!",
+        });
         return;
       }
 

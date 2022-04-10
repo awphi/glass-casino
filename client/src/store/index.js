@@ -5,16 +5,15 @@ import { markRaw } from "vue";
 import gameData from "./game-data";
 import gameContract from "./game-contract";
 import metamask from "./metamask";
+import alerts from "./alerts";
 
 import chainsJson from "../assets/chains.json";
 import bankContractJson from "../../../build/contracts/CentralBank.json";
 
-// TODO! revise this for prod
 const chain = markRaw(chainsJson["mumbai"]); //[process.env.NODE_ENV === "development" ? "mumbai" : "main"];
 
 const provider = new ethers.providers.StaticJsonRpcProvider(process.env.VUE_APP_ALCHEMY_API_ENDPOINT);
-// TODO lower this
-provider.pollingInterval = 1000;
+provider.pollingInterval = 3000;
 
 const bankContract = new Contract(
   bankContractJson.networks[Number(chain.chainId)].address,
@@ -36,6 +35,7 @@ export default new Vuex.Store({
     gameData: gameData,
     game: gameContract,
     metamask: metamask,
+    alerts: alerts,
   },
   getters: {
     hasSigner(state) {

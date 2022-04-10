@@ -70,7 +70,7 @@
 
 <script>
 import { DialogTitle } from "@headlessui/vue";
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import BalanceBox from "./BalanceBox.vue";
 
 export default {
@@ -87,6 +87,7 @@ export default {
   },
   methods: {
     ...mapActions(["refreshBalance"]),
+    ...mapMutations(["addAlert"]),
     async transfer() {
       var ref;
       if (this.mode === "Deposit") {
@@ -97,9 +98,11 @@ export default {
 
       const v = ref.inputValue;
 
-      // TODO nicer error here
       if (v == null || v.lte(0n) || v.gte(ref.value)) {
-        alert("Invalid amount!");
+        this.addAlert({
+          title: "Invalid Balance.",
+          content: "Please adjust your withdrawal/deposit and try again!",
+        });
         return;
       }
 

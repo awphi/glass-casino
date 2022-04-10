@@ -45,13 +45,17 @@
 
     <div class="box game-history-box min-h-0 flex w-full lg:w-1/4 flex-col">
       <h1 class="text-2xl font-bold">Game History</h1>
+      <p class="text-xs">Newest → Oldest (within 50 blocks)</p>
       <hr class="w-full opacity-30 my-2" />
-      <div class="overflow-y-auto">
+      <div v-if="history.length > 0" class="overflow-y-auto">
         <ChuckALuckBetDisplay
           v-for="h in history"
           :key="h"
           :transaction="h"
         ></ChuckALuckBetDisplay>
+      </div>
+      <div class="flex h-full justify-center items-center text-center" v-else>
+        <h1>Looks like there's been no games recently...</h1>
       </div>
     </div>
   </div>
@@ -89,6 +93,12 @@ export default {
       }
     },
   },
+  props: {
+    blocks: {
+      type: Number,
+      default: 50,
+    },
+  },
   methods: {
     ...mapMutations(["setContract"]),
     ...mapActions(["refreshBalance"]),
@@ -104,19 +114,29 @@ export default {
     async bet(bet) {
       const stake = this.$refs.stakeSelector;
       if (stake.betAmount.lte(0)) {
-        window.alert("Invalid bet amount, bet must be > 0!");
+        this.addAlert({
+          title: "Invalid Stake.",
+          content:
+            "You must stake more than 0 MATIC to play, please adjust your stake and try again!",
+        });
         return;
       }
 
       if (stake.betAmount.gt(this.bankBalance)) {
-        window.alert("Insufficient funds to cover bet!");
+        this.addAlert({
+          title: "Invalid Stake.",
+          content:
+            "You cannot stake more than your balance, please adjust your stake and try again or deposit more MATIC!",
+        });
         return;
       }
 
       if (this.pendingRequest !== null) {
-        window.alert(
-          "Game already in progress - please try again after completion!"
-        );
+        this.addAlert({
+          title: "Game Already in Progress.",
+          content:
+            "You are already awaiting the result of a game - please try again once it's complete!",
+        });
         return;
       }
 
@@ -173,13 +193,8 @@ export default {
       }
     );
 
-    // TODO n most recent blocks
     this.game.contract
-      .queryFilter(
-        this.game.contract.filters.GameComplete(),
-        25363135,
-        25363137
-      )
+      .queryFilter(this.game.contract.filters.GameComplete(), -this.blocks)
       .then((results) => {
         results.forEach((tx) => {
           const o = {
