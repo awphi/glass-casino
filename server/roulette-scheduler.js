@@ -28,14 +28,14 @@ class RouletteScheduler {
 
     var before = Date.now();
 
-    console.log(`Rolling with ${nBets} bets`);
     if (nBets > 0) {
+      console.log(`Rolling with ${nBets} bets`);
       const tx = await this.contract.play({ gasLimit: nBets * 150000 });
       // Waits for the spin to be confirmed
       await tx.wait();
+      console.log(`Completed roll! Took ${(Date.now() - before) / 1000} seconds to confirm`);
     }
 
-    console.log(`Completed roll! Took ${(Date.now() - before) / 1000} seconds to confirm`);
     this.rollPending = false;
   }
 
@@ -55,14 +55,12 @@ class RouletteScheduler {
 
     this.rollPending = true;
 
+    this.nextRoll = Date.now() + this.interval;
+    console.log(`Next roll scheduled for: ${this.nextRoll}`);
+    this.broadcast(this.data());
     setTimeout(() => {
-      this.nextRoll = Date.now() + this.interval;
-      console.log(`Next roll scheduled for: ${this.nextRoll}`);
-      this.broadcast(this.data());
-      setTimeout(() => {
-        this.roll(this.contract);
-      }, this.interval);
-    }, this.delay);
+      this.roll(this.contract);
+    }, this.interval + this.delay);
   }
 }
 
