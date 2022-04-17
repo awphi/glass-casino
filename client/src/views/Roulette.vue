@@ -110,7 +110,6 @@ export default {
         await tx.wait();
         await this.$refs.wheel.stopSpinningOn(roll.toNumber());
 
-        // TODO animate wins/losses
         this.bets = [];
         this.$refs.history.add(receipt);
       }

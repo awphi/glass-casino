@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex";
+import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
 import StakeSelector from "./StakeSelector.vue";
 
 export default {
@@ -36,6 +36,15 @@ export default {
     ...mapMutations(["addAlert"]),
     async bet(betType, bet) {
       const stake = this.$refs.stakeSelector;
+      if (!this.hasSigner) {
+        this.addAlert({
+          title: "No wallet connected.",
+          content:
+            "You must connect to a wallet to play, check the help menu in the top right to get started!",
+        });
+        return;
+      }
+
       if (stake.betAmount.lte(0)) {
         this.addAlert({
           title: "Invalid Stake.",
@@ -77,6 +86,7 @@ export default {
   },
   computed: {
     ...mapState(["signer", "game", "provider", "bankBalance"]),
+    ...mapGetters(["hasSigner"]),
   },
 };
 </script>

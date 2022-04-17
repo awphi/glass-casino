@@ -45,10 +45,10 @@ contract ChuckALuck is VRFConsumerBase, Game {
             return bet.bet_amount * 2;
         } else if(c == 2) {
             // 2:1 for 2 matches
-            return bet.bet_amount * 2;
+            return bet.bet_amount * 3;
         } else if(c == 3) {
             // 10:1 for 3 matches
-            return bet.bet_amount * 10;
+            return bet.bet_amount * 11;
         }
         return 0;
     }

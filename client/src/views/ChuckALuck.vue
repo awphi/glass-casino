@@ -100,7 +100,7 @@ export default {
     },
   },
   methods: {
-    ...mapMutations(["setContract"]),
+    ...mapMutations(["setContract", "addAlert"]),
     ...mapActions(["refreshBalance"]),
     async roll(rolls) {
       const promises = [];
@@ -113,6 +113,15 @@ export default {
     },
     async bet(bet) {
       const stake = this.$refs.stakeSelector;
+      if (!this.hasSigner) {
+        this.addAlert({
+          title: "No wallet connected.",
+          content:
+            "You must connect to a wallet to play, check the help menu in the top right to get started!",
+        });
+        return;
+      }
+
       if (stake.betAmount.lte(0)) {
         this.addAlert({
           title: "Invalid Stake.",
@@ -157,10 +166,12 @@ export default {
     },
   },
   mounted() {
-    console.log(this.game.contract);
     this.game.contract.on(
       this.game.contract.filters.GameStart(),
       async (requestId, bet, receipt) => {
+        if (!this.hasSigner || bet.player !== this.signer._address) {
+          return;
+        }
         console.log("GameStart", bet, receipt);
         const tx = await receipt.getTransaction();
         await tx.wait();
@@ -172,19 +183,23 @@ export default {
     this.game.contract.on(
       this.game.contract.filters.GameComplete(),
       async (requestId, rolls, bet, winnings, receipt) => {
-        if (!this.hasSigner || bet.player !== this.signer._address) {
-          return;
-        }
         console.log("GameComplete", bet, rolls);
-        this.pendingRequest = null;
         const rollsSmall = rolls.map((a) => a.toNumber());
-        const anim = this.roll(rollsSmall);
+
+        const anim =
+          this.hasSigner && bet.player === this.signer._address
+            ? this.roll(rollsSmall)
+            : Promise.resolve();
         const tx = await receipt.getTransaction();
+
         await Promise.all([tx.wait(), anim]);
-        // TODO animate gains/losses
-        this.refreshBalance();
-        console.log("Tx", receipt, tx);
-        this.history.push({
+
+        if (this.hasSigner && bet.player === this.signer._address) {
+          this.pendingRequest = null;
+          this.refreshBalance();
+        }
+
+        this.history.unshift({
           ...bet,
           rolls: rollsSmall,
           winnings: winnings,
@@ -197,13 +212,12 @@ export default {
       .queryFilter(this.game.contract.filters.GameComplete(), -this.blocks)
       .then((results) => {
         results.forEach((tx) => {
-          const o = {
+          this.history.unshift({
             ...tx.args.bet,
             rolls: tx.args.rolls.map((a) => a.toNumber()),
             winnings: tx.args.winnings,
             transactionHash: tx.transactionHash,
-          };
-          this.history.push(o);
+          });
         });
       });
   },

@@ -1,33 +1,36 @@
 <template>
   <div class="w-full flex flex-col bg-steel-700 rounded-md mb-2 p-2 pb-1">
-    <div class="flex flex-row items-center">
-      <div class="flex flex-row bg-steel-800 p-2 rounded-md">
-        <Dice
-          class="mini-dice bg-gray-900"
-          :initialNumber="transaction.bet"
-        ></Dice>
-      </div>
-      <img
-        src="@/assets/right-thin-chevron-svgrepo-com.svg"
-        width="12"
-        class="mx-1"
-      />
-      <div class="flex flex-row bg-steel-800 p-2 rounded-md gap-2">
-        <Dice
-          class="mini-dice bg-gray-900"
-          :initialNumber="transaction.rolls[0]"
-        ></Dice>
-        <Dice
-          class="mini-dice bg-gray-900"
-          :initialNumber="transaction.rolls[1]"
-        ></Dice>
-        <Dice
-          class="mini-dice bg-gray-900"
-          :initialNumber="transaction.rolls[2]"
-        ></Dice>
+    <div class="flex items-center">
+      <div class="flex">
+        <div class="bg-steel-800 p-2 rounded-md">
+          <Dice
+            class="mini-dice bg-gray-900"
+            :initialNumber="transaction.bet"
+          ></Dice>
+        </div>
+        <img
+          src="@/assets/right-thin-chevron-svgrepo-com.svg"
+          width="12"
+          class="mx-1"
+        />
+        <div class="flex bg-steel-800 p-2 rounded-md gap-2">
+          <Dice
+            class="mini-dice bg-gray-900"
+            :initialNumber="transaction.rolls[0]"
+          ></Dice>
+          <Dice
+            class="mini-dice bg-gray-900"
+            :initialNumber="transaction.rolls[1]"
+          ></Dice>
+          <Dice
+            class="mini-dice bg-gray-900"
+            :initialNumber="transaction.rolls[2]"
+          ></Dice>
+        </div>
       </div>
 
-      <div class="flex-1 spacer" />
+      <div class="flex-1"></div>
+
       <div
         class="px-1.5 py-1 rounded-md flex items-center text-sm bg-steel-800"
       >

@@ -61,14 +61,6 @@ export default {
   },
   methods: {
     ...mapActions(["refreshBalance"]),
-    // DEBUG METHOD
-    toggle() {
-      if (this.spinState === SPIN_STATE.SPINNING) {
-        this.stopSpinningOn(0);
-      } else if (this.spinState === SPIN_STATE.STOPPED) {
-        this.startSpinning();
-      }
-    },
     resolveOffsetTo(n) {
       // Trivial
       const cellWidth = this.$refs.container.clientHeight;

@@ -15,7 +15,9 @@ detectEthereumProvider({ timeout: 300 }).then(async (eth) => {
   }
 });
 
-const ws = new WebSocket(process.env.VUE_APP_API_ENDPOINT ? process.env.VUE_APP_API_ENDPOINT : "ws://localhost:8090");
+const ws = new WebSocket(
+  process.env.VUE_APP_API_ENDPOINT ? process.env.VUE_APP_API_ENDPOINT : `ws://${window.location.hostname}:8090`
+);
 ws.onopen = (e) => {
   console.log("Connected to WSS", e);
 };
