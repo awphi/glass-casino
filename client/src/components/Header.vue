@@ -39,10 +39,10 @@
         :open="isBankOpen"
       >
         <DialogOverlay
-          @click="isBankOpen = false"
+          @click="if ($refs.fundsMenu.confirmButtonEnabled) isBankOpen = false;"
           class="fixed inset-0 bg-black opacity-50"
         />
-        <FundsMenu />
+        <FundsMenu ref="fundsMenu" />
       </Dialog>
       <button
         class="

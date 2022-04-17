@@ -3,7 +3,7 @@
     <div class="flex flex-col flex-1 gap-6">
       <div class="box flex flex-1 items-center justify-center">
         <VueCountdown
-          @end="if ($refs.wheel) $refs.wheel.startSpinning();"
+          @end="countdownEnded()"
           :time="nextRoll"
           :interval="100"
           class="w-full lg:w-4/5 h-16 relative"
@@ -35,9 +35,8 @@
 
       <div class="box current-bets-box flex flex-col flex-1">
         <div class="flex flex-row items-center">
-          <h1 class="text-2xl font-bold">Current Bets</h1>
-          <div class="flex-1"></div>
-          <BalanceBox :value="betSum" />
+          <h1 class="mr-auto text-2xl font-bold">Current Bets</h1>
+          <BalanceBox class="ml-2 min-w-max" :value="betSum" />
         </div>
         <hr class="w-full opacity-30 my-2" />
         <div class="overflow-y-auto">
@@ -86,20 +85,29 @@ export default {
   },
   methods: {
     ...mapMutations(["setContract"]),
+    countdownEnded() {
+      if (this.$refs.wheel && this.nextRoll > 0) {
+        console.log("countdownEnded -> nextRoll:", this.nextRoll);
+        this.$refs.wheel.startSpinning();
+        this.nextRoll = 0;
+      }
+    },
     updateTimer(gameData) {
-      if (this.game.contract && this.game.contract.address in gameData) {
-        var r = gameData[this.game.contract.address].nextRoll - Date.now();
-
-        // Avoid collisions as if the values are the same, won't trigger be reactive!
-        if (this.nextRoll == r) {
-          r += 1;
+      if (
+        this.game.contract &&
+        this.game.contract.address in gameData &&
+        this.nextRoll == 0
+      ) {
+        const r = gameData[this.game.contract.address].nextRoll - Date.now();
+        console.log("updateTimer -> r:", r);
+        if (r > 0) {
+          this.nextRoll = r;
         }
-
-        this.nextRoll = r;
       }
     },
   },
   async mounted() {
+    console.log("mounted");
     this.updateTimer(this.gameData);
 
     this.game.contract.on(
@@ -121,7 +129,6 @@ export default {
         console.log("BetPlaced", bet, receipt);
         const tx = await receipt.getTransaction();
         await tx.wait();
-        console.log("Tx", receipt, tx);
         this.bets.push({ ...bet, transactionHash: receipt.transactionHash });
       }
     );

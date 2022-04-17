@@ -42,14 +42,6 @@ export default {
   unmounted() {
     window.removeEventListener("resize", this.resized);
   },
-  computed: {
-    isSpinning() {
-      return (
-        this.spinState === SPIN_STATE.SPINNING ||
-        this.spinState === SPIN_STATE.SPINNING_TO
-      );
-    },
-  },
   data() {
     return {
       current: 0,
@@ -108,8 +100,10 @@ export default {
       );
     },
     stopSpinningOn(n) {
-      if (this.isSpinning) {
-        this.spinningAnimation.commitStyles();
+      if (
+        this.spinState === SPIN_STATE.SPINNING ||
+        this.spinState === SPIN_STATE.SPINNING_TO
+      ) {
         this.spinningAnimation.cancel();
       }
 
@@ -120,8 +114,6 @@ export default {
       const goal = this.resolveOffsetTo(n) - this.maxWidth;
       const current = this.currentOffset();
 
-      //console.log(goal, current);
-
       this.spinningAnimation = this.$refs.container.animate(
         [
           { backgroundPositionX: `${current}px` },
@@ -129,7 +121,6 @@ export default {
         ],
         {
           duration: 3000,
-          fill: "forwards",
           easing: "ease-out",
         }
       );
@@ -137,13 +128,13 @@ export default {
       this.spinningAnimation.oncancel = () => {
         this.spinningAnimation = null;
         this.current = n;
+        this.setTo(n);
         this.spinState = SPIN_STATE.STOPPED;
         this.refreshBalance();
-        console.log("Ending...");
+        console.log("Ended spin anim.");
       };
 
       this.spinningAnimation.onfinish = () => {
-        this.spinningAnimation.commitStyles();
         this.spinningAnimation.oncancel();
       };
 
