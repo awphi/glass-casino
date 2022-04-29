@@ -9,22 +9,46 @@ const wss = new WebSocketServer({
   port: 8090,
 });
 
-var roulette;
+function heartbeat() {
+  this.isAlive = true;
+}
 
 // Setup WSS
 wss.on("connection", function connection(ws) {
+  // Establish heartbeat
+  ws.isAlive = true;
+  ws.on("pong", heartbeat);
+
   if (roulette && roulette.rollPending) {
     ws.send(roulette.data());
   }
 });
 
 function broadcast(data) {
+  console.log(`Broadcasing data to ${wss.clients.length} clients!`);
   wss.clients.forEach((client) => {
+    console.log(client.readyState);
     if (client.readyState === WebSocket.OPEN) {
       client.send(data);
     }
   });
 }
+
+// Set up heartbeast interval
+const heartbeatInterval = setInterval(function ping() {
+  wss.clients.forEach(function each(ws) {
+    if (ws.isAlive === false) return ws.terminate();
+
+    ws.isAlive = false;
+    ws.ping();
+  });
+}, 10000);
+
+wss.on("close", () => {
+  clearInterval(heartbeatInterval);
+});
+
+var roulette;
 
 // If dev use secret local dev key, else use public, protected key
 const alchemyApi = ARGS.includes("--dev")

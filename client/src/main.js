@@ -18,10 +18,17 @@ detectEthereumProvider({ timeout: 300 }).then(async (eth) => {
 const ws = new WebSocket(
   process.env.VUE_APP_API_ENDPOINT ? process.env.VUE_APP_API_ENDPOINT : `ws://${window.location.hostname}:8090`
 );
+
 ws.onopen = (e) => {
-  console.log("Connected to WSS", e);
+  console.log("Connected to WS", e);
 };
+
+ws.onerror = (e) => {
+  console.error("wS error", e);
+};
+
 ws.onmessage = (data) => {
+  console.log("ws recv", data);
   const json = JSON.parse(data.data);
   if (json.address) {
     store.commit("setGameData", json);

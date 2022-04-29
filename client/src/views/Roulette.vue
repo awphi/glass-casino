@@ -107,7 +107,6 @@ export default {
     },
   },
   async mounted() {
-    console.log("mounted");
     this.updateTimer(this.gameData);
 
     this.game.contract.on(
