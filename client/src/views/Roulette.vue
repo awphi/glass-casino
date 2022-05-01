@@ -106,7 +106,7 @@ export default {
       }
     },
   },
-  async mounted() {
+  mounted() {
     this.updateTimer(this.gameData);
 
     this.game.contract.on(
@@ -134,12 +134,12 @@ export default {
 
     this.game.contract
       .lastRoll()
-      .then((blockNum) =>
-        this.game.contract.queryFilter(
+      .then((blockNum) => {
+        return this.game.contract.queryFilter(
           this.game.contract.filters.BetPlaced(),
           blockNum.toNumber()
-        )
-      )
+        );
+      })
       .then((results) => {
         results.forEach((receipt) => {
           this.bets.push({

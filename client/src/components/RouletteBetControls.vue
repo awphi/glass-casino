@@ -66,7 +66,7 @@ export default {
       try {
         // MetaMask does not allow the signing of transactions without sending them
         // thus we sign + send in this call
-        const metamaskTx = await this.game.contract.place_bet(
+        const metamaskTx = await this.game.contractWithSigner.place_bet(
           betType,
           stake.betAmount,
           bet

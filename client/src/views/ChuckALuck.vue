@@ -151,7 +151,10 @@ export default {
 
       try {
         // See comments in RouletteBetControls.vue for explanation of this
-        const metamaskTx = await this.game.contract.play(bet, stake.betAmount);
+        const metamaskTx = await this.game.contractWithSigner.play(
+          bet,
+          stake.betAmount
+        );
         // Set pendingRequest to some placeholder value to stop spamming
         this.pendingRequest = true;
         const tx = await this.provider.getTransaction(metamaskTx.hash);

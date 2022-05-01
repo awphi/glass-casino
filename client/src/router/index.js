@@ -42,15 +42,15 @@ const router = createRouter({
   routes,
 });
 
-router.beforeEach((to) => {
+router.afterEach((to, from) => {
+  console.log(`to ${to.name} from ${from.name}`);
+
   const contract = to.meta.contractJson;
   if (contract) {
     store.commit("setContract", {
       address: contract.networks[Number(store.state.chain.chainId)].address,
       abi: contract.abi,
     });
-  } else {
-    store.commit("clearContract");
   }
 });
 
