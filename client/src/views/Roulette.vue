@@ -98,7 +98,8 @@ export default {
         this.game.contract.address in gameData &&
         this.nextRoll == 0
       ) {
-        const r = gameData[this.game.contract.address].nextRoll - Date.now();
+        // 5000 ms offset to spin early!
+        const r = (gameData[this.game.contract.address].nextRoll - Date.now()) - 5000;
         console.log("updateTimer -> r:", r);
         if (r > 0) {
           this.nextRoll = r;
