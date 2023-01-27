@@ -12,12 +12,12 @@
     "url": "git+https://github.com/awphi/glass-casino.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "awphi",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/awphi/glass-casino/issues"
   },
-  "homepage": "https://glasscasino.io",
+  "homepage": "https://glasscasino.netlify.app/",
   "dependencies": {
     "@chainlink/contracts": "^0.4.0",
     "@openzeppelin/contracts": "^4.5.0",
